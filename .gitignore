@@ -20,3 +20,6 @@ build/
 # Tạm thời
 *.tmp
 *.log
+
+# Typst build output
+docs/typst/out/

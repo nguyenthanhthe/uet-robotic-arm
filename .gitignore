@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+
+# Build / firmware
+build/
+*.elf
+*.map
+*.o
+
+# Tạm thời
+*.tmp
+*.log

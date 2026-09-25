@@ -1,0 +1,17 @@
+Final Project Requirements: Industrial Robot Arm Design and Control1. Project Overview & Operational TaskObjective: Design, fabricate, and control a robotic manipulator (robot arm) equipped with an end-effector (gripper).Core Task: Perform a Pick-and-Place operation to pick objects of various geometric shapes (e.g., circular, square, star-shaped) and drop them accurately into corresponding matching holes/slots.Payload Capacity: Maximum payload of 50 grams.Working Reach: Minimum reach $R_{\text{min}} \ge 200\text{ mm}$ to cover both the pick zone and the place zone.2. Technical Specifications & Hardware SetupActuators & Microcontrollers:Microcontrollers such as Arduino combined with small servo motors (e.g., SG90, MG90S, MG996R) are recommended for cost efficiency.Control Interface:Control via breadboard pushbuttons or directly interfaced with a PC/Laptop via Serial communication.An onboard single-board computer (e.g., Raspberry Pi) is not strictly required.Budget & Team Size:Team Structure: 3 students per group with clear task distribution.Recommended Budget: Approximately 500,000 VND (~$20 USD) per student.Sourcing: Teams self-prepare 3D-printed parts, fasteners, electronics, and servos.3. Advanced / Bonus Features (High Evaluation Criteria)Project evaluation focuses on engineering rigor, technological integration, and creativity rather than expensive hardware. Bonus points are awarded for:Vision-Based Object & Hole Recognition: Integrating a camera (e.g., USB Webcam) with OpenCV/AI models on a PC to automatically identify object shapes, detect hole positions, and transform image coordinates to robot workspace coordinates.Imitation Learning / Teaching Mode: Implementing a record-and-replay feature where the user manually guides the robot through the desired trajectory, the controller records joint angle sequences $q(t)$, and the robot autonomously replays the pick-and-place routine.4. Final DeliverablesTeams must submit three core components:Physical Prototype & Video Demonstration:Functional physical robot for live demonstration.Mandatory Backup: Pre-recorded video showcasing full successful autonomous operation (to present on slides in case of live hardware failures).Presentation Slide Deck:Concise slides summarizing engineering design, system architecture, kinematic/dynamic analysis, and experimental results.Technical Report / Documentation:Comprehensive technical report under 20 pages.Must detail:Mathematical modeling (Denavit-Hartenberg parameterization, Forward & Inverse Kinematics).Statics & Dynamics (torque calculations, servo selection validation).Control system architecture & trajectory planning.Software stack and circuit schematics.Detailed work distribution breakdown for all 3 team members.5. System Design & Engineering Workflow Summary[Input & Requirements] 
+  │ ──> Payload: 50g | Reach: >=200mm | 4-DOF Architecture
+  ▼
+[Mechanical Design & Actuator Selection]
+  │ ──> Parallelogram / Articulated Linkage (e.g., EEZYbotARM MK2 / ArmPi Ultra)
+  │ ──> Statics & Torque Analysis (T_static, T_RMS) -> Servo Selection (MG90S/MG996R)
+  ▼
+[Kinematics & Control Modeling]
+  │ ──> D-H Frame Assignment -> FK & IK (Closed-form / Geometric)
+  │ ──> Trajectory Planning (P_approach -> P_pick -> P_lift -> P_transfer -> P_place)
+  ▼
+[Control Architecture & Vision]
+  │ ──> Master (PC/Laptop): Vision (OpenCV/AI) + IK Solver + Serial UART
+  │ ──> Slave (Arduino): PWM Servo Driver + Low-level Control
+  ▼
+[Validation & Integration]
+  │ ──> Simulation -> SIL -> HIL -> Physical Prototype Verification

@@ -22,6 +22,23 @@
 - Luôn chạy `typst compile` trước khi coi tài liệu hoàn tất; MCP `typst` có tool
   kiểm tra cú pháp và render PNG để xem thử.
 
+## Soạn thuyết minh trên máy cá nhân (VSCode)
+
+1. Cài extension **Tinymist Typst** (marketplace `myriad-dreamin.tinymist`).
+2. Mở thư mục repo, sửa trực tiếp các file `.typ` trong `docs/typst/`:
+   - `thuyet-minh.typ` — báo cáo chính (nhập `uet-report.typ` + `kinematics.typ`).
+   - `uet-report.typ` — biểu mẫu trang bìa UET (khung kép, logo, bảng thành viên).
+   - `kinematics.typ` — chương động học thuận/nghịch (cú pháp toán Typst `$...$`,
+     ma trận `mat(...)`).
+3. Lệnh build (chạy từ gốc repo):
+   ```
+   typst compile docs/typst/thuyet-minh.typ docs/typst/out/thuyet-minh.pdf
+   ```
+4. Điền tên thật 2 thành viên còn lại và **giảng viên hướng dẫn** trong
+   `docs/typst/thuyet-minh.typ` (đang để placeholder).
+5. Font báo cáo là **Liberation Serif** (clone của Times New Roman, có sẵn trong
+   OS; không cần Times New Roman bản quyền).
+
 ## Cấu trúc thư mục
 
 ```

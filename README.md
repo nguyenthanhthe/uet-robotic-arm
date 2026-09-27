@@ -1,82 +1,91 @@
-# Cánh tay robot có tay gắp (UET Robotic Arm)
+# Cánh tay robot 5-DOF UET (KUKA KR 3 R540 Scale 0.49)
 
-Thiết kế và chế tạo cánh tay robot (Robot Arm + Gripper) cho môn học **Các cơ cấu chấp hành robot**. Robot gắp các vật thể có hình dạng khác nhau (sao, vuông, tròn…) và thả chính xác vào lỗ tương ứng.
+> **Đồ án môn học:** Các cơ cấu chấp hành robot — Khoa Cơ điện tử, Trường Đại học Công nghệ, ĐHQGHN (VNU-UET).  
+> **Mục tiêu:** Thiết kế, mô phỏng và chế tạo cánh tay robot 5 bậc tự do (5-DOF) kèm tay gắp song song (Parallel Gripper) phỏng theo hình dáng công nghiệp của robot KUKA KR 3 R540 (thu nhỏ tỷ lệ $\approx 0.49$).  
+> **Nhiệm vụ:** Nhận diện, gắp phân loại các khối hình học (tròn, vuông, sao...) và thả chính xác vào ô tương ứng.
 
-## Thông số mục tiêu
+---
 
-- Tầm với tối thiểu: **200 mm**
-- Tải trọng nâng tối thiểu: **50 g**
-- Số bậc tự do: **4–5** (base, shoulder, elbow, wrist, gripper)
-- Điều khiển: **Arduino** + **Servo**, giao diện nút bấm breadboard hoặc điều khiển qua serial USB từ PC.
-- Chi tiết in 3D, kinh phí ~500.000 VNĐ/sinh viên.
+## 1. Thông số Kỹ thuật & Phần cứng
 
-## Tính năng nâng cao (dự kiến)
+| Hạng mục | Thông số kỹ thuật | Ghi chú |
+|---|---|---|
+| **Số bậc tự do** | 5-DOF + 1-DOF Gripper | $J_1$ (Base), $J_2$ (Shoulder), $J_3$ (Elbow), $J_4$ (Wrist Pitch), $J_5$ (Wrist Roll) |
+| **Tầm với (Reach)** | $\approx 265\text{ mm}$ | Đạt và vượt yêu cầu tối thiểu $200\text{ mm}$ của môn học |
+| **Tải trọng nâng** | $100\text{ g} - 250\text{ g}$ | Vượt yêu cầu tối thiểu $50\text{ g}$ |
+| **Động cơ truyền động** | 5x TowerPro MG996R + 1x SG90/MG90S | Bánh răng kim loại, mô-men xoắn $11\text{ kg}\cdot\text{cm}$ |
+| **Vòng bi đỡ khớp** | 698ZZ ($\varnothing 19 \times \varnothing 8 \times 6\text{ mm}$) | Đỡ toàn bộ tải trọng dọc trục và uốn ngang, giải phóng lực cho servo |
+| **Khớp nối đĩa** | Đĩa tròn kim loại 25T (Axixi Servo Disc) | Bắt 4 ốc M3 trực tiếp lên thân trên (Turret J1) |
+| **Bộ điều khiển** | Arduino Uno R3 + Shield PWM PCA9685 | Giao tiếp I2C 16 kênh PWM, nguồn riêng 5V-6V 10A cho servo |
+| **Vật liệu in 3D** | **PETG** | Chịu nhiệt $\ge 60^\circ\text{C}$ (chống dão nhiệt từ servo), chịu va đập cao |
 
-- Teaching Mode: ghi nhớ và phát lại chuỗi động tác gắp – thả.
-- Vision: camera nhận diện hình dạng vật và vị trí lỗ thả.
+---
 
-Chi tiết: [docs/yêu-cầu-kỹ-thuật.md](docs/yêu-cầu-kỹ-thuật.md)
+## 2. Tiến độ Dự án
 
-## Cấu trúc thư mục
+- [x] **Khảo sát & Chọn mẫu:** Quyết định chọn dáng công nghiệp KUKA KR 3 R540 scale 0.49 thay thế mẫu đồ chơi cũ.
+- [x] **Cụm Đế J1 (`01_Base_SubAssembly.SLDASM`):**
+  - [x] Bịt kín hốc cũ, khoét hốc trụ $\varnothing 77\text{ mm}$ chuẩn xác.
+  - [x] Định vị servo MG996R đồng tâm tuyệt đối $(0,0)$ với trục xoay đế.
+  - [x] Thiết kế gờ đỡ tai servo chuẩn DFM (sàn dày, vát dốc $45^\circ$, có rãnh thoát dây điện).
+  - [x] Bổ sung 4 lỗ cấy ren nhiệt đồng M3 ($\varnothing 4.2\text{ mm} \times 5.5\text{ mm}$).
+  - [x] Nắp đế (`01_Base_TopCap` dày $5\text{ mm}$) tích hợp ổ bi 698ZZ đỡ tải trọng.
+  - [x] Đĩa nhôm 25T nổi phẳng phiu trên đỉnh ổ bi, sẵn sàng đón thân trên.
+  - [x] Khoét khoang chứa bo mạch Arduino Uno $65\text{ mm} \times 56\text{ mm} \times 60\text{ mm}$ ở lưng đế, cổng USB và nguồn quay ra sau.
+- [ ] **Khớp xoay Turret J1 - J2 (`02_Base_Turret`):** Đang tiến hành.
+- [ ] **Cánh tay chính & Khuỷu tay J3 (`03_UpperArm`, `04_Forearm`):** Kế hoạch tiếp theo.
+- [ ] **Cổ tay & Tay gắp song song J4 - J5 + Gripper:** Kế hoạch tiếp theo.
+- [ ] **Mô phỏng động học MATLAB & Thuyết minh Typst:** Đang cập nhật.
+
+---
+
+## 3. Cấu trúc Thư mục
 
 ```
-├── docs/                  # Tài liệu: yêu cầu kỹ thuật, động học, chuyển MCU
-│   ├── thong-so-dong-hoc.md      # ⭐ Số đo động học thật từ CAD (L1, L2, L3, h0)
-│   ├── chuyen-mcu-esp32-stm32.md # Hướng dẫn đổi Arduino Nano ESP32 -> ESP32/STM32
-│   └── typst/             # Nguồn Typst (thuyết minh) + out/
-├── firmware/              # Mã nguồn Arduino (điều khiển khớp, teaching mode)
-├── hardware/
-│   ├── reference/         # Thiết kế gốc (STEP, 3MF đã slice, PDF)
-│   └── HUONG-DAN-IN-3D.md # ⭐ Hướng dẫn in: 33 chi tiết / 4 plate
+uet-robotic-arm/
 ├── cad/
-│   ├── tools/             # ⭐ Script tách STEP, xoá branding, render chữ khắc
-│   ├── exports/           # 33 chi tiết STEP+STL, manifest, PARTS.md
-│   ├── REBRAND.md         # ⭐ Vị trí & cách xoá branding "v2 R.A.D."
-│   └── featurescript/     # Custom FeatureScript
-└── vision/                # (tùy chọn) Code nhận diện vật / lỗ thả
+│   ├── assemblies/         # Cụm lắp ráp SolidWorks (01_Base_SubAssembly.SLDASM...)
+│   ├── parts/              # Chi tiết in 3D thiết kế riêng (01_Base_Pedestal, 02_Turret...)
+│   ├── exports/            # File xuất STEP, STL cho xưởng in 3D
+│   └── reference/          # Ảnh chụp tham chiếu viewport CAD
+├── firmware/
+│   └── v2rad_code/         # Mã nguồn Arduino Uno / Nano (.ino)
+├── hardware/
+│   ├── reference/
+│   │   ├── cots_parts/     # Thư viện 3D linh kiện chuẩn COTS (MG996R, 698ZZ, Arduino...)
+│   │   ├── cults3d_kuka/   # STL tham chiếu KUKA KR3 từ Cults3D
+│   │   ├── kuka_kr3_r540/  # Tài liệu kỹ thuật, bản vẽ kích thước chuẩn KUKA
+│   │   └── v2rad_parts/    # Các chi tiết tham chiếu cơ cấu cũ
+│   └── HUONG-DAN-IN-3D.md  # Cẩm nang thông số in FDM slicer
+├── docs/
+│   ├── yeu-cau-ky-thuat.md # Yêu cầu kỹ thuật toàn diện đồ án
+│   ├── thong-so-dong-hoc.md# Bảng thông số D-H và tọa độ các trục
+│   ├── typst/              # Mã nguồn Typst báo cáo chính thức (xuất PDF)
+│   ├── images/             # Sơ đồ mạch điện, sơ đồ nguyên lý
+│   └── media/              # Video tham chiếu và trích xuất khung hình
+├── matlab/                 # Script mô phỏng động học, GUI điều khiển robot
+├── CLAUDE.md               # Quy ước cho Claude Code / AI Agents
+├── AGENTS.md               # Quy tắc đa tác nhân (Multi-agent System)
+├── .skill.md               # Kỹ năng SolidWorks Robotics CAD & DFM
+├── goal.md                 # Tôn chỉ và mục tiêu tối thượng của dự án
+└── README.md               # Tổng quan dự án
 ```
 
-## Bắt đầu nhanh
+---
+
+## 4. Biên dịch Thuyết minh Đồ án (Typst)
+
+Tài liệu báo cáo chính thức được soạn thảo bằng **Typst**:
 
 ```bash
-# Tách 33 chi tiết từ STEP gốc -> cad/exports/ (STEP + STL + manifest)
-pip install cadquery-ocp          # cần OpenCASCADE Python binding
-python cad/tools/split_step_parts.py --verify    # kiểm chứng tên/kích thước
-python cad/tools/split_step_parts.py             # xuất file
-
-# Xoá branding "v2 R.A.D." khỏi Base Cover
-python cad/tools/rebrand_remove_text.py
-
-# Build thuyết minh
+# Biên dịch file PDF thuyết minh đồ án UET
 typst compile docs/typst/thuyet-minh.typ docs/typst/out/thuyet-minh.pdf
 ```
 
-## Tài liệu chính
+---
 
-| Tài liệu | Nội dung |
-|---|---|
-| `hardware/HUONG-DAN-IN-3D.md` | In 3D: 33 chi tiết / 4 plate, ~8h54m, 253 g PLA, không support |
-| `docs/thong-so-dong-hoc.md` | Số đo động học thật từ CAD + **cảnh báo tầm với < 200 mm** |
-| `docs/chuyen-mcu-esp32-stm32.md` | Đổi MCU sang ESP32/STM32: PWM, ADC, nguồn |
-| `cad/REBRAND.md` | Xoá branding tác giả (2 vị trí khắc chữ) |
-| `cad/exports/v2rad/PARTS.md` | Danh sách 24 chi tiết cánh tay + khối lượng |
-| `cad/exports/v2cd/PARTS.md` | Danh sách 9 chi tiết bộ điều khiển |
+## 5. Quy ước Đóng góp cho AI Coding Agents
 
-## ⚠️ Lưu ý kỹ thuật quan trọng
-
-**Tầm với thiết kế gốc chỉ 186.4 mm — chưa đạt yêu cầu 200 mm.** Số đo từ CAD:
-$L_1 = 60.0$, $L_2 = 85.0$, $L_3 = 41.3$ mm. Cần kéo dài link thêm ≥ 15 mm và
-tính lại moment servo. Chi tiết: `docs/thong-so-dong-hoc.md`.
-
-## Đóng góp
-
-- Clone: `git clone https://github.com/nguyenthanhthe/uet-robotic-arm.git`
-- Quy ước commit: dùng thì quá khứ ngắn gọn, ví dụ `add servo kinematic firmware`, `update requirements`.
-- Thay đổi lớn: tạo nhánh riêng (`git checkout -b feature/...`) rồi mở Pull Request.
-- Chạy thử trước khi commit; không đẩy file nhị phân lớn, file tạm hoặc bí mật.
-
-## Ghi công nguồn tham khảo
-
-Thiết kế tham khảo ban đầu: **Arduino Robot Arm and Controller v2 (R.A.D.)** — Build Some Stuff (Kelton Serra), giấy phép **CC BY-NC-ND 4.0**. Chỉ dùng cho học tập/tham khảo tại `hardware/reference/`; mọi phần tùy biến của nhóm đặt tại `cad/`.
-
-⚠️ Giấy phép **ND (NoDerivatives)** không cho phép phát hành bản sửa đổi. Nhóm cần **thiết kế lại** nếu muốn phát triển tiếp từ thiết kế này. Xem `cad/REBRAND.md` mục 3.
+Dự án được cấu hình sẵn cho các AI Coding Agent (Antigravity, Claude Code, Cursor, Copilot):
+- Xem **[CLAUDE.md](CLAUDE.md)** và **[AGENTS.md](AGENTS.md)** để biết chi tiết về giao thức `/plan`, `/goal` và kết nối SolidWorks MCP.
+- Xem **[.skill.md](.skill.md)** để tra cứu thông số kỹ thuật DFM in 3D PETG và kích thước chuẩn linh kiện COTS.

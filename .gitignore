@@ -17,9 +17,17 @@ build/
 *.map
 *.o
 
-# Tạm thời
+# Tạm thời / Temporary files
 *.tmp
 *.log
+*.bak
+*.dmp
+
+# SolidWorks lock & backup files
+~$*
+*.~*
+*.sldedb
+*.swp
 
 # Typst build output
 docs/typst/out/

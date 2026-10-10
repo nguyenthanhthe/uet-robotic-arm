@@ -1,0 +1,4 @@
+[
+  {"path": "matlab/kuka_robot_model.m", "summary": "Rigid-body kinematic model with forward/inverse kinematics and joint torque calculations."},
+  {"path": "matlab/kuka_gui_control.m", "summary": "Interactive 3D digital-twin GUI with joint controls and Arduino serial output."}
+]

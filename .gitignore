@@ -31,3 +31,10 @@ build/
 
 # Typst build output
 docs/typst/out/
+
+# Virtual environments
+.venv/
+venv/
+
+# Vendored external tools
+tools/

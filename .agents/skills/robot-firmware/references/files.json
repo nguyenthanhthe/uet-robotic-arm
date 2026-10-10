@@ -1,0 +1,4 @@
+[
+  {"path": "firmware/README.md", "summary": "Firmware status and plan for Arduino Uno R3 + PCA9685 shield: hardware table, channel map, PWM resolution note, to-do list."},
+  {"path": "firmware/v2rad_code/v2rad_code.ino", "summary": "v2RAD reference control sketch for Arduino Nano ESP32: 4 potentiometer-driven arm servos + button gripper over I2C PCA9685."}
+]

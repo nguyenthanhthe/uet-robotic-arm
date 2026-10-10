@@ -2,7 +2,7 @@
 **Dự án:** Cánh tay robot 5-DOF + Khâu kẹp song song (UET Robotics Arm)  
 **Tác giả:** Nhóm đồ án UET & Antigravity Copilot  
 **Phần mềm:** SolidWorks (Phiên bản 2026 / 2022+ tương thích hoàn toàn)  
-**Tiêu chuẩn chế tạo:** In 3D FDM (nhựa PLA/PETG), dùng vòng bi 698ZZ, ốc M3, vít tự ren M2, đĩa sừng nhôm 25T.
+**Tiêu chuẩn chế tạo:** In 3D FDM (nhựa PETG), vòng bi 698ZZ đỡ phụ ở khớp vai $J_2$ và khớp khuỷu $J_3$, ren cấy nhiệt và ốc M3, đĩa sừng kim loại 25T.
 
 ---
 
@@ -13,17 +13,18 @@ Tất cả kích thước hình học dưới đây bắt buộc phải tuân th
 
 | Ký hiệu | Ý nghĩa hình học | Giá trị thiết kế | Ghi chú vị trí |
 | :--- | :--- | :--- | :--- |
-| **$h_0$** | Chiều cao trục quay vai $J_2$ so với mặt bàn | **$80.0\text{ mm}$** | Chân đế $46\text{ mm}$ + Chiều cao tâm chữ U Turret $34\text{ mm}$ |
-| **$L_1$** | Chiều dài cánh tay trên (Upper Arm - Link 1) | **$110.0\text{ mm}$** | Khoảng cách tâm khớp vai $J_2 \to$ tâm khớp khuỷu $J_3$ |
+| **$h_0$** | Chiều cao trục quay vai $J_2$ so với mặt bàn | **$169.05\text{ mm}$** | Cao độ trục vai của khối KUKA tỉ lệ $0.49$; trục $J_2$ lệch $a_1 = 9.8\text{ mm}$ về phía trước trục $J_1$ |
+| **$L_1$** | Chiều dài cánh tay trên (Upper Arm - Link 1) | **$127.4\text{ mm}$** | Khoảng cách tâm khớp vai $J_2 \to$ tâm khớp khuỷu $J_3$ |
 | **$L_2$** | Chiều dài cẳng tay (Forearm - Link 2) | **$100.0\text{ mm}$** | Khoảng cách tâm khớp khuỷu $J_3 \to$ tâm cổ tay gập $J_4$ |
 | **$L_3$** | Chiều dài cụm cổ tay & kẹp (Wrist & End-Effector) | **$55.0\text{ mm}$** | Tâm $J_4 \to$ tâm điểm gắp của đầu ngón kẹp |
 
 ### 2. Quy chuẩn dung sai in 3D (DFM for 3D Printing)
 * **Tuyệt đối không vẽ ren xoắn trên CAD:** Đầu phun in 3D $0.4\text{ mm}$ không in được bước ren $0.5\text{ mm}$. Tất cả các lỗ trên CAD đều là **LỖ TRÒN TRƠN**.
 * **Ổ đỡ vòng bi 698ZZ ($OD=19.0, ID=8.0, B=6.0\text{ mm}$):** Lỗ CAD vẽ $\varnothing 19.10\text{ mm}$, sâu $6.2\text{ mm}$ (dư $0.1\text{ mm}$ bù co ngót nhựa, ấn nhẹ vào khít cứng).
-* **Trục cắm vào vòng bi 698ZZ:** Vẽ $\varnothing 8.0\text{ mm}$ dài $5.5 - 6.0\text{ mm}$ (trục lọt trơn khít vào ca trong vòng bi).
+* **Trục qua vòng bi 698ZZ:** Bu-lông M8 × 25 xuyên từ mặt ngoài tai qua vòng bi, có vòng đệm $\varnothing 11 / \varnothing 8.3\text{ mm}$ tì vào vòng trong.
 * **Lỗ xỏ ốc M3 qua thân nhựa:** Vẽ $\varnothing 3.2\text{ mm}$ (khi in ra lỗ tự co về $\approx 3.0\text{ mm}$ xỏ vừa khít thân ốc).
-* **Lỗ mồi vít tự ren tai servo MG90S/SG90:** Vẽ $\varnothing 2.0\text{ mm}$, sâu $8.0\text{ mm}$ (vít nhọn theo hộp servo tự cán ren vào nhựa).
+* **Hốc servo cỡ chuẩn (MG996R, servo số 25 kg):** ô thân $40.5 \times 20.7\text{ mm}$; 4 lỗ ren cấy nhiệt M3 $\varnothing 4.2 \times 5.5\text{ mm}$ có đáy theo lưới $49.42 \times 9.85\text{ mm}$; rãnh né gân tai servo rộng $2.0$, sâu $2.0\text{ mm}$; nóc hộp số servo cao $8.5\text{ mm}$ trên mặt tai.
+* **Lỗ mồi vít tự ren tai servo MG90S:** Vẽ $\varnothing 2.0\text{ mm}$, sâu $8.0\text{ mm}$ (vít nhọn theo hộp servo tự cán ren vào nhựa).
 * **Lỗ chân đế bắt bàn gỗ M4:** Vẽ $\varnothing 4.3\text{ mm}$ xỏ bulong M4.
 
 ---
@@ -32,177 +33,143 @@ Tất cả kích thước hình học dưới đây bắt buộc phải tuân th
 
 ---
 
-### CHI TIẾT 1: `01_Base_Pedestal.SLDPRT` (Chân đế tĩnh $J_1$ tích hợp Hộp mạch Arduino)
-*Nhiệm vụ: Cố định cánh tay xuống bàn làm việc, chứa thân servo MG996R quay đế $J_1$, đỡ vòng bi 698ZZ chịu lực dọc trục, và tích hợp khoang kỹ thuật chứa trọn vẹn bo mạch Arduino Uno R3 + Shield PCA9685.*
+### CHI TIẾT 1: `01_Base_Kuka.SLDPRT` + `01_Base_Tray.SLDPRT` (Đế tĩnh $J_1$ và khay điện tử)
+*Nhiệm vụ: Cố định cánh tay xuống bàn, giữ servo MG996R của khớp đế $J_1$ dưới trần đế và chứa Arduino Uno cùng shield PWM 16 kênh. Mặt trên đế là ổ trượt đỡ turret: vành chân turret tựa trên vành đế nên đế nhận mô-men lật, servo $J_1$ truyền mô-men xoắn qua đĩa sừng 25T.*
+*Hệ tọa độ của khối KUKA: $+Z$ lên (mặt bàn tại $z = 0$), $+X$ là hướng vươn, trục $J_1$ là trục $Z$ qua gốc; hộp sau nằm phía $-X$.*
 
-1. **Khối mặt bích đế (Flange):**
-   * Mở Sketch trên `Top Plane`.
-   * Lệnh `Center Rectangle`: kích thước $90.0 \times 90.0\text{ mm}$.
-   * Bo 4 góc: Lệnh `Fillet` bán kính $R = 10.0\text{ mm}$.
-   * 4 lỗ bắt bàn: Lệnh `Circle`, vẽ 4 lỗ $\varnothing 4.3\text{ mm}$ tại tâm của 4 góc bo (khoảng cách tâm $72 \times 72\text{ mm}$).
-   * Tab **Features** $\rightarrow$ `Extruded Boss/Base` đùn lên cao: **$10.0\text{ mm}$**.
-2. **Khối trụ thân tháp:**
-   * Mở Sketch trên mặt trên của bích đế vừa tạo.
-   * Lệnh `Circle`, tâm trùng Origin, đường kính $\varnothing 72.0\text{ mm}$.
-   * Tab **Features** $\rightarrow$ `Extruded Boss/Base` đùn lên cao: **$36.0\text{ mm}$** (Tổng chiều cao = $10 + 36 = 46.0\text{ mm}$).
-3. **Hốc servo MG996R (Khoét từ đáy lên):**
-   * Xoay góc nhìn nhìn vào mặt đáy dưới cùng của đế. Mở Sketch trên mặt đáy.
-   * Vẽ đường tròn tâm Origin đường kính $\varnothing 64.0\text{ mm}$.
-   * Tab **Features** $\rightarrow$ `Extruded Cut` sâu **$36.0\text{ mm}$** (chừa lại trần trên cùng dày $10\text{ mm}$).
-4. **Ổ chứa vòng bi 698ZZ ở đỉnh tháp:**
-   * Mở Sketch trên mặt phẳng tròn trên cùng của trụ $\varnothing 72\text{ mm}$.
-   * Vẽ 2 đường tròn đồng tâm:
-     * Vòng ngoài: $\varnothing 19.10\text{ mm}$ (ổ đỡ vòng bi 698ZZ).
-     * Vòng trong: $\varnothing 12.0\text{ mm}$ (lỗ thoát trục servo).
-   * Tab **Features** $\rightarrow$ `Extruded Cut`:
-     * Với vòng $\varnothing 19.10\text{ mm}$: Cắt sâu **$6.2\text{ mm}$** (tạo gờ vai chặn vòng bi).
-     * Với vòng trong $\varnothing 12.0\text{ mm}$: Cắt `Through All` thông thẳng xuống hốc servo.
-5. **Khoang hộp kỹ thuật chứa Arduino Uno R3 + Shield PCA9685 (Phía sau đế):**
-   * Mở Sketch trên mặt sau của bích đế (hoặc `Top Plane` bắt cạnh sau của bích $90\text{ mm}$).
-   * Vẽ hình chữ nhật kích thước ngoài: Rộng $75.0\text{ mm} \times$ Dài nhô ra sau $60.0\text{ mm}$.
-   * `Extruded Boss/Base` đùn lên cao bằng độ cao tháp: **$35.0\text{ mm}$**.
-   * Khoét rỗng hộp: `Shell` hoặc `Extruded Cut` tạo lòng trong $69.0 \times 54.0\text{ mm}$ sâu $31.0\text{ mm}$ (thành dày $3.0\text{ mm}$, đáy dày $4.0\text{ mm}$).
-   * **4 trụ bắt ốc Arduino Uno:** Đùn 4 trụ tròn $\varnothing 6.0\text{ mm}$ cao $4.0\text{ mm}$, lỗ trong $\varnothing 2.8\text{ mm}$ bắt vít M3 tại các tọa độ chuẩn của Arduino ($50.8 \times 27.9\text{ mm}$).
-   * **Cửa sổ cổng USB Type-B:** Cắt lỗ chữ nhật $13.0 \times 12.0\text{ mm}$ ở thành hông/sau để cắm cáp USB vào laptop.
-   * **Cửa sổ giắc nguồn DC 5V-6V:** Cắt lỗ $\varnothing 10.0\text{ mm}$ (hoặc rãnh cọc ốc $12.0 \times 10.0\text{ mm}$) để cắm nguồn ngoài cấp cho servo.
-   * **Rãnh luồn dây ngầm:** Cắt rãnh $15.0 \times 8.0\text{ mm}$ thông từ khoang hộp vào lòng trụ $\varnothing 64\text{ mm}$ của khớp $J_1$.
+**A. Thân đế `01_Base_Kuka`**
+1. **Khối gốc:** Thân đế của mô hình KUKA KR 3 R540 tỉ lệ $0.49$: trụ $\varnothing 90\text{ mm}$ cao $90.16\text{ mm}$, hộp sau tới $x = -75\text{ mm}$, bốn chân bắt bàn với lỗ tại $(\pm 37, \pm 37)\text{ mm}$, hốc ngõng trục $\varnothing 49 \times 4.9\text{ mm}$ ở mặt trên.
+2. **Lòng trụ:** Trên `Front Plane`, đường tròn $\varnothing 81.0\text{ mm}$, cắt lên **$77.0\text{ mm}$**. Mặt trần $z = 77$ là mặt tựa tai bắt vít của servo $J_1$.
+3. **Lòng hộp sau:** Phần dưới: chữ nhật $x \in [-71.5, -20]$, $y = \pm 27$, cắt từ đáy lên $52\text{ mm}$. Phần trên: chữ nhật $x \in [-69.5, -28]$, $y = \pm 33$, cắt từ $z = 52$ lên $z = 85$.
+4. **Chỗ lắp servo $J_1$ (trên mặt trần $z = 77$, servo luồn từ dưới lên, thân hướng về $+X$):** ô thân $40.5 \times 20.7\text{ mm}$ ($x \in [-10.15, 30.35]$) cắt lên $9.5\text{ mm}$; 4 lỗ cấy ren $\varnothing 4.2 \times 5.5\text{ mm}$ tại $(34.811, \pm 4.925)$ và $(-14.611, \pm 4.925)$; 2 rãnh né gân rộng $2.0$, sâu $2.0\text{ mm}$ dọc tâm tai.
+5. **Mặt trên:** Nới hốc ngõng trục thành $\varnothing 49.5\text{ mm}$; thêm vành tựa $\varnothing 51 \to \varnothing 88$ cao $0.29\text{ mm}$ (mặt tựa turret tại $z = 90.45$).
+6. **Trụ bắt khay:** 2 trụ $\varnothing 10\text{ mm}$ tại $(28, \pm 28)$ từ $z = 8.5$ lên trần, mỗi trụ có lỗ cấy ren $\varnothing 4.2 \times 5.5\text{ mm}$ ở mặt dưới.
+7. **Lỗ mặt sau (cắt từ mặt phẳng $x = -80$ vào $12\text{ mm}$):** cổng USB $13 \times 12.2\text{ mm}$ tại $y \in [4.9, 17.9]$, $z \in [19.6, 31.8]$; giắc nguồn $10 \times 12.2\text{ mm}$ tại $y \in [-24, -14]$; lỗ ốc giữ khay $\varnothing 3.4$ tại $(y, z) = (-5, 12.5)$; lỗ dây nguồn servo $\varnothing 8$ tại $(0, 42)$. Dưới cổng USB, rãnh cùng bề rộng $y \in [4.9, 17.9]$ chạy thẳng xuống đáy đế ($z = 0 \to 19.6$) để cổng USB trượt lên khi đưa khay từ dưới vào.
+8. **Lỗ dây servo:** $\varnothing 10\text{ mm}$ xuyên trần hộp sau tại $(x, y) = (-56.5, 0)$.
+9. **Bỏ hai cọc đầu nối trên nóc hộp sau:** Trên mặt phẳng $z = 89.9\text{ mm}$, chữ nhật $x \in [-63.5, -44.5]$, $y = \pm 21$, cắt lên trên. Mép trước của turret (bán kính $58.4\text{ mm}$, đáy ở $z = 90.65$) quét qua vùng này khi $J_1$ quay.
+
+**B. Khay điện tử `01_Base_Tray`** (dựng trong cùng hệ tọa độ với đế)
+1. Tấm dày $2.5\text{ mm}$ ($z = 6 \to 8.5$): đĩa $\varnothing 80.4\text{ mm}$ hợp với chữ nhật $x \in [-71.2, -20]$, $y = \pm 26.7$; lắp từ dưới lên vào lòng đế.
+2. 4 trụ đỡ Arduino Uno $\varnothing 5 \times 10\text{ mm}$ với lỗ mồi $\varnothing 2.5\text{ mm}$ tại $(-54.2, -24.17)$, $(-53.0, 24.13)$, $(-2.2, -19.07)$, $(-2.2, 8.93)$; mặt dưới mạch Uno ở $z = 18.5$, cạnh có cổng USB quay về phía sau tại $x = -68.2$.
+3. 2 lỗ $\varnothing 3.4$ tại $(28, \pm 28)$ bắt lên trụ của đế; vấu sau $5.8 \times 8 \times 8\text{ mm}$ với lỗ cấy ren ngang nhận ốc M3 từ mặt sau đế.
+4. Lưỡi bịt rãnh USB: khối $x \in [-74.5, -70.5]$, $y \in [5.1, 17.7]$, từ $z = 6$ lên $z = 19.3\text{ mm}$, liền với mép sau khay; khi khay vào vị trí, lưỡi lấp kín rãnh dưới cổng USB của đế.
 
 ---
 
-### CHI TIẾT 2: `02_Base_Turret.SLDPRT` (Mâm xoay chữ U $J_1 \to J_2$)
-*Nhiệm vụ: Xoay tròn quanh trục đứng $Z_0$, làm giá đỡ chữ U ôm lấy khớp vai $J_2$, một bên bắt servo MG996R, một bên lắp vòng bi 698ZZ.*
+### CHI TIẾT 2: `02_Turret_ForkKuka.SLDPRT` (Turret liền khối $J_1 \to J_2$)
+*Nhiệm vụ: Một chi tiết liền từ mặt đế tới khớp vai. Chân turret đặt lên mặt trên đế `01_Base_Kuka` và bắt vào đĩa sừng 25T của servo $J_1$; tai $+Y$ giữ servo MG996R của khớp vai $J_2$, tai $-Y$ giữ vòng bi 698ZZ đỡ phụ.*
 
-1. **Khối đĩa mâm và phôi thân:**
-   * Mở Sketch trên `Top Plane`. Vẽ đường tròn $\varnothing 68.0\text{ mm}$.
-   * `Extruded Boss/Base` đùn lên cao **$50.0\text{ mm}$**.
-2. **Trục lồi cắm vào vòng bi đế:**
-   * Mở Sketch ở mặt đáy dưới cùng của đĩa mâm.
-   * Vẽ đường tròn tâm Origin $\varnothing 8.0\text{ mm}$.
-   * `Extruded Boss/Base` đùn xuống dưới **$5.5\text{ mm}$** (trục này cắm ngập vào ca trong vòng bi 698ZZ của Chi tiết 1).
-3. **Khoét rãnh chữ U (U-Fork Cutout):**
-   * Mở Sketch trên `Front Plane` (mặt phẳng đi qua tâm đối xứng).
-   * Dùng `Corner Rectangle` hoặc `Line`: Vẽ hình chữ nhật khoét bỏ phần giữa:
-     * Bề rộng lọt lòng khe: **$44.0\text{ mm}$** (đối xứng đều 2 bên tâm, mỗi bên $22.0\text{ mm}$).
-     * Chiều sâu khoét từ trên xuống: **$34.0\text{ mm}$** (tính từ đỉnh $50\text{ mm}$ xuống còn cao $16\text{ mm}$ tính từ đáy).
-   * Tab **Features** $\rightarrow$ `Extruded Cut` chọn `Through All - Both`.
-   * Lệnh `Fillet`: Bo tròn đáy rãnh chữ U bán kính $R = 10.0\text{ mm}$ và bo vòm tròn 2 tai trên $R = 5.0\text{ mm}$.
-4. **Trục khớp vai $J_2$ (Cách đáy đĩa mâm đúng $34.0\text{ mm}$):**
-   * Mở Sketch trên mặt ngoài của một tai chữ U.
-   * Vẽ đường tròn $\varnothing 8.5\text{ mm}$ tại vị trí cách đáy đĩa mâm đúng **$34.0\text{ mm}$** ($h_0 = 46 + 34 = 80.0\text{ mm}$ tuyệt đối).
-   * `Extruded Cut` chọn `Through All` xuyên qua cả 2 tai.
-5. **Ổ đỡ vòng bi 698ZZ tai trái:**
-   * Mở Sketch trên mặt TRONG của tai trái.
-   * Bắt đúng tâm lỗ $\varnothing 8.5\text{ mm}$, vẽ đường tròn $\varnothing 19.10\text{ mm}$.
-   * `Extruded Cut` sâu **$6.2\text{ mm}$** (để lại bậc chặn giữ vòng bi không bị trượt ra ngoài).
+**A. Thân turret** (hệ tọa độ của khối KUKA, trùng với hệ của đế: $+Z$ lên, $+X$ là hướng vươn, trục $J_1$ là trục $Z$ qua gốc, trục $J_2$ song song $Y$ tại $x = 9.8$, $z = 169.05\text{ mm}$)
+1. **Khối gốc:** Thân cột xoay của mô hình KUKA KR 3 R540 tỉ lệ $0.49$ (một khối liền, chân tròn $\varnothing 92\text{ mm}$ với mặt chân tại $z = 90.65$ và ngõng trục $\varnothing 49\text{ mm}$, hai tai dày khoảng $22$ và $26\text{ mm}$, khe giữa hai tai $49.2\text{ mm}$ từ $y = -26.46$ đến $y = +22.74$).
+2. **Rút ngắn ngõng trục:** Mặt phẳng song song `Front Plane` tại $z = 86.1\text{ mm}$, `Extruded Cut` bỏ phần phía dưới để ngõng trục hở nóc servo $J_1$ $0.6\text{ mm}$.
 
----
+**B. Các nguyên công**
+1. **Hốc đĩa sừng $J_1$:** Mặt phẳng $z = 91.85\text{ mm}$ là mặt tựa vành đĩa sừng. Đường tròn $\varnothing 20.4\text{ mm}$, cắt xuống hết ngõng trục.
+2. **Lỗ ốc đĩa sừng:** 4 lỗ $\varnothing 3.4\text{ mm}$ trên PCD $14\text{ mm}$ từ $z = 91.85$ lên $z = 95.95$ (sàn dày $4.0\text{ mm}$).
+3. **Giếng vặn ốc:** Trên mặt phẳng $z = 95.85\text{ mm}$, đường tròn $\varnothing 22.0\text{ mm}$ cắt xuyên lên sàn khe giữa hai tai (sâu khoảng $44\text{ mm}$); 4 ốc M3 × 8 vặn từ trên xuống bằng lục giác dài trước khi lắp cánh tay.
+4. **Ổ trượt $J_1$:** Ngõng trục $\varnothing 49$ nằm trong hốc $\varnothing 49.5$ của đế; mặt chân turret ($z = 90.65$) hở $0.2\text{ mm}$ trên vành tựa của đế ($z = 90.45$).
+5. **Lấp hốc tròn tai servo ($+Y$):** Trên mặt phẳng $y = 22.736$, đường tròn $\varnothing 36.75\text{ mm}$ tâm trục $J_2$, đùn **$4.9\text{ mm}$** về phía $+Y$ để mặt trong tai phẳng.
+6. **Hốc tai servo:** Mặt phẳng $y = 30.85\text{ mm}$ là mặt tựa tai bắt vít (tính cho servo DS3225: đỉnh trục cách mặt trên tai bắt vít $15.2\text{ mm}$). Servo đặt dọc theo tai, thân nghiêng $15^\circ$ về phía sau so với phương thẳng đứng. Chữ nhật $55.35 \times 20.7\text{ mm}$ (từ $17.95\text{ mm}$ phía trên đến $37.4\text{ mm}$ phía dưới trục $J_2$ dọc thân servo), `Extruded Cut` xuyên ra mặt ngoài tai.
+7. **Ô thân servo:** Cùng mặt phẳng, chữ nhật $41.1 \times 20.7\text{ mm}$ (từ $10.75\text{ mm}$ phía trên đến $30.35\text{ mm}$ phía dưới trục), cắt sâu **$10.6\text{ mm}$** về phía khe. Ô này dành cho servo DS3225 (thân $40.1 \times 20\text{ mm}$, trục cách đầu thân $10.33\text{ mm}$); MG996R có trục ngắn hơn $1.35\text{ mm}$ nên không dùng chung mặt tựa này.
+8. **Lỗ cấy ren giữ servo:** 4 lỗ $\varnothing 4.2\text{ mm}$ trên mặt $y = 30.85$ tại $(x, z) = (18.339, 181.888)$, $(8.824, 184.438)$, $(5.547, 134.151)$, $(-3.967, 136.700)$, cắt sâu **$5.5\text{ mm}$** (đáy dày $2.6\text{ mm}$; lỗ tai servo DS3225 lệch tâm lỗ cấy ren khoảng $0.4\text{ mm}$, vẫn bắt được ốc M3). Trên cùng mặt này có 2 rãnh rộng $2.0\text{ mm}$, sâu **$2.0\text{ mm}$**, chạy dọc tâm tai bắt vít từ mép ô thân servo ra hết tai, để né gân tăng cứng của tai servo.
+9. **Ổ vòng bi 698ZZ (tai $-Y$):** Trên đáy hốc tròn mặt trong tai ($y = -31.36$), đường tròn $\varnothing 19.1\text{ mm}$ tâm trục $J_2$ cắt sâu **$6.2\text{ mm}$** ra phía ngoài; lỗ thông $\varnothing 14.0\text{ mm}$ xuyên ra mặt ngoài tai. Vòng bi lắp từ phía trong khe.
+10. **Cao độ lắp:** Turret dùng chung hệ tọa độ với đế nên trục $J_2$ cao $169.05\text{ mm}$ so với mặt bàn ($h_0$) và lệch $9.8\text{ mm}$ về phía trước trục $J_1$ ($a_1$).
 
-### CHI TIẾT 3: `03_UpperArm_Frame.SLDPRT` (Cánh tay chính Link 1 $J_2 \to J_3$)
-*Nhiệm vụ: Cánh tay chịu lực lớn nhất của robot, nối từ vai lên khuỷu, chiều dài hình học $L_1 = 110.0\text{ mm}$.*
+**C. Lắp servo $J_2$ (`02_Turret_ForkKuka_SubAssembly.SLDASM`)**
+* Servo luồn từ mặt ngoài tai $+Y$ vào cho tới khi mặt trên của tai bắt vít áp vào mặt $y = 30.85$; bắt 4 ốc M3 vào lỗ cấy ren. Trục ra hướng vào khe, dây điện ra ở đầu trên của servo.
+* Đỉnh trục then hoa ở $y = 15.65\text{ mm}$; mặt ngoài vành đĩa sừng ở $y = 14.65\text{ mm}$; đáy thân servo DS3225 ở $y = 59.6\text{ mm}$.
+* Ổ trục cánh tay nằm giữa mặt vành đĩa sừng ($y = 14.65$) và mặt trong tai ổ bi ($y = -26.46$); sàn khe thấp hơn trục $J_2$ từ $29$ đến $32\text{ mm}$.
 
-1. **Khối thân dạng khúc xương (Dog-bone Beam):**
-   * Mở Sketch trên `Front Plane`.
-   * Vẽ đường tròn dưới: tâm tại $(0,0)$, đường kính $\varnothing 40.0\text{ mm}$.
-   * Vẽ đường tròn trên: tâm tại $(0, 110.0)$, đường kính $\varnothing 32.0\text{ mm}$.
-   * Vẽ 2 đường thẳng tiếp tuyến (`Tangent`) nối 2 đường tròn.
-   * Dùng `Trim Entities` (`Trim to closest`) cắt bỏ 2 cung tròn bên trong.
-   * Tab **Features** $\rightarrow$ `Extruded Boss/Base`: chọn **`Mid Plane`**, chiều dày **$43.0\text{ mm}$** (khe Turret là $44\text{ mm}$, làm $43\text{ mm}$ để hở $0.5\text{ mm}$ mỗi bên quay trơn tru).
-2. **Khớp vai $J_2$ - Mặt sau (Khớp đĩa sừng nhôm 25T):**
-   * Mở Sketch trên mặt phẳng lớn phía sau tại đầu $\varnothing 40\text{ mm}$.
-   * Vẽ hốc đĩa sừng: Đường tròn $\varnothing 21.5\text{ mm}$ đồng tâm $(0,0)$ $\rightarrow$ `Extruded Cut` sâu **$2.5\text{ mm}$**.
-   * Mở Sketch trên mặt đáy hốc vừa cắt:
-     * Vẽ lỗ tâm $\varnothing 6.0\text{ mm}$ (xỏ tuốc-nơ-vít siết ốc trục).
-     * Vẽ vòng tròn chia tâm PCD $\varnothing 14.0\text{ mm}$ (chọn `For construction`).
-     * Vẽ 4 lỗ $\varnothing 3.2\text{ mm}$ cách đều $90^\circ$ bằng lệnh `Circular Sketch Pattern`.
-     * `Extruded Cut` chọn **`Blind: 10.0 mm`** (chỉ cắt sâu $10\text{ mm}$, không cắt xuyên qua mặt bên kia).
-3. **Khớp vai $J_2$ - Mặt trước (Trục lồi cắm vòng bi 698ZZ):**
-   * Mở Sketch trên mặt phẳng lớn phía trước tại đầu $\varnothing 40\text{ mm}$.
-   * Bắt tâm $(0,0)$, vẽ đường tròn $\varnothing 8.0\text{ mm}$.
-   * `Extruded Boss/Base` đùn nhô ra **$6.0\text{ mm}$** (cắm khít vào vòng bi 698ZZ của Turret).
-4. **Khớp khuỷu $J_3$ - Mặt trước (Hốc servo MG90S):**
-   * Mở Sketch trên mặt phẳng lớn phía trước tại đầu $\varnothing 32\text{ mm}$.
-   * Vẽ khung chữ nhật thân servo: Rộng ngang $12.8\text{ mm}$, Dài dọc $23.5\text{ mm}$.
-   * Định vị: Mép trên cách tâm cung tròn $(0, 110)$ đúng **$6.0\text{ mm}$**, mép dưới cách tâm **$17.5\text{ mm}$** (đảm bảo trục răng MG90S trùng tuyệt đối tâm $(0, 110)$).
-   * `Extruded Cut` sâu **$18.0\text{ mm}$**.
-   * Mở Sketch trên mặt phẳng này, vẽ 2 lỗ mồi $\varnothing 2.0\text{ mm}$ bắt vít tai servo: 1 lỗ cách mép trên $2.6\text{ mm}$, 1 lỗ cách mép dưới $2.6\text{ mm}$ $\rightarrow$ `Extruded Cut` sâu **$8.0\text{ mm}$**.
+**D. Càng khung đơn giản `02_Turret_Fork` (mẫu in thử lắp servo)**
+* Sàn $\varnothing 82 \times 6\text{ mm}$, tai servo dạng tấm dày $7\text{ mm}$ với ô $40.6 \times 20.7\text{ mm}$ và 4 lỗ cấy ren, tai ổ bi dày $8\text{ mm}$, khe $44\text{ mm}$; trục $J_2$ cao $27.95\text{ mm}$ trên mặt đáy càng. Cụm lắp kèm: `02_Turret_SubAssembly.SLDASM`. Chi tiết này không nằm trong cụm lắp chính.
 
 ---
 
-### CHI TIẾT 4: `04_Forearm_Body.SLDPRT` (Cẳng tay Link 2 $J_3 \to J_4$)
-*Nhiệm vụ: Nối từ khuỷu tay đến cổ tay, chiều dài hình học $L_2 = 100.0\text{ mm}$, gắn lệch bên (Offset layout KUKA), mang theo servo MG90S thứ hai cho khớp cổ tay $J_4$.*
+### CHI TIẾT 3: `03_UpperArmKuka.SLDPRT` (Cánh tay chính Link 1 $J_2 \to J_3$)
+*Nhiệm vụ: Nối khớp vai với khớp khuỷu, $L_1 = 127.4\text{ mm}$; bắt vào đĩa sừng 25T của servo $J_2$, tựa lên vòng bi 698ZZ ở tai đối diện và mang servo MG996R của khớp $J_3$.*
+*Hệ tọa độ chi tiết trùng với hệ của càng `02_Turret_ForkKuka` khi cánh tay dựng đứng: trục $J_2$ tại $x = 9.8$, $z = 169.05$; trục $J_3$ tại $x = 9.8$, $z = 296.45\text{ mm}$, cả hai song song $Y$.*
 
-1. **Khối thân dầm cẳng tay:**
-   * Mở Sketch trên `Front Plane`.
-   * Vòng tròn gốc khuỷu ($J_3$): tâm tại $(0,0)$, đường kính $\varnothing 30.0\text{ mm}$.
-   * Vòng tròn đầu cổ tay ($J_4$): tâm tại $(100.0, 0)$, đường kính $\varnothing 24.0\text{ mm}$ (Smart Dimension khoảng cách tâm đúng **$100.00\text{ mm}$**).
-   * Vẽ 2 đường tiếp tuyến nối 2 vòng tròn $\rightarrow$ Dùng `Trim` cắt 2 cung trong thành hình dầm thon gọn.
-   * `Extruded Boss/Base` đùn dày **$18.0\text{ mm}$**.
-2. **Đầu khuỷu $J_3$ (Mặt trong - Lắp vào trục servo MG90S của Link 1):**
-   * Mở Sketch trên mặt phẳng trong tại tâm $(0,0)$.
-   * Vẽ hốc chứa **Cánh sừng chữ thập hoặc sừng đôi MG90S**:
-     * Khoét rãnh âm sâu **$2.0\text{ mm}$** ôm vừa khít cánh sừng nylon của MG90S.
-     * Vẽ lỗ xuyên tâm $\varnothing 4.0\text{ mm}$ xỏ lọt ốc M2.5 khóa sừng vào trục servo.
-3. **Đầu cổ tay $J_4$ (Mặt ngoài - Chứa servo MG90S điều khiển gập cổ tay):**
-   * Mở Sketch trên mặt ngoài tại tâm $(100, 0)$.
-   * Vẽ hốc chữ nhật $12.8 \times 23.5\text{ mm}$ sâu **$16.0\text{ mm}$**.
-   * Tâm trục răng của servo đặt trùng đúng tọa độ $(100.0, 0)$.
-   * Khoét 2 lỗ mồi $\varnothing 2.0\text{ mm}$ sâu $6.0\text{ mm}$ bắt tai servo.
+1. **Khối gốc:** Thân cánh tay của mô hình KUKA KR 3 R540 tỉ lệ $0.49$ (một khối liền): đầu dưới là ổ trục đặc nằm giữa hai tai càng, đầu trên là càng chữ U có hai tai dày khoảng $18\text{ mm}$, khe $48.5\text{ mm}$.
+2. **Mặt bắt đĩa sừng $J_2$:** Trên mặt phẳng $y = 20.5\text{ mm}$, đường tròn $\varnothing 60.4\text{ mm}$ tâm trục $J_2$, `Extruded Cut` bỏ phần phía $+Y$ (hở $0.55\text{ mm}$ với nắp trên servo DS3225, hở $2.2\text{ mm}$ với mặt trong tai servo). Trên mặt phẳng $y = 14.65\text{ mm}$, đường tròn $\varnothing 21.2\text{ mm}$ cắt xuyên về $+Y$ thành hốc chìm sâu $5.85\text{ mm}$ cho đĩa sừng; đáy hốc áp vào mặt vành đĩa sừng.
+3. **Bỏ vấu tròn phía ổ bi:** Trên mặt phẳng $y = -25.97\text{ mm}$, đường tròn $\varnothing 42\text{ mm}$ tâm trục $J_2$, cắt bỏ phần phía $-Y$ để cánh tay luồn được vào giữa hai tai càng.
+4. **Khoang bắt ốc:** Sketch trên mặt phẳng $x = 29.5\text{ mm}$, chữ nhật $y \in [-17.97, 7.65]$, $z \in [156.05, 182.05]$, `Extruded Cut` xuyên về phía $-X$. Khoang chỉ mở ở mặt sau ổ trục; mặt trước còn vách dày từ $3.4\text{ mm}$. Còn lại tấm bắt sừng dày $7.0\text{ mm}$ và tấm ổ bi dày $8.0\text{ mm}$; đai ốc M8 đưa vào qua miệng sau của khoang.
+5. **Lỗ tại $J_2$:** Tấm bắt sừng: lỗ tâm $\varnothing 7.0\text{ mm}$ và 4 lỗ $\varnothing 3.2\text{ mm}$ trên PCD $14\text{ mm}$ (ốc M3 × 8 đầu trụ vặn vào ren của đĩa sừng). Tấm ổ bi: lỗ $\varnothing 8.4\text{ mm}$ và hốc lục giác đối cạnh $13.3\text{ mm}$ sâu $4.0\text{ mm}$ ở mặt trong giữ đai ốc M8; 4 lỗ $\varnothing 6\text{ mm}$ trên PCD $14\text{ mm}$, thẳng hàng với 4 ốc đĩa sừng: ốc đưa qua các lỗ này trên đầu lục giác và siết thẳng từ mặt ngoài $-Y$ khi cánh tay còn nằm ngoài càng.
+6. **Hốc servo $J_3$ (tai $+Y$):** Lấp hốc tròn mặt trong tai (đường tròn $\varnothing 39.4\text{ mm}$ trên mặt phẳng $y = 23.96$, đùn $5.06\text{ mm}$). Mặt tựa tai bắt vít là mặt phẳng $y = 30.7\text{ mm}$; servo nghiêng $15^\circ$, thân hướng về $J_2$. Các biên dạng giống hốc servo của càng, tịnh tiến $+127.4\text{ mm}$ theo $Z$: hốc tai $54.6 \times 20.7\text{ mm}$ cắt xuyên ra mặt ngoài, ô thân $40.5 \times 20.7\text{ mm}$ cắt sâu $9.2\text{ mm}$ về phía khe, 4 lỗ cấy ren $\varnothing 4.2 \times 5.5\text{ mm}$ tại $(x, z) = (18.339, 309.288)$, $(8.824, 311.838)$, $(5.547, 261.551)$, $(-3.967, 264.100)$, 2 rãnh né gân rộng $2.0$, sâu $2.0\text{ mm}$.
+7. **Ổ vòng bi $J_3$ (tai $-Y$):** Trên đáy hốc tròn mặt trong tai ($y = -29.4$), đường tròn $\varnothing 19.1\text{ mm}$ cắt sâu $6.2\text{ mm}$ ra phía ngoài và lỗ thông $\varnothing 14.0\text{ mm}$.
+8. **Lắp ráp:** Vòng đệm `03_J2_BearingSpacer` ($\varnothing 11 / \varnothing 8.3 \times 5.6\text{ mm}$) đặt giữa vòng trong của vòng bi $J_2$ và tấm ổ bi; bu-lông M8 × 25 xuyên từ mặt ngoài tai $-Y$ của càng qua vòng bi, vòng đệm, tấm ổ bi vào đai ốc M8. Đáy thân servo $J_3$ ở $y = 61.4\text{ mm}$ (nhô khoảng $13\text{ mm}$ khỏi mặt ngoài tai).
 
 ---
 
-### CHI TIẾT 5: `05_Wrist_Pitch.SLDPRT` (Khớp lật cổ tay $J_4 \to J_5$)
-*Nhiệm vụ: Nhận truyền động từ servo $J_4$ để gập lên/xuống (Pitch), đồng thời mang servo micro thứ ba (SG90/MG90S) xoay tròn cổ tay (Roll).*
+### CHI TIẾT 4: `04_Forearm_ElbowKuka.SLDPRT` (Khối khuỷu của cẳng tay, quanh trục $J_3$)
 
-1. **Khối bản lề khớp lật:**
-   * Dạng tai kẹp (L-bracket hoặc C-clevis) dày $15 - 18\text{ mm}$.
-   * Một mặt khoét hốc âm gắn sừng servo MG90S của khớp $J_4$.
-2. **Ổ đỡ trục xoay cổ tay $J_5$:**
-   * Trục xoay $J_5$ vuông góc với trục $J_4$.
-   * Khoét hốc vuông hoặc hốc tròn lắp servo $J_5$ có trục hướng thẳng dọc ra phía trước đầu kẹp.
-   * Khoảng cách từ tâm $J_4$ đến mặt bích kẹp: thiết kế chuẩn **$35.0\text{ mm}$**.
+*Hệ tọa độ của khối KUKA, tư thế cẳng tay nằm ngang hướng $+X$; trục $J_3$ song song $Y$ tại $x = 9.8$, $z = 296.45\text{ mm}$.*
+
+1. **Khối gốc:** Thân khuỷu của mô hình KUKA KR 3 R540 tỉ lệ $0.49$ ($x$ từ $-21$ đến $70\text{ mm}$, rộng $y = \pm 24\text{ mm}$, hai vấu tròn hai bên tại trục $J_3$).
+2. **Mặt phía servo:** Trên mặt phẳng $y = 21.7\text{ mm}$, đường tròn $\varnothing 60.4\text{ mm}$ tâm trục $J_3$, `Extruded Cut` bỏ phần phía $+Y$ (hở $0.5\text{ mm}$ với nóc hộp số servo $J_3$ ở $y = 22.2$).
+3. **Hốc đĩa sừng:** Trên mặt phẳng $y = 15.85\text{ mm}$, đường tròn $\varnothing 21.2\text{ mm}$ cắt xuyên về $+Y$ (hốc sâu $5.85\text{ mm}$); lỗ tâm $\varnothing 7.0$ và 4 lỗ $\varnothing 3.2$ trên PCD $14\text{ mm}$ cắt sâu $7.2\text{ mm}$ về $-Y$.
+4. **Khoang bắt ốc:** Trên mặt phẳng $x = 29.5\text{ mm}$, chữ nhật $y \in [-16.0, 8.85]$, $z \in [283.45, 309.45]$, cắt xuyên về $-X$ (mở ở mặt sau khuỷu). Tấm bắt sừng dày $7.0\text{ mm}$, tấm ổ bi dày $8.0\text{ mm}$.
+5. **Mặt phía ổ bi:** Trên mặt phẳng $y = -24.0\text{ mm}$, đường tròn $\varnothing 42\text{ mm}$ cắt bỏ vấu phía $-Y$. Trên cùng mặt: lỗ $\varnothing 8.4\text{ mm}$ và 4 lỗ $\varnothing 6\text{ mm}$ trên PCD $14\text{ mm}$, cắt sâu $8.2\text{ mm}$; ốc đĩa sừng M3 × 8 đầu trụ đưa qua các lỗ này trên đầu lục giác và siết thẳng từ mặt ngoài $-Y$. Hốc lục giác đối cạnh $13.3\text{ mm}$ sâu $4.0\text{ mm}$ ở mặt trong ($y = -16.0$) giữ đai ốc M8.
+6. **Mặt ghép với thân càng:** Hốc tròn $\varnothing 43.2\text{ mm}$ ở mặt trước, đáy tại $x = 65.268\text{ mm}$, tâm $(y, z) = (0, 306.25)$. Các lỗ trên đáy hốc phải cắt từ mặt phẳng $x = 65.25$ về cả hai phía, nếu không sẽ còn một màng $0.018\text{ mm}$ bịt miệng lỗ. Trên đáy hốc: 4 lỗ cấy ren $\varnothing 4.2 \times 5.5\text{ mm}$ tại $(\pm 9, 304)$ và $(\pm 9, 314.5)$; lỗ đi dây $\varnothing 10\text{ mm}$ tại $(0, 304.5)$ xuyên vào khoang bắt ốc.
+7. **Lắp:** giống khớp vai. Vòng bi 698ZZ nằm trong tai $-Y$ của cánh tay (mặt trong vòng bi ở $y = -29.6$), vòng đệm `03_J2_BearingSpacer` dài $5.6\text{ mm}$ dùng lại cho $J_3$; khe giữa khối khuỷu và tai ổ bi $0.5\text{ mm}$.
+
+### CHI TIẾT 5: `04_Forearm_ForkKuka.SLDPRT` (Thân càng của cẳng tay)
+
+*Cùng hệ tọa độ với khối khuỷu. Khối gốc: thân cẳng tay `Solid1[1]` của KUKA, $x$ từ $67$ đến $156\text{ mm}$: khối sau dài $39\text{ mm}$ và một nhánh càng phía $+Y$.*
+
+1. **Vành định tâm:** Trên mặt phẳng $x = 65.25\text{ mm}$, đường tròn $\varnothing 42.9\text{ mm}$ tâm $(y, z) = (0, 306.25)$, đùn $5.5\text{ mm}$ về $+X$. Vành lọt vào hốc $\varnothing 43.2$ của khối khuỷu và tựa lên đáy hốc; khe $0.55\text{ mm}$ còn lại ở vai ngoài.
+2. **Khoang dây:** Trên mặt phẳng $y = -21\text{ mm}$, chữ nhật $x \in [74.5, 103.5]$, $z \in [300.5, 320]$, cắt $33\text{ mm}$ về $+Y$ (tới $y = 12$). Khoang mở ở mặt $-Y$, được tấm ốp bên che lại; đáy khoang ở $z = 300.5$ để còn thành $\ge 1.5\text{ mm}$ phía trên rãnh khuyết của khối KUKA.
+3. **Lỗ ghép:** Trên vách sau ($x = 74.5 \to 65.25$): 4 lỗ $\varnothing 3.4\text{ mm}$ tại $(\pm 9, 304)$ và $(\pm 9, 314.5)$ cho ốc M3 × 14 đầu trụ; lỗ đi dây $\varnothing 10\text{ mm}$ tại $(0, 304.5)$.
+4. **Lỗ luồn lục giác:** Trên vách trước (từ $x = 103.5$ ra mặt trước), 4 lỗ $\varnothing 6\text{ mm}$ thẳng hàng với 4 ốc ghép, nằm trọn trên mặt phẳng trước ($x \approx 109.7$); ốc được siết bằng lục giác thẳng luồn từ hốc cổ tay, trước khi lắp cổ tay. Dây servo cổ tay cũng đi qua các lỗ này.
+
+### CHI TIẾT 6: `05_WristKuka.SLDPRT` (Thân cổ tay, chứa servo $J_5$)
+
+*Cùng hệ tọa độ với cẳng tay. Khối gốc: thân cổ tay `[21]` của KUKA ($x$ từ $111.5$ đến $168.6\text{ mm}$).*
+
+* **Trục $J_4$ (gập):** song song $Y$ tại $x = 137.2$, $z = 306.23\text{ mm}$, đúng tâm hai vấu tròn của khối KUKA. Đặt trục lệch khỏi tâm này thì lưng cổ tay kẹt vào vách thân càng sau khoảng $10^\circ$; đặt đúng tâm thì cổ tay gập $\pm 110^\circ$ không chạm thân càng và hai tấm ốp.
+* **Trục $J_5$ (xoay):** song song $X$ tại $y = 0$, $z = 301.0\text{ mm}$, thấp hơn trục $J_4$ $5.23\text{ mm}$ (hai trục không cắt nhau) vì thân servo phải nằm giữa chiều cao cổ tay.
+* **Servo $J_4$** không nằm trong cổ tay: nó lắp trên nhánh càng $+Y$ từ phía ngoài, trục cắm vào đĩa sừng nằm trong mặt bên cổ tay.
+
+Kích thước MG90S dùng để cắt (đo trên `M90S_ali.step`): thân $22.8 \times 12.2\text{ mm}$, tai rộng $32.3\text{ mm}$ dày $2.5\text{ mm}$, mặt trên tai cách đáy $18.3\text{ mm}$, nóc hộp số cao hơn mặt trên tai $10.2\text{ mm}$, đỉnh trục cao hơn $14.2\text{ mm}$, trục cách đầu thân $5.95\text{ mm}$. Đĩa sừng hai cánh (đo trên `MG90S Servo Horn (2 spork).step`): dài $31\text{ mm}$, moay-ơ $\varnothing 6.8 \times 4.7\text{ mm}$, cánh dày $2.1\text{ mm}$, rộng $5.2\text{ mm}$ ở gốc và $3.6\text{ mm}$ ở đầu.
+
+1. **Gọt vấu $+Y$:** Trên mặt phẳng $y = 18.7\text{ mm}$, đường tròn $\varnothing 38\text{ mm}$ tâm trục $J_4$, cắt bỏ phần phía $+Y$ (hở $0.5\text{ mm}$ với mặt trong nhánh càng ở $y = 19.2$).
+2. **Gọt vấu $-Y$:** Trên mặt phẳng $y = -19.6\text{ mm}$, đường tròn $\varnothing 27\text{ mm}$, cắt bỏ phần phía $-Y$ (hở $0.5\text{ mm}$ với tấm ốp `[22]` ở $y = -20.1$).
+3. **Lỗ chốt xoay:** Trên mặt $y = -19.6$, lỗ $\varnothing 8.3 \times 6.5\text{ mm}$ tại trục $J_4$, nhận chốt $\varnothing 8\text{ mm}$ in liền trên tấm ốp `[22]`.
+4. **Hốc né hộp số servo $J_4$:** Trên mặt $y = 18.7$, đường tròn $\varnothing 21.2\text{ mm}$ sâu $0.9\text{ mm}$.
+5. **Hốc đĩa sừng hai cánh:** Trên mặt $y = 18.7$, biên dạng đĩa sừng (moay-ơ $\varnothing 7.2$, hai cánh dọc $X$ rộng $5.6 \to 3.9\text{ mm}$, đầu cánh ở $\pm 15.85\text{ mm}$), cắt sâu $5.7\text{ mm}$ (đáy ở $y = 13.0$). Đĩa sừng bị kẹp giữa đáy hốc và mặt hộp số servo nên không cần vít tâm.
+6. **Hốc thân servo $J_5$:** Từ mặt phẳng $x = 169\text{ mm}$, chữ nhật $y = \pm 6.3$, $z \in [294.75, 318.15]$, cắt về $-X$ tới $x = 139.8\text{ mm}$. Servo đưa vào từ mặt trước, trục hướng $+X$, thân dọc theo $Z$; mặt trên tai ở $x = 158.4$, nóc hộp số ở $x = 168.6$ (ngang mặt trước), đỉnh trục ở $x = 172.6\text{ mm}$.
+7. **Rãnh tai servo $J_5$:** chữ nhật $y = \pm 6.3$, $z \in [290.0, 322.9]$, cắt tới $x = 155.9\text{ mm}$ (mặt tựa mặt dưới tai); từ $x = 158.9$ ra mặt trước rãnh mở rộng tới $z \in [288.5, 324.2]$ để bỏ hai lá vỏ mỏng $0.6\text{ mm}$.
+8. **Rãnh dây servo $J_5$:** chữ nhật $y = \pm 2.2$, $z \in [291.2, 294.9]$, cắt tới $x = 143\text{ mm}$.
+9. **Lỗ mồi vít tai servo $J_5$:** $\varnothing 1.7 \times 8\text{ mm}$ tại $(y, z) = (0, 320.3)$ trên mặt $x = 155.9$. Đầu tai phía rãnh dây không có vít.
+
+### CHI TIẾT 7 – 8: Tấm ốp, chỗ lắp servo $J_4$ và tay gắp
+Chưa có file CAD: chỗ lắp servo $J_4$ trên nhánh càng $+Y$ của `04_Forearm_ForkKuka` (mặt tựa tai ở mặt ngoài nhánh $y = 28.4$, đỉnh trục ở $y = 14.2$); tấm ốp `[22]` (phía $-Y$, mang chốt xoay $\varnothing 8$) và `[23]` (phía $+Y$); mặt bích và tay gắp.
+
+Chiều dài động học hiện dùng trong code: $L_2 = 100.0\text{ mm}$, $L_3 = 55.0\text{ mm}$. Theo CAD, $L_2 = 127.8\text{ mm}$ (từ $J_3$ tại $(9.8, 296.45)$ tới $J_4$ tại $(137.2, 306.23)$, lệch $9.78\text{ mm}$ theo phương vuông góc); code và tài liệu động học sẽ đổi khi tay gắp chốt xong.
 
 ---
 
-### CHI TIẾT 6: `06_Parallel_Gripper.SLDPRT` (Khâu kẹp song song tích hợp Ngàm Camera LeRobot)
-*Nhiệm vụ: Gắp thả vật thể (khối lập phương, tròn, sao tải trọng $\le 50\text{g}$), đồng thời tích hợp ngàm gá Webcam USB mini góc nhìn thứ nhất (Eye-in-Hand kiểu LeRobot).*
-
-1. **Đế kẹp (Gripper Palm):**
-   * Lắp trực tiếp vào đĩa sừng của servo $J_5$.
-   * Khe trượt dẫn hướng (Dovetail hoặc rãnh chữ T) cho 2 ngón kẹp chạy trơn tru song song.
-2. **Ngàm gá Webcam USB mini (Wrist Camera kiểu Hugging Face LeRobot):**
-   * Đúc liền 1 mấu gá nghiêng một góc **$35^\circ - 45^\circ$** ngay phía trên đế kẹp.
-   * Kích thước ngàm: Lòng trong $30.0 \times 30.0\text{ mm}$ (vừa vặn module camera USB mạch trần không vỏ, nặng $\approx 8\text{g}$).
-   * 2 lỗ ren M2/M2.5 để bắt chặt bo mạch camera hướng mắt nhìn chúc chéo đúng vào khoảng giữa 2 đầu ngón kẹp.
-3. **Cơ cấu truyền động kẹp:**
-   * Dùng 1 servo micro MG90S kéo cơ cấu đòn bẩy kép (Four-bar linkage) hoặc thanh răng - bánh răng (Rack & Pinion).
-   * Chiều dài ngón kẹp: **$20.0\text{ mm}$** (đảm bảo $L_3 = 35 + 20 = 55.0\text{ mm}$ chuẩn toán học).
-   * Đầu ngón dán đệm cao su silicon tăng ma sát gắp vật.
-
----
-
-## III. QUY TRÌNH LẮP RÁP TỔNG THỂ TRÊN SOLIDWORKS (`KUKA_Assembly.SLDASM`)
+## III. QUY TRÌNH LẮP RÁP TỔNG THỂ TRÊN SOLIDWORKS (`00_Robot_J1J2_Assembly.SLDASM`)
 
 ### 1. Nguyên tắc cố định gốc:
-* Chèn chi tiết đầu tiên: `01_Base_Pedestal.SLDPRT`. Click chuột phải chọn **`Fix`** (gắn chặt vào gốc tọa độ Assembly).
+* Chèn chi tiết đầu tiên: `01_Base_Kuka.SLDPRT`. Click chuột phải chọn **`Fix`** (gắn chặt vào gốc tọa độ Assembly).
 
 ### 2. Thiết lập các ràng buộc (Mates) chuẩn động học:
-1. **Khớp xoay $J_1$ (Base Turret xoay trên Pedestal):**
-   * `Concentric Mate`: Trục lồi $\varnothing 8\text{ mm}$ của Turret đồng tâm với lỗ $\varnothing 19.10\text{ mm}$ của Pedestal.
-   * `Coincident Mate`: Mặt đáy đĩa mâm Turret tiếp xúc mặt trên của Pedestal.
+1. **Khớp xoay $J_1$ (turret trên đĩa sừng 25T và mặt đế):**
+   * `Concentric Mate`: Hốc đĩa sừng $\varnothing 20.4\text{ mm}$ của `02_Turret_ForkKuka` đồng tâm với vành đĩa sừng $J_1$ (đĩa sừng và servo $J_1$ cố định theo đế).
+   * `Coincident Mate`: Mặt tựa hốc đĩa sừng của turret ($z = 91.85$) tiếp xúc mặt trên vành đĩa sừng trên trục servo $J_1$.
+   * `Lock Mate`: servo $J_2$, vòng bi 698ZZ và `03_J2_BearingSpacer` khoá vào turret.
 2. **Khớp vai $J_2$ (Upper Arm xoay trong lòng Turret):**
-   * `Concentric Mate`: Trục lồi $\varnothing 8\text{ mm}$ của Link 1 đồng tâm với lỗ ổ bi bên tai trái Turret.
-   * `Distance Mate` (hoặc `Width Mate`): Căn đều khoảng hở $0.5\text{ mm}$ mỗi bên giữa Link 1 ($43\text{ mm}$) và lòng Turret ($44\text{ mm}$).
-3. **Khớp khuỷu $J_3$ (Forearm Link 2 xoay trên Link 1):**
-   * `Concentric Mate`: Trục răng MG90S ở Link 1 đồng tâm với hốc sừng của Link 2.
-   * `Coincident Mate`: Mặt trong Link 2 ốp sát mặt ngoài Link 1.
-4. **Khớp cổ tay $J_4, J_5$ & Bộ kẹp:**
-   * Tương tự thiết lập các liên kết đồng trục và ốp mặt.
+   * `Concentric Mate`: Lỗ tâm $\varnothing 7\text{ mm}$ của tấm bắt sừng `03_UpperArmKuka` đồng tâm với lỗ ổ bi $\varnothing 19.1\text{ mm}$ ở tai $-Y$ của càng.
+   * `Distance Mate`: Mặt ngoài tấm ổ bi của cánh tay ($y = -25.97$) cách mặt trong tai ổ bi ($y = -26.46$) $0.49\text{ mm}$.
+   * `Lock Mate`: đĩa sừng $J_2$ và servo $J_3$ khoá vào cánh tay.
+
+Kéo turret hoặc cánh tay trong SolidWorks để xoay $J_1$ và $J_2$.
 
 ### 3. Kiểm tra va chạm & Góc quay vật lý (Limit Angle Mate):
-* Sử dụng công cụ **`Evaluate` $\rightarrow$ `Interference Detection`** để kiểm tra không bị cấn nhựa giữa các khớp.
+* Xuất STL từng component rồi chạy `python cad/tools/check_interference_stl.py <thư_mục>`; đối chiếu thêm bằng **`Evaluate` $\rightarrow$ `Interference Detection`**.
 * Giới hạn góc quay bằng `Advanced Mate` $\rightarrow$ `Angle Mate`:
-  * $J_1$: $-90^\circ \to +90^\circ$ (hoặc $0 \to 180^\circ$).
-  * $J_2$: $-30^\circ \to +90^\circ$.
+  * $J_1$: $-90^\circ \to +90^\circ$ (giới hạn bởi servo $180^\circ$; cơ khí quay được trọn vòng).
+  * $J_2$: $-45^\circ \to +165^\circ$ (cánh tay chạm thân turret ở $-60^\circ$).
   * $J_3$: $-110^\circ \to +10^\circ$.
   * $J_4$: $-90^\circ \to +90^\circ$.
   * $J_5$: $-90^\circ \to +90^\circ$.
@@ -217,5 +184,5 @@ Khi hoàn thiện mỗi file `.SLDPRT`, thực hiện xuất 2 định dạng v�
 3. Thiết lập thông số cắt lớp (Slicer - Cura / OrcaSlicer):
    * Độ dày lớp (Layer Height): $0.2\text{ mm}$.
    * Độ dày thành (Walls / Perimeters): **4 lớp** ($1.6\text{ mm}$) để bắt ốc vít không bị toác thành.
-   * Mật độ độn (Infill): **$30\% - 40\%$ Gyroid** (chịu lực xoắn và uốn cực tốt).
+   * Mật độ độn (Infill): **$15\% - 20\%$** cho các khối thân KUKA lớn (đế, turret, cánh tay); **$30\% - 40\%$ Gyroid** cho chi tiết nhỏ chịu lực.
    * Lớp trên/dưới (Top/Bottom layers): 5 lớp.

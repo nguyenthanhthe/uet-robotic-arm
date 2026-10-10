@@ -1,6 +1,6 @@
 // Động học và Động lực học cánh tay robot 5-DOF — viết bằng ký hiệu toán Typst
 // Kiến trúc KUKA/ABB công nghiệp: Base Yaw -> Shoulder Pitch -> Elbow Pitch -> Wrist Pitch -> Wrist Roll
-// Thông số hình học thiết kế mới: L1 = 110.0 mm, L2 = 100.0 mm, L3 = 55.0 mm, h0 = 80.0 mm
+// Thông số hình học thiết kế mới: L1 = 127.4 mm, L2 = 100.0 mm, L3 = 55.0 mm, h0 = 169.05 mm, a1 = 9.8 mm
 
 #let kinematics-chapter = [
   = Động học cánh tay robot 5-DOF
@@ -22,11 +22,11 @@
     columns: (auto, 1fr, 2fr),
     align: (left, center, left),
     table.header([*Ký hiệu*], [*Kích thước*], [*Định nghĩa cơ học*]),
-    [$h_0$], [$80.00$ mm], [Mặt đáy bàn $\to$ Tâm trục khớp vai ($J_2$)],
-    [$L_1$], [$110.00$ mm], [Khoảng cách trục khớp vai ($J_2$) $\to$ Trục khớp khuỷu ($J_3$)],
+    [$h_0$], [$169.05$ mm], [Mặt đáy bàn $\to$ Tâm trục khớp vai ($J_2$)],
+    [$L_1$], [$127.40$ mm], [Khoảng cách trục khớp vai ($J_2$) $\to$ Trục khớp khuỷu ($J_3$)],
     [$L_2$], [$100.00$ mm], [Khoảng cách trục khớp khuỷu ($J_3$) $\to$ Trục khớp cổ tay ($J_4$)],
     [$L_3$], [$55.00$ mm], [Khoảng cách trục khớp cổ tay ($J_4$) $\to$ Tâm điểm gắp phôi],
-    [$R_max$], [$265.00$ mm], [Tổng tầm với tối đa khi duỗi thẳng hoàn toàn],
+    [$R_max$], [$282.40$ mm], [Tổng tầm với tối đa khi duỗi thẳng hoàn toàn],
   )
 
   Bảng tham số Denavit–Hartenberg tiêu chuẩn:
@@ -35,8 +35,8 @@
     columns: (1fr, 1fr, 1fr, 1fr, 1fr),
     align: center,
     table.header([*Khớp* $i$], [$theta_i$], [$d_i$], [$a_i$], [$alpha_i$]),
-    [$1$], [$theta_1^*$], [$h_0 = 80$ mm], [$0$], [$pi\/2$],
-    [$2$], [$theta_2^*$], [$0$], [$L_1 = 110$ mm], [$0$],
+    [$1$], [$theta_1^*$], [$h_0 = 169.05$ mm], [$a_1 = 9.8$ mm], [$pi\/2$],
+    [$2$], [$theta_2^*$], [$0$], [$L_1 = 127.4$ mm], [$0$],
     [$3$], [$theta_3^*$], [$0$], [$L_2 = 100$ mm], [$0$],
     [$4$], [$theta_4^*$], [$0$], [$0$], [$pi\/2$],
     [$5$], [$theta_5^*$], [$L_3 = 55$ mm], [$0$], [$0$],
@@ -59,7 +59,7 @@
 
   Do các trục khớp 2, 3, 4 song song nhau trong cùng mặt phẳng đứng, toạ độ điểm gắp $(x_e, y_e, z_e)$ rút gọn về dạng giải tích hình học:
 
-  $ r_e &= L_1 c_2 + L_2 c_23 + L_3 c_234 \
+  $ r_e &= a_1 + L_1 c_2 + L_2 c_23 + L_3 c_234 \
     x_e &= r_e cos theta_1 \
     y_e &= r_e sin theta_1 \
     z_e &= h_0 + L_1 s_2 + L_2 s_23 + L_3 s_234 $
@@ -78,7 +78,7 @@
   Bán kính phẳng: $r = sqrt(x^2 + y^2)$.
 
   === 2. Tách toạ độ tâm cổ tay (Wrist Center Decoupling)
-  $ r_w &= r - L_3 cos(theta_"pitch") \
+  $ r_w &= r - a_1 - L_3 cos(theta_"pitch") \
     z_w &= z - h_0 - L_3 sin(theta_"pitch") \
     D^2 &= r_w^2 + z_w^2 $
 
@@ -101,23 +101,23 @@
   == Kiểm chứng tầm với và Tĩnh học Mômen tải
 
   === Kiểm tra tầm với làm việc
-  - Tầm với cực đại duỗi thẳng: $R_max = L_1 + L_2 + L_3 = 110 + 100 + 55 = 265 "mm"$.
+  - Tầm với cực đại duỗi thẳng: $R_max = L_1 + L_2 + L_3 = 127.4 + 100 + 55 = 282.4 "mm"$.
   - Tầm với hiệu dụng trong vùng gắp thẳng đứng ($theta_"pitch" = -90 degree$):
-    $R_"effective" = L_1 + L_2 = 110 + 100 = 210 "mm"$.
-  - Kết luận: $210 "mm" >= 200 "mm"$, hoàn toàn đáp ứng và bao quát toàn bộ vùng gắp phôi và lỗ thả mà không rơi vào điểm kỳ dị biên.
+    $R_"effective" = L_1 + L_2 = 127.4 + 100 = 227.4 "mm"$.
+  - Kết luận: $227.4 "mm" >= 200 "mm"$, hoàn toàn đáp ứng và bao quát toàn bộ vùng gắp phôi và lỗ thả mà không rơi vào điểm kỳ dị biên.
 
   === Tính toán tĩnh học mômen tại khớp vai (Khớp chịu tải lớn nhất)
   Xét tư thế nguy hiểm nhất: toàn bộ cánh tay vươn thẳng ngang song song mặt bàn.
-  - Tải trọng phôi: $m_"payload" = 50 "g" = 0.05 "kg"$, cánh tay đòn $r_"payload" = 0.265 "m"$:
-    $ T_"payload" = 0.05 times 9.81 times 0.265 approx 0.130 "N" dot "m" approx 1.33 "kg" dot "cm" $
+  - Tải trọng phôi: $m_"payload" = 50 "g" = 0.05 "kg"$, cánh tay đòn $r_"payload" = 0.2824 "m"$:
+    $ T_"payload" = 0.05 times 9.81 times 0.2824 approx 0.139 "N" dot "m" approx 1.41 "kg" dot "cm" $
   - Khối lượng cụm cẳng tay, cổ tay và servo $J_3, J_4, J_5$ ($m_"arm" approx 0.16 "kg"$ tập trung tại trọng tâm $r_"cg" approx 0.13 "m"$):
     $ T_"arm" = 0.16 times 9.81 times 0.13 approx 0.204 "N" dot "m" approx 2.08 "kg" dot "cm" $
   - Tổng mômen tĩnh yêu cầu tại trục khớp vai $J_2$:
-    $ T_"total" = T_"payload" + T_"arm" approx 1.33 + 2.08 = 3.41 "kg" dot "cm" $
-  - Khả năng chịu tải của servo MG996R được chọn:
-    $ T_"MG996R" = 11.0 "kg" dot "cm" $
+    $ T_"total" = T_"payload" + T_"arm" approx 1.41 + 2.08 = 3.49 "kg" dot "cm" $
+  - Khả năng chịu tải của servo số 25 kg chọn cho khớp vai (ở 6 V):
+    $ T_"servo" = 22.0 "kg" dot "cm" $
   - Hệ số an toàn (Safety Factor):
-    $ "SF" = T_"MG996R" / T_"total" = 11.0 / 3.41 approx 3.23 > 1.5 $
+    $ "SF" = T_"servo" / T_"total" = 22.0 / 3.49 approx 6.30 > 1.5 $
   
-  Hệ số an toàn $3.23$ chứng minh cánh tay hoàn toàn cứng vững, không bị rung võng hay sụt áp động cơ khi mang tải $50"g"$ ở tầm với tối đa.
+  Hệ số an toàn $6.30$ chứng minh cánh tay hoàn toàn cứng vững, không bị rung võng hay sụt áp động cơ khi mang tải $50"g"$ ở tầm với tối đa.
 ]

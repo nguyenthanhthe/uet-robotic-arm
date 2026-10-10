@@ -1,0 +1,230 @@
+[
+  {
+    "path": "README.md",
+    "summary": "Project overview: hardware specs, progress checklist and repository structure."
+  },
+  {
+    "path": "docs/WORKFLOW-CAD.md",
+    "summary": "CAD design workflow: KUKA-body method in SolidWorks, geometry parameters, MCP use, interference check, DFM rules."
+  },
+  {
+    "path": "docs/archive/REBRAND.md",
+    "summary": "Archived rebranding notes (historical, not active routing)."
+  },
+  {
+    "path": "docs/archive/rebrand-v2.md",
+    "summary": "Archived rebranding notes (historical, not active routing)."
+  },
+  {
+    "path": "docs/chuyen-mcu-esp32-stm32.md",
+    "summary": "Notes on migrating the MCU from Arduino to ESP32/STM32."
+  },
+  {
+    "path": "docs/huong-dan-solidworks-mcp.md",
+    "summary": "Guide to the SolidWorks MCP workflow and its tool conventions."
+  },
+  {
+    "path": "docs/huong-dan-thiet-ke-cad-solidworks-kuka.md",
+    "summary": "SolidWorks CAD design guide for the KUKA-style arm."
+  },
+  {
+    "path": "docs/images/v2rad.png",
+    "summary": "Design/wiring illustration image."
+  },
+  {
+    "path": "docs/images/wiring-diagram.webp",
+    "summary": "Design/wiring illustration image."
+  },
+  {
+    "path": "docs/ke-hoach-dieu-khien-ai-robot.md",
+    "summary": "Plan for AI/vision-based robot control (object recognition, teaching)."
+  },
+  {
+    "path": "docs/media/Metadata/plate_1.png",
+    "summary": "Extracted slicer plate preview image (reference media)."
+  },
+  {
+    "path": "docs/media/Metadata/plate_2.png",
+    "summary": "Extracted slicer plate preview image (reference media)."
+  },
+  {
+    "path": "docs/media/Metadata/plate_3.png",
+    "summary": "Extracted slicer plate preview image (reference media)."
+  },
+  {
+    "path": "docs/media/Metadata/plate_4.png",
+    "summary": "Extracted slicer plate preview image (reference media)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_10.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_11.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_11.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_12.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_12.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_13.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_13.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_14.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_14.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_15.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_15.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_16.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_16.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_17.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_17.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_assembly_check/frame_18.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_0_10.9s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_1_11.1s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_2_11.4s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_3_11.7s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_step2_0_11.3s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_step2_1_11.6s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_step2_2_12.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/asm_step2_3_12.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_0_3.3s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_1_3.7s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_2_4.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_3_9.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_4_10.2s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/detail_5_10.8s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/frame_0_2.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/frame_1_3.0s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/frame_2_9.2s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/frame_3_10.5s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/frames_base/frame_4_11.2s.jpg",
+    "summary": "Extracted reference video frame (assembly-check)."
+  },
+  {
+    "path": "docs/media/reference_robot_video.mp4",
+    "summary": "Reference robot assembly/operation video."
+  },
+  {
+    "path": "docs/thong-so-dong-hoc.md",
+    "summary": "D-H parameter table and joint axis coordinates for the 5-DOF arm."
+  },
+  {
+    "path": "docs/typst/assets/uet-logo.pdf",
+    "summary": "UET logo asset for the Typst report."
+  },
+  {
+    "path": "docs/typst/kinematics.typ",
+    "summary": "Typst chapter with the kinematics mathematics."
+  },
+  {
+    "path": "docs/typst/thuyet-minh.typ",
+    "summary": "Main Typst technical report source (compiles to PDF)."
+  },
+  {
+    "path": "docs/typst/uet-report.typ",
+    "summary": "UET report cover/template style."
+  },
+  {
+    "path": "docs/yeu-cau-ky-thuat.md",
+    "summary": "Full project technical requirements (kinematics, hardware, deliverables)."
+  },
+  {
+    "path": "goal.md",
+    "summary": "Course deliverable requirements: pick-and-place task, specs, bonus features and required outputs."
+  }
+]

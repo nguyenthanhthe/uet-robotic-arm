@@ -1,0 +1,438 @@
+[
+  {
+    "path": "hardware/HUONG-DAN-IN-3D.md",
+    "summary": "FDM/Bambu Studio print guide for the v2RAD reference parts (plates, slicer params, material)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/irb120_3_58.xacro",
+    "summary": "ABB IRB120 URDF/xacro kinematic description."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/irb120_3_58_macro.xacro",
+    "summary": "ABB IRB120 URDF/xacro kinematic description."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/base_link.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_1.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_2.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_3.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_4.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_5.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/abb_irb120_urdf/meshes/link_6.stl",
+    "summary": "ABB IRB120 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/698zz Bearing.SLDPRT",
+    "summary": "COTS 698ZZ ball bearing 3D model (J2 support bearing in the turret fork)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/698zz Bearing.STEP",
+    "summary": "COTS 698ZZ ball bearing 3D model (J2 support bearing in the turret fork)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Arduino Uno.SLDPRT",
+    "summary": "COTS Arduino Uno R3 board model (controller envelope reference)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Arduino Uno.STEP",
+    "summary": "COTS Arduino Uno R3 board model (controller envelope reference)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Assembly SERVO.SLDASM",
+    "summary": "COTS servo assembly model (MG996R with attachments)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Assembly SERVO.stp",
+    "summary": "COTS servo assembly model (MG996R with attachments)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Axixi Servo Disc.SLDPRT",
+    "summary": "COTS 25T round metal servo horn / disc model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Axixi Servo Disc.STEP",
+    "summary": "COTS 25T round metal servo horn / disc model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Axixi Servo Disc1.SLDPRT",
+    "summary": "COTS 25T round metal servo horn / disc model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/KR3 R540.stp",
+    "summary": "COTS/imported KUKA KR3 R540 reference model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/MG90S Servo Horn (1 spork).step",
+    "summary": "COTS MG90S servo horn option (1/2/4-spoke variant)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/MG90S Servo Horn (2 spork).step",
+    "summary": "COTS MG90S servo horn option (1/2/4-spoke variant)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/MG90S Servo Horn (4 spork).step",
+    "summary": "COTS MG90S servo horn option (1/2/4-spoke variant)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Part4.SLDPRT",
+    "summary": "Imported COTS solid part (auto-named); no in-repo documentation."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Servo Motor MG996R  With Attachments.SLDASM",
+    "summary": "COTS MG996R servo motor assembly model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Servo horn v2.SLDPRT",
+    "summary": "COTS servo horn v2 model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/Servo horn v2.step",
+    "summary": "COTS servo horn v2 model."
+  },
+  {
+    "path": "hardware/reference/cots_parts/attachmentCircular.SLDPRT",
+    "summary": "COTS servo attachment/horn geometry (circular/cross/star/straight)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/attachmentCross.SLDPRT",
+    "summary": "COTS servo attachment/horn geometry (circular/cross/star/straight)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/attachmentStar.SLDPRT",
+    "summary": "COTS servo attachment/horn geometry (circular/cross/star/straight)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/attachmentStraight.SLDPRT",
+    "summary": "COTS servo attachment/horn geometry (circular/cross/star/straight)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/m3-insert-m3x574-insert.SLDPRT",
+    "summary": "COTS M3 heat-set brass insert model (hole-fit reference)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/m3-insert-m3x574-insert.step",
+    "summary": "COTS M3 heat-set brass insert model (hole-fit reference)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/DS3225SG.SLDPRT",
+    "summary": "COTS DS3225 25 kg digital servo body as a standalone part (shaft along +Y, tip at y = 46 mm) — the J2 servo in the robot assembly."
+  },
+  {
+    "path": "hardware/reference/cots_parts/DS3225SG 25KG + Its Horns.SLDASM",
+    "summary": "Imported DS3225 servo with its horn set (assembly wrapper of the STEP)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/DS3225SG 25KG + Its Horns.STEP",
+    "summary": "Source STEP of the DS3225 servo with its horns."
+  },
+  {
+    "path": "hardware/reference/cots_parts/M90S_ali.step",
+    "summary": "Source STEP of the MG90S micro servo (body, shaft, labels, wires)."
+  },
+  {
+    "path": "hardware/reference/cots_parts/MG90S_body.SLDPRT",
+    "summary": "MG90S servo body as a standalone part (case and tabs, no shaft): body 22.8 x 12.2 mm, tabs 32.3 mm, tab top 18.3 mm above the bottom, gearbox top +10.2 mm, shaft tip +14.2 mm, shaft 5.95 mm from the body end."
+  },
+  {
+    "path": "hardware/reference/cots_parts/MG90S_Horn_2arm.SLDPRT",
+    "summary": "MG90S two-arm plastic horn as a part (31 mm long, hub dia 6.8 x 4.7 mm, arms 2.1 mm thick) — drives the wrist pitch joint."
+  },
+  {
+    "path": "hardware/reference/cots_parts/PCA9685_Servo_Shield.SLDPRT",
+    "summary": "Envelope model of the 16-channel PCA9685 servo shield for Arduino Uno: 68.6 x 53.3 x 1.6 mm PCB, four 3x4 servo header blocks modelled with plugs inserted (16.5 mm above the PCB), power terminal block and stacking headers; origin at the USB-end / analog-edge bottom corner."
+  },
+  {
+    "path": "hardware/reference/cots_parts/servoMotorMG996R.SLDPRT",
+    "summary": "COTS MG996R servo motor solid model."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/0.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/1.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/2.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/4.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/5.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/cults3d_kuka/6.stl",
+    "summary": "KUKA-style STL reference part from Cults3D."
+  },
+  {
+    "path": "hardware/reference/kuka scale 0.49/01_Base_SubAssembly.SLDASM",
+    "summary": "Scaled KUKA sub-assembly reference (scale 0.49)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/KR3 datesheet.pdf",
+    "summary": "KUKA KR3 R540 datasheet PDF."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/KR3-R450.png",
+    "summary": "KUKA KR3 R540 dimension/proportion reference image."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/base_link.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_1.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_2.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_3.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_4.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_5.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/collision/link_6.stl",
+    "summary": "KUKA KR3 R540 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/urdf/kr3r540.xacro",
+    "summary": "KUKA KR3 R540 URDF/xacro kinematic description."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/urdf/kr3r540_macro.xacro",
+    "summary": "KUKA KR3 R540 URDF/xacro kinematic description."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/base_link.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_1.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_2.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_3.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_4.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_5.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr3_r540/visual/link_6.stl",
+    "summary": "KUKA KR3 R540 visual mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/base_link.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_1.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_2.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_3.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_4.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_5.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/collision/link_6.stl",
+    "summary": "KUKA KR6 R700 collision mesh (STL)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/base_link.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_1.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_2.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_3.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_4.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_5.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/kuka_kr6_r700/visual/link_6.dae",
+    "summary": "KUKA KR6 R700 visual mesh (DAE)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/1834841-arduino-robot-arm-and-controller-v2-rad-d41914b9-ec5b-48ea-b86c-0430a31b57df.pdf",
+    "summary": "Printables project description PDF for the v2 R.A.D. arm."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Base Cover[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Base Main[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Controller Plug Cover[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Forearm Cover[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Forearm Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Forearm Main[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Forearm Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Gripper Gear[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Gripper Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Gripper Rack Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Gripper Rack Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Gripper Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Main Arm Cover[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Main Arm Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Main Arm Main[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Main Arm Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Pulley Servo Horn[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Shoulder Base[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Shoulder Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Shoulder Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Shoulder Ring[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Wrist Left[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Wrist Pulley[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/Wrist Right[1].SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/v2cd-all-parts.step",
+    "summary": "Flattened 'all parts' STEP reference for the v2RAD/v2CD arm."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/v2rad-all-parts.step",
+    "summary": "Flattened 'all parts' STEP reference for the v2RAD/v2CD arm."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/v2rad-all-parts.step.SLDPRT",
+    "summary": "Imported v2RAD reference part (SolidWorks)."
+  },
+  {
+    "path": "hardware/reference/v2rad_parts/v2rad-and-v2cd-printgcode.3mf",
+    "summary": "Pre-sliced Bambu Studio project (gcode) for v2RAD + v2CD parts."
+  }
+]

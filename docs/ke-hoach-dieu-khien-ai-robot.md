@@ -2,7 +2,7 @@
 **Dự án:** Cánh tay robot công nghiệp mô phỏng KUKA KR 3 R540  
 **Đơn vị:** Đồ án thiết kế và điều khiển cánh tay robot – Trường Đại học Công nghệ (UET - VNU)  
 **Tác giả:** Nhóm nghiên cứu đồ án UET & Antigravity Copilot  
-**Ngày cập nhật thiết kế:** 27/09/2026 (Tích hợp chuẩn Hugging Face LeRobot & Hộp mạch Arduino chân đế)
+**Ngày cập nhật thiết kế:** 09/10/2026 (Đế KUKA khoét rỗng chứa Arduino Uno + shield PCA9685)
 
 ---
 
@@ -35,11 +35,11 @@ flowchart TD
             DC_JACK["Giắc cắm nguồn DC 5V-6V / Cọc ốc cấp nguồn riêng"]
         end
         
-        POWER["Nguồn ngoài 6.0V (Dòng 5A - 10A)"]
+        POWER["Nguồn ngoài 6.0V (Dòng 8A - 10A)"]
         
         S1["Servo J1: Đế xoay (MG996R - 25T)"]
-        S2["Servo J2: Khớp vai (MG996R - 25T)"]
-        S3["Servo J3: Khớp khuỷu (MG90S Metal)"]
+        S2["Servo J2: Khớp vai (servo số 25 kg 180° - 25T)"]
+        S3["Servo J3: Khớp khuỷu (MG996R - 25T)"]
         S4["Servo J4: Cổ tay lật Pitch (MG90S Metal)"]
         S5["Servo J5: Cổ tay xoay Roll (MG90S Metal)"]
         S6["Servo Gripper: Kẹp song song (MG90S Metal)"]
@@ -67,38 +67,36 @@ flowchart TD
 
 ## II. CHI TIẾT PHẦN CỨNG & HỘP MẠCH CHÂN ĐẾ (ELECTRONICS ENCLOSURE)
 
-### 1. Hộp chứa mạch liền khối phía sau Chân đế (`01_Base_Pedestal.SLDPRT`):
-* **Kích thước bao khoang hộp:** Dài $75.0\text{ mm} \times$ Rộng $60.0\text{ mm} \times$ Cao $32.0\text{ mm}$.
-* **4 trụ bắt ốc M3 cho Arduino Uno R3:**
-  * Khoảng cách tâm lỗ theo chiều ngang: **$50.8\text{ mm}$**.
-  * Khoảng cách tâm lỗ theo chiều dọc: **$27.9\text{ mm}$** (với 2 lỗ đối xứng) và $15.2\text{ mm}$ (với lỗ lệch mép).
-  * Trụ đùn cao $4.0\text{ mm}$, đường kính ngoài $\varnothing 6.0\text{ mm}$, lỗ mồi $\varnothing 2.8\text{ mm}$ để siết trực tiếp vít M3 (hoặc cấy ren đồng M3).
-* **Cửa sổ trổ cổng USB Type-B:**
-  * Kích thước: Rộng **$13.0\text{ mm}$** $\times$ Cao **$12.0\text{ mm}$**, cách mặt sàn $3.0\text{ mm}$.
-* **Cửa sổ giắc nguồn DC / cọc ốc:**
-  * Cắt khe tròn $\varnothing 10.0\text{ mm}$ cho giắc DC $5.5 \times 2.1\text{ mm}$ hoặc khe chữ nhật $12.0 \times 10.0\text{ mm}$ để luồn dây nguồn 6V vào cọc ốc Shield.
-* **Lỗ luồn dây ngầm:**
-  * Rãnh khoét kích thước $15.0 \times 8.0\text{ mm}$ thông từ khoang hộp mạch đi thẳng vào tim trụ xoay $\varnothing 72\text{ mm}$ của khớp $J_1$ để toàn bộ bó dây servo đi ngầm trong thân dầm, không lộ dây ra ngoài.
-* **Nắp đậy bảo vệ (Enclosure Lid):**
-  * Nắp phẳng mỏng $2.0\text{ mm}$, bắt 4 ốc chìm M3 vào 4 góc hộp, có khe thoát khí tản nhiệt cho chip PCA9685.
+### 1. Khoang mạch trong đế (`01_Base_Kuka.SLDPRT` + `01_Base_Tray.SLDPRT`):
+* **Vị trí:** Arduino Uno R3 và shield PCA9685 cắm chồng nằm trên khay đáy `01_Base_Tray`, kéo dài từ hộp sau của đế vào lòng trụ, phía dưới servo $J_1$. Mặt trên shield ở $z = 33.3\text{ mm}$, đỉnh giắc servo cắm đứng ở $z = 49.8\text{ mm}$, đáy servo $J_1$ ở $z = 46.3\text{ mm}$. Dùng kênh 0–7 (hai cụm giắc gần cổng USB); cụm kênh 12–15 nằm sát cạnh thân servo $J_1$ nên không cắm giắc ở đó.
+* **Khoang chứa:** hộp sau rộng $54\text{ mm}$ (phần thấp) đến $66\text{ mm}$ (phần cao), lòng trụ $\varnothing 81\text{ mm}$; mặt dưới mạch Uno cách mặt bàn $18.5\text{ mm}$, đáy servo $J_1$ ở $46.3\text{ mm}$.
+* **4 trụ đỡ Arduino Uno R3:** $\varnothing 5 \times 10\text{ mm}$, lỗ mồi $\varnothing 2.5\text{ mm}$ cho vít M3 tự ren, theo đúng 4 lỗ của Uno.
+* **Cổng USB Type-B:** cửa sổ $13.0 \times 12.2\text{ mm}$ ở mặt sau đế.
+* **Giắc nguồn DC của Uno:** cửa sổ $10.0 \times 12.2\text{ mm}$ ở mặt sau đế.
+* **Dây nguồn servo 6 V:** lỗ $\varnothing 8\text{ mm}$ ở mặt sau đế, đi vào cầu đấu V+ của shield.
+* **Dây servo của cánh tay:** đi ngoài thân, vào đế qua lỗ $\varnothing 10\text{ mm}$ trên nóc hộp sau.
+* **Khay đáy:** bắt 2 ốc M3 lên hai trụ trong lòng trụ và 1 ốc M3 ngang từ mặt sau đế.
 
 ### 2. Phân bổ kênh PWM trên Shield PCA9685:
 | Kênh PWM | Tên khớp | Loại động cơ | Góc giới hạn | Chức năng chuyển động |
 | :---: | :---: | :---: | :---: | :--- |
 | **Kênh 0** | **$J_1$** | MG996R (25T) | $-90^\circ \to +90^\circ$ | Xoay mâm đế quanh trục thẳng đứng $Z_0$ |
-| **Kênh 1** | **$J_2$** | MG996R (25T) | $-30^\circ \to +90^\circ$ | Nâng/hạ khớp vai chính quanh trục ngang $Y_1$ |
-| **Kênh 2** | **$J_3$** | MG90S Metal | $-110^\circ \to +10^\circ$ | Gập/duỗi khớp khuỷu tay quanh trục ngang $Y_2$ |
+| **Kênh 1** | **$J_2$** | Servo số $25\text{ kg}\cdot\text{cm}$, $180^\circ$ (25T) | $-45^\circ \to +105^\circ$ | Nâng/hạ khớp vai chính quanh trục ngang $Y_1$ |
+| **Kênh 2** | **$J_3$** | MG996R (25T) | $-110^\circ \to +10^\circ$ | Gập/duỗi khớp khuỷu tay quanh trục ngang $Y_2$ |
 | **Kênh 3** | **$J_4$** | MG90S Metal | $-90^\circ \to +90^\circ$ | Gập lật cổ tay (Wrist Pitch) quanh trục ngang $Y_3$ |
 | **Kênh 4** | **$J_5$** | MG90S Metal | $-90^\circ \to +90^\circ$ | Xoay tròn cổ tay (Wrist Roll) quanh trục dọc $Z_4$ |
 | **Kênh 5** | **Gripper** | MG90S Metal | $0^\circ \to 60^\circ$ | Đóng/mở 2 ngón kẹp song song |
+
+### 3. Độ phân giải góc của PCA9685:
+Ở $50\text{ Hz}$, bước xung là $20\text{ ms} / 4096 \approx 4.88\ \mu\text{s}$, tương đương khoảng $0.44^\circ$ mỗi bước. Ở tầm với $280\text{ mm}$, một bước của khớp đế ứng với khoảng $2\text{ mm}$ ở đầu tay gắp. Khi cần mịn hơn, điều khiển $J_1$ và $J_2$ trực tiếp từ chân 9 / 10 của Uno bằng thư viện `Servo`.
 
 ---
 
 ## III. THUẬT TOÁN ĐỘNG HỌC & LẬP QUỸ ĐẠO (KINEMATICS & TRAJECTORY)
 
 ### 1. Các thông số hình học bất biến:
-* Chiều cao trục vai: $h_0 = 80.0\text{ mm}$
-* Chiều dài cánh tay Link 1: $L_1 = 110.0\text{ mm}$
+* Chiều cao trục vai: $h_0 = 169.05\text{ mm}$ (trục vai lệch $a_1 = 9.8\text{ mm}$ về phía trước trục đế)
+* Chiều dài cánh tay Link 1: $L_1 = 127.4\text{ mm}$
 * Chiều dài cẳng tay Link 2: $L_2 = 100.0\text{ mm}$
 * Chiều dài cụm kẹp Link 3: $L_3 = 55.0\text{ mm}$
 
@@ -108,7 +106,7 @@ Với vị trí mục tiêu $(X, Y, Z)$ và góc chúc mong muốn của đầu 
    $$\theta_1 = \text{atan2}(Y, X)$$
 2. **Tọa độ tâm cổ tay $(r_w, z_w)$:**
    $$r = \sqrt{X^2 + Y^2}$$
-   $$r_w = r - L_3 \cos(\phi)$$
+   $$r_w = r - a_1 - L_3 \cos(\phi)$$
    $$z_w = Z - h_0 - L_3 \sin(\phi)$$
 3. **Độ dài đường chéo nối từ vai đến tâm cổ tay:**
    $$D = \sqrt{r_w^2 + z_w^2}$$

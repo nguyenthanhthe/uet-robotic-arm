@@ -1,91 +1,98 @@
-# AGENTS.md — Hướng dẫn Đóng góp & Quy tắc Đa Tác Nhân (Multi-Agent System)
+# AGENTS.md — Hướng dẫn Đóng góp & Định tuyến Dự án (UET 5-DOF Robot Arm)
 
-> **Dự án:** Thiết kế & Chế tạo Cánh tay Robot 5-DOF + Gripper song song UET.  
-> **Cơ sở tham chiếu:** KUKA KR 3 R540 (Scale 0.49).  
-> **Bộ điều khiển:** Arduino Uno R3 + PCA9685 16-Channel PWM I2C Shield.  
-> **Động cơ truyền động:** 5x Servo TowerPro MG996R (Bánh răng kim loại) + 1x Micro Servo SG90/MG90S (Gripper).
+> **Dự án:** Thiết kế & Chế tạo Cánh tay Robot 5-DOF + Gripper song song UET.
+> **Cơ sở tham chiếu:** KUKA KR 3 R540 (Scale 0.49).
+> **Bộ điều khiển:** Arduino Uno R3 + PCA9685 16-Channel PWM I2C Shield.
+> **Động cơ:** 2x TowerPro MG996R (J1, J3) + 1x servo số 25 kg·cm 180° cỡ MG996R (J2) + 3x MG90S (J4, J5, Gripper).
+> **Vật liệu in 3D:** PETG.
+
+This file is the single source of truth for project instructions and routing. It is
+intentionally thin: it points to the owning routing skill for each work area. File
+inventories live in each skill's `references/files.json`.
 
 ---
 
-## 1. Chuỗi Công cụ & Tích hợp MCP (Toolchains)
+## 1. Skill Catalog (Routing Skills)
 
-| Công việc | Công cụ / MCP Server | Quy ước & Vai trò |
+| Skill | Purpose | SKILL.md |
 |---|---|---|
-| **Thiết kế 3D Parametric & Assembly** | **SolidWorks MCP** (COM API) | Mô hình 3D SolidWorks (.SLDPRT, .SLDASM); kiểm tra va chạm, đo đạc, tạo khối và lắp ráp trực tiếp. |
-| **Giao thức Kế hoạch & Mục tiêu** | **`/plan`** và **`/goal`** | Ràng buộc phân tích kỹ thuật, lập kế hoạch chi tiết trước khi sửa đổi và tự hành xử lý mục tiêu đường dài. |
-| **Thuyết minh & Báo cáo đồ án** | **Typst CLI** (`typst compile`) | Soạn thảo báo cáo kỹ thuật chuẩn học thuật UET trong `docs/typst/`, xuất file PDF vào `docs/typst/out/`. |
-| **Mô phỏng Động học & MATLAB** | **MATLAB MCP** | Kiểm tra ma trận Denavit-Hartenberg (D-H), động học thuận (FK), động học nghịch (IK). |
-| **Firmware Điều khiển** | **Arduino C++ / PlatformIO** | Mã nguồn trong `firmware/v2rad_code/v2rad_code.ino`, giao tiếp I2C điều khiển PCA9685. |
+| `robot-cad` | SolidWorks parts/assemblies and Python CAD tooling (`cad/`) | [.agents/skills/robot-cad/SKILL.md](.agents/skills/robot-cad/SKILL.md) |
+| `robot-hardware` | COTS models, KUKA/ABB reference libraries, print guide (`hardware/`) | [.agents/skills/robot-hardware/SKILL.md](.agents/skills/robot-hardware/SKILL.md) |
+| `robot-firmware` | Arduino/MCU control code and electronics plan (`firmware/`) | [.agents/skills/robot-firmware/SKILL.md](.agents/skills/robot-firmware/SKILL.md) |
+| `robot-simulation` | MATLAB kinematics model and control GUI (`matlab/`) | [.agents/skills/robot-simulation/SKILL.md](.agents/skills/robot-simulation/SKILL.md) |
+| `project-docs` | Typst report, requirements, guides, media (`docs/`, root docs) | [.agents/skills/project-docs/SKILL.md](.agents/skills/project-docs/SKILL.md) |
 
----
+## 2. Folder / Task → Skill Router
 
-## 2. Quy tắc Ràng buộc Nghiêm ngặt (Strict Agent Rules)
+| Path or request | Owning skill |
+|---|---|
+| `cad/parts/`, `cad/tools/`, `cad/reference/`, editing a `.SLDPRT`/`.SLDASM` | `robot-cad` |
+| `hardware/reference/`, COTS fit, print settings, KUKA/ABB reference data | `robot-hardware` |
+| `firmware/`, `.ino` sketch, servo/PWM/serial, pin mapping | `robot-firmware` |
+| `matlab/`, FK/IK, D-H model, torque, digital-twin GUI | `robot-simulation` |
+| `docs/`, `docs/typst/`, `README.md`, `goal.md`, report or spec text | `project-docs` |
 
-### 🔴 Quy tắc 1: Làm việc an toàn với SolidWorks MCP
-- **Không tự ý chạy script Python độc lập để kết nối COM:** Tiến trình SolidWorks COM (`SldWorks.Application`) trên Windows chỉ cho phép một kết nối duy nhất. SolidWorks MCP đã kết nối sẵn; chạy script ngoài sẽ gây xung đột khóa (exclusive lock).
-- **Luôn dùng SI units (Mét) khi gọi MCP:** Mọi giá trị độ dài, bán kính, độ sâu trong tham số tool MCP phải tính bằng mét ($1\text{ mm} = 0.001\text{ m}$).
-- **Xác thực sau mỗi Feature / Mate:** Sau khi gọi lệnh tạo khối, cắt hốc, hoặc thêm mate, luôn gọi `analyze_model` hoặc `analyze_assembly` để kiểm tra `result_geometry` và trạng thái lỗi. Không bao giờ để lại mate đỏ (Missing Reference).
-- **Lưu file thường xuyên:** Luôn gọi `save_document` sau khi hoàn thành một cụm tính năng logic.
+## 3. Read Before Work
 
-### 🔴 Quy tắc 2: Tuân thủ quy trình `/plan` và `/goal`
-- Khi người dùng yêu cầu `/plan`:
-  1. Khảo sát hiện trạng bằng tool đọc (Read-only tools).
-  2. Tạo bản kế hoạch chi tiết (Implementation Plan) nêu rõ mục tiêu, rủi ro hình học, tọa độ cụ thể.
-  3. Chỉ bắt tay vào sửa đổi khi kế hoạch đã được phê duyệt rõ ràng.
-- Khi người dùng yêu cầu `/goal`:
-  1. Tự động hóa quá trình kiểm tra, thử nghiệm, khắc phục lỗi mà không dừng lại hỏi những câu hiển nhiên.
-  2. Tự động kiểm tra chéo (self-auditing) đảm bảo tính toàn vẹn của mô hình cơ khí.
-  3. Kết thúc mục tiêu bằng thẻ `<!-- GOAL_COMPLETE -->`.
+Before editing anything: pick the owning skill from the router above, read its
+`SKILL.md`, then open the exact files its task table and `references/files.json`
+indicate. Read only those files first; broaden the search only when the routed files
+are insufficient.
 
-### 🔴 Quy tắc 3: Chuẩn Cơ khí & DFM In 3D (PETG)
-- **Vật liệu:** Nhựa **PETG** chịu nhiệt $\ge 60^\circ\text{C}$, dẻo dai, chống biến dạng nhiệt do servo tỏa ra.
-- **Quy tắc Vát dốc $45^\circ$ (Zero Support):** Tất cả các gờ đỡ, mặt trần hốc nhô ra phải được vát nghiêng $45^\circ$ dốc xuống vách thành để máy in FDM in hoàn toàn không cần support.
-- **Lỗ ốc cấy ren nhiệt M3 (Brass Inserts):** Chuẩn hóa đường kính lỗ in 3D là **$\varnothing 4.2\text{ mm}$**, độ sâu cắt mù (Blind) **$5.0\text{ mm} - 5.5\text{ mm}$** có sàn chặn đáy để không rơi ốc khi cấy hàn nhiệt.
-- **Đồng tâm Tuyệt đối Khớp Xoay:** Trục răng vàng servo, ổ bi 698ZZ và đĩa xoay kim loại **bắt buộc phải đồng tâm $(0,0)$** với đường tròn đế/khớp xoay.
-- **Xếp lớp truyền lực:** Thân robot $\to$ Đĩa kim loại 25T $\to$ Vòng trong ổ bi 698ZZ $\to$ Nắp đế. Ổ bi gánh toàn bộ tải trọng; servo chỉ truyền mô-men xoắn xoay.
+## 4. Project Engineering Rules (preserved)
 
----
+**SolidWorks MCP safety.** The SolidWorks COM server (`SldWorks.Application`) allows a
+single connection; the MCP server already holds it. Never run a standalone Python COM
+script (`win32com.client.Dispatch`) while SolidWorks is open — it deadlocks the COM
+lock. Perform all CAD actions through the SolidWorks MCP tools. After every feature or
+mate, verify with `analyze_model` / `analyze_assembly` and never leave a red
+(missing-reference) mate. Save with `save_document` after each logical group.
 
-## 3. Cấu trúc Dự án (Repository Architecture)
+**Units.** Discuss and print in millimetres. Parameters passed to SolidWorks MCP tools
+must be in **metres (SI)** — e.g. 9.5 mm → `0.0095`, ⌀4.2 mm → `radius 0.0021`.
 
-```
-uet-robotic-arm/
-├── cad/
-│   ├── assemblies/         # Cụm lắp ráp SolidWorks (01_Base_SubAssembly.SLDASM...)
-│   ├── parts/              # Chi tiết in 3D (01_Base_Pedestal, 01_Base_TopCap, 02_Turret...)
-│   ├── exports/            # File xuất STEP, STL cho xưởng in 3D
-│   └── reference/          # Ảnh chụp tham chiếu viewport CAD
-├── firmware/
-│   └── v2rad_code/         # Mã nguồn Arduino Uno / Nano (.ino)
-├── hardware/
-│   ├── reference/
-│   │   ├── cots_parts/     # Thư viện 3D linh kiện chuẩn COTS (MG996R, 698ZZ, Arduino...)
-│   │   ├── cults3d_kuka/   # STL tham chiếu KUKA KR3 từ Cults3D
-│   │   ├── kuka_kr3_r540/  # Tài liệu kỹ thuật, bản vẽ kích thước chuẩn KUKA
-│   │   └── v2rad_parts/    # Các chi tiết tham chiếu cơ cấu cũ
-│   └── HUONG-DAN-IN-3D.md  # Cẩm nang thông số in FDM slicer
-├── docs/
-│   ├── yeu-cau-ky-thuat.md # Yêu cầu kỹ thuật toàn diện đồ án
-│   ├── thong-so-dong-hoc.md# Bảng thông số D-H và tọa độ các trục
-│   ├── typst/              # Mã nguồn Typst báo cáo chính thức (xuất PDF)
-│   ├── images/             # Sơ đồ mạch điện, sơ đồ nguyên lý
-│   └── media/              # Video tham chiếu và trích xuất khung hình
-├── matlab/                 # Script mô phỏng động học, GUI điều khiển robot
-├── CLAUDE.md               # Quy tắc cho Claude Code / AI Agents
-├── AGENTS.md               # Quy tắc chung cho toàn bộ Agent
-├── goal.md                 # Tôn chỉ và mục tiêu tối thượng của dự án
-└── README.md               # Tổng quan dự án
-```
+**`/plan` and `/goal`.** For `/plan`: investigate read-only first, produce a concrete
+plan (targets, geometry risks, coordinates), and get approval before destructive edits.
+For `/goal`: work autonomously, self-verify continuously, and only emit
+`<!-- GOAL_COMPLETE -->` when everything is done, saved, and pushed.
 
----
+**DFM (PETG, zero-support).** PETG, ≥60 °C service. Chamfer all overhangs to 45° so
+FDM prints without support. M3 heat-set insert holes: ⌀4.2 mm bore, 5.0–5.5 mm blind
+depth with a bottom floor. All joint axes, bearing bores and servo shafts must be
+concentric at (0,0). J1 load path: the one-piece turret
+(`02_Turret_ForkKuka`) seats on the 25T metal horn of the J1 MG996R, which hangs under the
+roof of the hollow KUKA base (`01_Base_Kuka`), for torque and axial load; its ⌀49 spigot
+and ⌀92 foot ring run on the base top as a plain bearing that takes the tilting moment;
+J1 has no ball bearing. J2 load path: upper arm → 25T horn →
+MG996R in the fork's servo ear, with a 698ZZ support bearing in the opposite ear.
 
-## 4. Biên dịch Thuyết minh Báo cáo (Typst)
+**Report build.** `typst compile docs/typst/thuyet-minh.typ docs/typst/out/thuyet-minh.pdf`
+(Font: Liberation Serif). See `project-docs`.
 
-1. Thuyết minh chính: `docs/typst/thuyet-minh.typ`.
-2. Biểu mẫu bìa UET: `docs/typst/uet-report.typ`.
-3. Chương động học toán: `docs/typst/kinematics.typ`.
-4. Lệnh biên dịch từ thư mục gốc:
-   ```bash
-   typst compile docs/typst/thuyet-minh.typ docs/typst/out/thuyet-minh.pdf
-   ```
-5. Font chữ tiêu chuẩn: **Liberation Serif** (tương thích $100\%$ Times New Roman, hiển thị tiếng Việt hoàn hảo).
+## 5. Inventory Exclusions
+
+These paths are **not** application inventory and must not appear in any
+`references/files.json`:
+
+- Routing infrastructure: `AGENTS.md`, `CLAUDE.md`, `.agents/skills/**`.
+- Generated output: `cad/exports/**` (produced by `cad/tools/split_step_parts.py`),
+  `docs/typst/out/**` (Typst build).
+- Vendored external tool: `tools/solidworks-mcp/**` (third-party git clone).
+- Caches/binaries: `__pycache__/`, `*.pyc`, `.venv/`, and SolidWorks lock files `~$*`.
+- Ignore rules: `.gitignore`, `.zcodeignore`.
+
+## 6. Maintenance
+
+**CRITICAL — Update routing after every change.** Before completing any task that adds, edits, renames, moves or deletes project files, folders or any symbols referenced by routing, review and update the affected folder maps, file inventories, descriptions, task routes and links. Include relevant untracked files and remove deleted paths.
+
+Update the owning skill/inventory for file-level knowledge. Update AGENTS.md when project-wide routing, ownership or available skills change. Keep CLAUDE.md as an adapter.
+
+Do not assume every change belongs to an existing skill. Whenever a task adds a feature, file or folder, or refactors ownership boundaries, reassess whether the routing still has the right skill set. Create and catalog a new skill when the change establishes a durable independently navigable work area with distinct future task triggers or entrypoints. Keep a new path in an existing skill when it clearly remains part of that owner's scope; do not create one skill per file.
+
+When creating, merging or retiring a skill, keep exactly one primary owner for every maintained application file. Update the affected SKILL.md files and references/files.json inventories, the AGENTS.md skill catalog and folder/task router, and all adjacent-skill links in the same task.
+
+Document only the current state. Replace obsolete information in place. Do not append history, dated discoveries, previous names, “formerly”, “renamed from”, migration notes or future plans to active routing.
+
+If abc becomes xyz and abc no longer exists, retain only xyz in every affected active routing file. Search the entire active routing tree for the obsolete name/path and remove stale references. Do not erase a compatibility symbol that still exists. Do not rewrite Git history or intentional product changelogs.
+
+A task is incomplete while affected routing is stale. If no documented fact changed, verify that explicitly instead of making meaningless documentation edits.

@@ -2,7 +2,7 @@
 """
 Kiểm chứng Động học Thuận (FK) và Động học Nghịch (IK) cho Robot 5-DOF
 Kiến trúc: Base Yaw (J1) -> Shoulder Pitch (J2) -> Elbow Pitch (J3) -> Wrist Pitch (J4) -> Wrist Roll (J5)
-Kích thước: h0 = 80.0, L1 = 110.0, L2 = 100.0, L3 = 55.0 mm
+Kích thước: h0 = 169.05, a1 = 9.8, L1 = 127.4, L2 = 100.0, L3 = 55.0 mm
 """
 
 import math
@@ -16,8 +16,9 @@ if sys.stdout.encoding != 'utf-8':
         pass
 
 # Thông số hình học
-H0 = 80.0
-L1 = 110.0
+H0 = 169.05
+A1 = 9.8
+L1 = 127.4
 L2 = 100.0
 L3 = 55.0
 
@@ -37,7 +38,7 @@ def forward_kinematics(theta1_deg, theta2_deg, theta3_deg, theta4_deg, theta5_de
     theta234 = t2 + t3 + t4
 
     # Bán kính phẳng r và chiều cao z:
-    r = L1 * math.cos(t2) + L2 * math.cos(theta23) + L3 * math.cos(theta234)
+    r = A1 + L1 * math.cos(t2) + L2 * math.cos(theta23) + L3 * math.cos(theta234)
     z = H0 + L1 * math.sin(t2) + L2 * math.sin(theta23) + L3 * math.sin(theta234)
 
     x = r * math.cos(t1)
@@ -59,7 +60,7 @@ def inverse_kinematics(x, y, z, pitch_deg=-90.0, roll_deg=0.0):
 
     # 2. Vị trí tâm cổ tay (Wrist center p_w):
     pitch_rad = math.radians(pitch_deg)
-    rw = r - L3 * math.cos(pitch_rad)
+    rw = r - A1 - L3 * math.cos(pitch_rad)
     zw = z - H0 - L3 * math.sin(pitch_rad)
 
     D_sq = rw**2 + zw**2
@@ -100,7 +101,7 @@ def test_kinematics():
         (150.0, 0.0, 30.0, -90.0, 0.0, "Vùng gắp chính diện thấp"),
         (0.0, 180.0, 50.0, -90.0, 45.0, "Vùng thả bên hông xoay 45 độ"),
         (120.0, 120.0, 20.0, -90.0, 30.0, "Góc chéo bàn cờ"),
-        (200.0, 0.0, 80.0, 0.0, 0.0, "Vươn thẳng ngang 200mm"),
+        (200.0, 0.0, 169.05, 0.0, 0.0, "Vươn thẳng ngang 200mm"),
     ]
 
     all_pass = True

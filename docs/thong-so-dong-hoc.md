@@ -1,136 +1,93 @@
-# Thông số động học đo từ CAD — v2 R.A.D.
+# Bảng Thông Số Động Học & Động Lực Học — Cánh Tay Robot 5-DOF UET
 
-> Tài liệu này chứa **số đo thật** trích trực tiếp từ
-> `hardware/reference/v2rad-all-parts.step` bằng OpenCASCADE, dùng để thay các
-> placeholder $L_1, L_2, L_3, h_0$ trong `docs/typst/kinematics.typ`.
+> **Kiến trúc cơ sở:** KUKA KR 3 R540 (tỉ lệ 0.49, dùng trực tiếp các khối thân KUKA)  
+> **Cấu hình khớp:** 5 Bậc tự do (5-DOF) Articulated + 1 Khâu kẹp song song (Gripper)  
+> **Phần cứng điều khiển:** Arduino Uno R3 + shield PCA9685 16 kênh PWM + nguồn riêng 6.0V từ 8A cho servo
 
-## 1. Cách đo
+---
 
-Các **tâm khớp** được xác định từ **lỗ ổ bi** (mặt trụ lớn) trong CAD, không
-phải ước lượng bằng mắt. Mỗi khớp quay có một cặp lỗ ổ bi đồng trục đường kính
-lớn — đó chính là trục khớp.
+## 1. Kích Thước Hình Học Chuẩn Hóa Khung Robot (CAD Redesign)
 
-Công cụ: OpenCASCADE qua `OCP`, quét `GeomAbs_Cylinder` trên mọi mặt của từng
-solid. Xem `cad/tools/split_step_parts.py`.
+Dựa trên đế `01_Base_Kuka` và tỷ lệ chuẩn KUKA KR3 R540:
 
-## 2. Hệ toạ độ
+| Ký hiệu | Thông số cơ học | Giá trị thiết kế | Mô tả & Bằng chứng CAD |
+|---|---|:---:|---|
+| $D_{\text{base}}$ | Đường kính ngoài trụ đế | **$\varnothing 90\text{ mm}$** | Trụ đế KUKA, lòng khoét $\varnothing 81\text{ mm}$; hộp sau rộng $74\text{ mm}$, chân đế phủ $121 \times 91\text{ mm}$ |
+| $H_{\text{base}}$ | Chiều cao đế | **$90.45\text{ mm}$** | Đế `01_Base_Kuka` (thân đế KUKA khoét rỗng), mặt tựa turret ở $90.45\text{ mm}$ |
+| $h_0$ | Đáy bàn $\to$ Trục khớp vai $J_2$ | **$169.05\text{ mm}$** | Đúng cao độ trục vai của KUKA KR 3 R540 ở tỉ lệ $0.49$: đế `01_Base_Kuka` cao $90.45\text{ mm}$, turret `02_Turret_ForkKuka` đặt trực tiếp lên đế |
+| $a_1$ | Trục đế $J_1$ $\to$ Trục vai $J_2$ (phương ngang) | **$9.8\text{ mm}$** | Trục $J_2$ lệch về phía trước trục $J_1$ như KUKA KR 3 |
+| $L_1$ | Trục vai $J_2$ $\to$ Trục khuỷu $J_3$ | **$127.4\text{ mm}$** | Khâu Upper Arm (Cánh tay dưới) |
+| $L_2$ | Trục khuỷu $J_3$ $\to$ Trục cổ tay $J_4$ | **$100.0\text{ mm}$** | Khâu Forearm (Cẳng tay trên) |
+| $L_3$ | Trục cổ tay $J_4$ $\to$ Tâm ngón gắp | **$55.0\text{ mm}$** | Cụm cổ tay 2 trục + Tay gắp song song |
+| $R_{\max}$ | Tầm với duỗi thẳng cực đại | **$282.4\text{ mm}$** | $L_1 + L_2 + L_3 = 127.4 + 100 + 55$ (Vượt yêu cầu $\ge 200\text{ mm}$) |
+| $R_{\text{eff}}$ | Tầm với hiệu dụng khi gắp đứng | **$227.4\text{ mm}$** | $L_1 + L_2 = 127.4 + 100$ (Bao phủ hoàn toàn bàn làm việc) |
 
-CAD export ở **tư thế đã lắp** (assembled pose). Chọn hệ toạ độ như sau:
+---
 
-| Trục | Định nghĩa |
-|---|---|
-| $z$ | Trục quay của thân (base yaw), hướng lên |
-| $y$ | Hướng cánh tay duỗi ra khi lắp (trong CAD: $+y$ là về phía elbow) |
-| $x$ | Trục của các khớp shoulder / elbow / wrist |
+## 2. Bảng Tham Số Denavit–Hartenberg (D-H Tiêu Chuẩn)
 
-**Gốc toạ độ**: giao của trục thân với **trục khớp shoulder**.
-Trong CAD: điểm `(0, -10, 0)`.
+Hệ toạ độ đặt theo chuẩn KUKA/ABB công nghiệp:
+- Trục $z_0$: Trục quay đế (Base Yaw), hướng thẳng đứng lên trên.
+- Trục $x_1, x_2, x_3$: Vuông góc với trục khớp, song song mặt phẳng gập của vai và khuỷu.
 
-## 3. Tâm các khớp (đo từ lỗ ổ bi)
+| Khớp $i$ | Tên khớp | Biến khớp $\theta_i$ | $d_i$ (mm) | $a_i$ (mm) | $\alpha_i$ (rad) | Giới hạn góc quay |
+|:---:|---|:---:|:---:|:---:|:---:|:---:|
+| **1** | Base Yaw (Xoay thân) | $\theta_1^*$ | $h_0 = 169.05$ | $a_1 = 9.8$ | $+\pi/2$ | $-90^\circ \to +90^\circ$ |
+| **2** | Shoulder Pitch (Gập vai) | $\theta_2^*$ | $0$ | $L_1 = 127.4$ | $0$ | $-45^\circ \to +105^\circ$ |
+| **3** | Elbow Pitch (Gập khuỷu) | $\theta_3^*$ | $0$ | $L_2 = 100.0$ | $0$ | $-90^\circ \to +75^\circ$ |
+| **4** | Wrist Pitch (Gập cổ tay) | $\theta_4^*$ | $0$ | $0$ | $+\pi/2$ | $-90^\circ \to +90^\circ$ |
+| **5** | Wrist Roll (Xoay đầu gắp) | $\theta_5^*$ | $L_3 = 55.0$ | $0$ | $0$ | $-90^\circ \to +90^\circ$ |
 
-| Khớp | Trục quay | Điểm trên trục (CAD, mm) | Bằng chứng (lỗ ổ bi) |
-|---|---|---|---|
-| $J_1$ thân (yaw) | $z$ | $(0,\ -10,\ *)$ | `Shoulder Base` Ø74/70, `Base Main` Ø82/92 |
-| $J_2$ shoulder | $x$ | $(0,\ -10,\ 0)$ | `Main Arm Main` Ø40 (DT 2576 mm²), `Shoulder L/R` Ø40 |
-| $J_3$ elbow | $x$ | $(0,\ 50,\ 0)$ | `Forearm Main` Ø40 (DT 2576 mm²), `Main Arm L/R` Ø40 |
-| $J_4$ wrist | $x$ | $(0,\ -27.5,\ 35)$ | `Wrist L/R` Ø30 (DT 966 mm²), `Forearm R/L` Ø30 |
-| $J_5$ pulley | $x$ | $(0,\ 8,\ 35)$ | `Forearm R/L` Ø30 (DT 188 mm²) |
+---
 
-> **Phát hiện quan trọng:** có **5 trục quay**, không phải 4. Ngoài 4 khớp động
-> còn một **pulley trung gian** tại $(0, 8, 35)$ — cùng cao độ $z=35$ với khớp
-> cổ tay. Đây là cơ cấu **truyền đai/pulley** cho cổ tay (kiểu parallelogram),
-> không phải một bậc tự do điều khiển riêng.
+## 3. Động Học Thuận & Động Học Ngược (Kinematics Solvers)
 
-## 4. Chiều dài link (khoảng cách giữa các tâm khớp)
+### 3.1. Phương trình Động học Thuận (Forward Kinematics)
+Toạ độ tâm điểm gắp phôi $(x_e, y_e, z_e)$ trong không gian Descartes:
+$$r_e = a_1 + L_1 \cos\theta_2 + L_2 \cos(\theta_2 + \theta_3) + L_3 \cos(\theta_2 + \theta_3 + \theta_4)$$
+$$\begin{cases}
+x_e = r_e \cos\theta_1 \\
+y_e = r_e \sin\theta_1 \\
+z_e = h_0 + L_1 \sin\theta_2 + L_2 \sin(\theta_2 + \theta_3) + L_3 \sin(\theta_2 + \theta_3 + \theta_4)
+\end{cases}$$
 
-Đo trực tiếp từ toạ độ tâm khớp:
+### 3.2. Động học Ngược Giải tích (Closed-form Analytical Inverse Kinematics)
+Với góc tiếp cận phôi thẳng đứng từ trên xuống ($\theta_{\text{pitch}} = -90^\circ$):
+1. **Góc xoay đế:** $\theta_1 = \text{atan2}(y, x)$
+2. **Tách tâm cổ tay ($r_w, z_w$):**
+   $$r_w = \sqrt{x^2 + y^2} - a_1 - L_3 \cos(\theta_{\text{pitch}})$$
+   $$z_w = z - h_0 - L_3 \sin(\theta_{\text{pitch}})$$
+   $$D^2 = r_w^2 + z_w^2$$
+3. **Góc khuỷu $\theta_3$:**
+   $$\cos\theta_3 = \frac{D^2 - L_1^2 - L_2^2}{2 L_1 L_2} \implies \theta_3 = -\arccos(\cos\theta_3)$$
+4. **Góc vai $\theta_2$:**
+   $$\theta_2 = \text{atan2}(z_w, r_w) + \text{atan2}(L_2 \sin(-\theta_3), L_1 + L_2 \cos(-\theta_3))$$
+5. **Góc cổ tay $\theta_4$:**
+   $$\theta_4 = \theta_{\text{pitch}} - (\theta_2 + \theta_3)$$
 
-| Ký hiệu | Ý nghĩa | Giá trị |
-|---|---|---|
-| $L_1$ | shoulder → elbow | **60.00 mm** |
-| $L_2$ | elbow → wrist | **85.04 mm** $\left(=\sqrt{77.5^2 + 35^2}\right)$ |
-| $L_3$ | wrist → tâm đầu gắp | **≈ 41.3 mm** |
-| $h_0$ | mặt bàn (đáy base) → trục shoulder | **73.9 mm** |
+---
 
-Chi tiết $L_2$: trong mặt phẳng dọc, elbow→wrist lệch $\Delta y = -77.5$ mm và
-$\Delta z = +35$ mm, nên $L_2 = \sqrt{77.5^2 + 35^2} = 85.04$ mm.
+## 4. Tĩnh Học & Phân Bổ Động Cơ (Torque & Actuator Selection)
 
-Chi tiết $L_3$: đầu ngón gắp ở $y = -64.6$ mm, tâm theo $z \approx 16.8$ mm;
-khoảng cách từ wrist $(0, -27.5, 35)$ tới đầu ngón là 41.3 mm.
+### 4.1. Tính toán mô-men xoắn xấu nhất tại Khớp Vai (J2 - Shoulder)
+Xét tư thế nguy hiểm nhất khi toàn bộ cánh tay vươn dài nằm ngang song song mặt bàn ($R_{\max} = 0.2824\text{ m}$):
+- Tải trọng gắp vật mẫu ($m_{\text{payload}} = 50\text{ g} = 0.05\text{ kg}$):
+  $$T_{\text{payload}} = 0.05 \times 9.81 \times 0.2824 \approx 0.139\text{ N}\cdot\text{m} \approx \mathbf{1.41\text{ kg}\cdot\text{cm}}$$
+- Khối lượng cụm cánh tay + 3 servo phía trên ($m_{\text{arm}} \approx 0.35\text{ kg}$, trọng tâm tập trung tại $r_{\text{cg}} \approx 0.11\text{ m}$):
+  $$T_{\text{arm}} = 0.35 \times 9.81 \times 0.11 \approx 0.378\text{ N}\cdot\text{m} \approx \mathbf{3.85\text{ kg}\cdot\text{cm}}$$
+- Tổng mô-men tĩnh: $T_{\text{static}} = 1.41 + 3.85 = \mathbf{5.26\text{ kg}\cdot\text{cm}}$.
+- Mô-men động học cần thiết (kèm hệ số an toàn gia tốc $k = 1.8$):
+  $$T_{\text{dynamic}} = 5.26 \times 1.8 \approx \mathbf{9.47\text{ kg}\cdot\text{cm}}$$
 
-## 5. Kiểm tra tầm với so với yêu cầu 200 mm
+### 4.2. Lựa chọn Động cơ & Hệ số An toàn (Safety Factor)
 
-⚠️ **Đây là điểm cần lưu ý cho đồ án.**
+| Khớp | Động cơ khuyến nghị | Mô-men xoắn danh định (ở 6.0V) | Mô-men yêu cầu | Hệ số an toàn (SF) | Đánh giá |
+|:---:|---|:---:|:---:|:---:|---|
+| **J1 (Đế)** | **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 3.0\text{ kg}\cdot\text{cm}$ (ma sát trượt) | $\text{SF} > 3.5$ | Dư tải lớn, xoay nhẹ nhàng |
+| **J2 (Vai)** | **Servo Digital 25KG-180°** (cỡ vỏ $40 \times 20$, trục 25T) | **$\approx 22\text{ kg}\cdot\text{cm}$ ở 6.0V** | $9.47\text{ kg}\cdot\text{cm}$ | **$\text{SF} \approx 2.3$** | **MG996R ($11\text{ kg}\cdot\text{cm}$, $\text{SF} \approx 1.16$) không đủ giữ tư thế duỗi ngang** |
+| **J3 (Khuỷu)**| **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 5.5\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 2.0$ | Hoàn toàn đáp ứng |
+| **J4 (Cổ tay)**| **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.7\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 3$ | Nhẹ, giảm tải cho khớp vai |
+| **J5 (Xoay)** | **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.3\text{ kg}\cdot\text{cm}$ | $\text{SF} > 5$ | Rất nhẹ tải |
+| **Gripper** | **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.5\text{ kg}\cdot\text{cm}$ | $\text{SF} > 3.0$ | Kẹp chắc vật thể 20–40mm |
 
-Tầm với lý thuyết khi duỗi thẳng hoàn toàn (các link thẳng hàng):
-
-$$R_{\max} = L_1 + L_2 + L_3 = 60.00 + 85.04 + 41.32 = 186.4\ \text{mm}$$
-
-**Kết luận: 186.4 mm < 200 mm — KHÔNG đạt yêu cầu tầm với tối thiểu.**
-
-Nguyên nhân: thiết kế v2 R.A.D. gốc là cánh tay **để bàn nhỏ gọn** (compact
-desktop arm), tác giả không nhắm tới 200 mm.
-
-Vì $L_2$ nằm lệch 35 mm theo $z$, hình chiếu ngang khi duỗi thẳng chỉ còn:
-
-$$R_{\text{ngang}} \approx 60 + 77.5 + 37.1 = 174.6\ \text{mm}$$
-
-### Ba phương án xử lý
-
-| # | Phương án | Ưu | Nhược |
-|---|---|---|---|
-| 1 | **Kéo dài link** ($L_1, L_2$) theo tỉ lệ | Giữ nguyên kiến trúc, chỉ sửa kích thước | Phải in lại, kiểm tra lại moment servo |
-| 2 | **Chấp nhận và giải thích** trong thuyết minh | Không tốn công | Mất điểm tiêu chí tầm với |
-| 3 | Thiết kế lại cánh tay dài hơn | Đạt yêu cầu rõ ràng | Nhiều công, rủi ro tiến độ |
-
-**Khuyến nghị:** phương án 1. Cần tăng tổng link thêm **≥ 15 mm** để vượt 200 mm
-có dư an toàn — ví dụ kéo dài $L_1$ từ 60 → 75 mm (hệ số 1.25) cho
-$R_{\max} \approx 201$ mm, hoặc kéo dài cả $L_1$ và $L_2$ hệ số 1.15 cho
-$R_{\max} \approx 214$ mm.
-
-⚠️ Khi kéo dài link **phải tính lại moment servo**: moment tĩnh tăng theo chiều
-dài tay đòn, nên servo SG90 có thể không còn đủ. Xem mục 7.
-
-## 6. Bảng tham số Denavit–Hartenberg (đề xuất)
-
-Với kiến trúc articulated 4 DOF, các khớp 2–4 song song trong mặt phẳng dọc:
-
-| Khớp $i$ | $\theta_i$ | $d_i$ | $a_i$ | $\alpha_i$ |
-|---|---|---|---|---|
-| 1 (thân) | $\theta_1$ | $h_0 = 73.9$ | $0$ | $\pi/2$ |
-| 2 (shoulder) | $\theta_2$ | $0$ | $L_1 = 60.0$ | $0$ |
-| 3 (elbow) | $\theta_3$ | $0$ | $L_2 = 85.0$ | $0$ |
-| 4 (wrist) | $\theta_4$ | $0$ | $L_3 = 41.3$ | $0$ |
-
-> **Lưu ý về mô hình hoá:** bảng DH trên là mô hình **articulated 4 DOF lý
-> tưởng**. Thực tế v2 R.A.D. dùng **truyền đai cho cổ tay** (pulley tại
-> $(0,8,35)$), nên góc cổ tay thực tế là **tổ hợp** của góc servo cổ tay và góc
-> elbow — cần mô hình hoá thêm hệ số truyền nếu muốn chính xác. Với báo cáo,
-> nên nêu rõ giả thiết đơn giản hoá này.
-
-## 7. Kiểm tra moment servo (cần làm trước khi chốt)
-
-Tải tối đa 50 g tại tầm với xa nhất. Moment tĩnh xấu nhất ở khớp shoulder:
-
-$$T_{\text{static}} = \underbrace{m_{\text{payload}} \cdot g \cdot R_{\max}}_{\text{vật gắp}} + \underbrace{\sum_i m_i \cdot g \cdot r_i}_{\text{khối lượng các link}}$$
-
-Với $m = 50\ \text{g} = 0.05$ kg, $g = 9.81$, $R = 0.186$ m:
-
-$$T_{\text{payload}} = 0.05 \times 9.81 \times 0.186 \approx 0.091\ \text{N·m} \approx 0.93\ \text{kg·cm}$$
-
-Cộng khối lượng các link (xem khối lượng trong `cad/exports/v2rad/PARTS.md`)
-thì moment tổng lớn hơn đáng kể. **SG90 (≈1.8 kg·cm) có thể không đủ** — nên
-dùng **MG90S (≈2.2 kg·cm)** hoặc **MG996R (≈10 kg·cm)** cho khớp shoulder.
-
-> Cần tính đầy đủ trong thuyết minh (mục "Statics & Dynamics" theo yêu cầu
-> `goal.md`).
-
-## 8. Cách tái tạo số đo
-
-```bash
-# Xuất từng chi tiết (kèm manifest có kích thước, khối lượng, đường kính lỗ)
-python cad/tools/split_step_parts.py --verify
-
-# Xem báo cáo khắc chữ
-python cad/tools/render_engraving.py
-```
+> **Khả năng tương thích cơ khí:** Servo Digital 25KG và TowerPro MG996R đều dùng chung **kích thước vỏ Standard ($40 \times 20 \times 40.5\text{ mm}$)** và **trục đĩa răng 25T**. Bản vẽ CAD hốc lắp hoàn toàn đồng nhất, có thể hoán đổi tùy ý lúc lắp ráp mà không cần sửa mô hình 3D!

@@ -4,7 +4,7 @@
 % =========================================================================
 function kuka_gui_control()
     % Khoi tao thong so dong hoc (mm)
-    h0 = 80.0; L1 = 110.0; L2 = 100.0; L3 = 55.0;
+    a1 = 9.8; h0 = 169.05; L1 = 127.4; L2 = 100.0; L3 = 55.0;
     
     % Khoi tao goc khop ban dau
     q = [0, 45, -45, 0, 0]; % J1, J2, J3, J4, J5 (do)
@@ -21,7 +21,7 @@ function kuka_gui_control()
     % Vung ve 3D robot
     ax3d = axes('Parent', fig, 'Position', [0.38, 0.12, 0.58, 0.82]);
     grid(ax3d, 'on'); hold(ax3d, 'on'); view(ax3d, 135, 25);
-    axis(ax3d, [-200 300 -250 250 0 350]);
+    axis(ax3d, [-200 300 -250 250 0 400]);
     xlabel(ax3d, 'X (mm)'); ylabel(ax3d, 'Y (mm)'); zlabel(ax3d, 'Z (mm)');
     title(ax3d, 'Mô Phỏng 3D Thời Gian Thực (Digital Twin)', 'FontSize', 12);
     
@@ -125,10 +125,10 @@ function kuka_gui_control()
         t1 = rads(1); t2 = rads(2); t3 = rads(3); t4 = rads(4);
         
         P0 = [0, 0, 0];
-        P1 = [0, 0, h0];
+        P1 = [a1 * cos(t1), a1 * sin(t1), h0];
         
         % Chieu trong mat phang vai
-        r2 = L1 * cos(t2);
+        r2 = a1 + L1 * cos(t2);
         z2 = h0 + L1 * sin(t2);
         P2 = [r2 * cos(t1), r2 * sin(t1), z2];
         
@@ -175,7 +175,8 @@ function [q, valid] = solve_analytical_ik(X, Y, Z, phi, h0, L1, L2, L3)
     q = zeros(1, 4); valid = true;
     q(1) = atan2(Y, X);
     r = sqrt(X^2 + Y^2);
-    rw = r - L3 * cos(phi);
+    a1 = 9.8;
+    rw = r - a1 - L3 * cos(phi);
     zw = Z - h0 - L3 * sin(phi);
     D2 = rw^2 + zw^2; D = sqrt(D2);
     if D > (L1 + L2) || D < abs(L1 - L2), valid = false; return; end

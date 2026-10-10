@@ -2,73 +2,76 @@
 
 ## Trạng thái
 
-⚠️ **Chưa có firmware của nhóm.** Code gốc của tác giả (`v2rad_code.ino`) nằm trên
-trang Printables (mục "Other files"), **không** có trong repo này.
+⚠️ **Chưa có firmware của nhóm cho phần cứng hiện tại.** File `v2rad_code/v2rad_code.ino`
+là code của thiết kế tham khảo v2 R.A.D., viết cho Arduino Nano ESP32; chỉ dùng để tham
+khảo logic, không chạy được trên Arduino Uno + PCA9685.
 
-## Kế hoạch
+## Phần cứng điều khiển
 
-Theo `goal.md`, kiến trúc điều khiển tách hai tầng:
+| Khối | Ghi chú |
+|---|---|
+| MCU | Arduino Uno R3, đặt trên khay `01_Base_Tray` trong đế `01_Base_Kuka` |
+| Mạch PWM | Shield PCA9685 16 kênh cắm chồng lên Uno, I2C qua A4 (SDA) / A5 (SCL), địa chỉ `0x40` |
+| Servo J1, J3 | MG996R (trục 25T) |
+| Servo J2 | Servo số cỡ chuẩn $40 \times 20\text{ mm}$, trục 25T, $25\text{ kg}\cdot\text{cm}$, $180^\circ$ |
+| Servo J4, J5, tay gắp | MG90S |
+| Nguồn servo | $6\text{ V}$ riêng, từ $8\text{ A}$, cấp vào cầu đấu V+ của shield; hàn tụ $1000\ \mu\text{F}$ vào chỗ chờ trên shield |
+| Kết nối PC | USB Serial qua cổng USB-B ở mặt sau đế |
+
+⚠️ **Không cấp servo từ chân 5 V của Uno.** Một servo MG996R kẹt trục có thể kéo trên
+$2\text{ A}$; sụt áp sẽ làm Uno reset.
+
+## Kiến trúc
 
 ```
 ┌─────────────────────────────────────────┐
 │ MASTER — PC / Laptop                    │
 │  • Vision (OpenCV): nhận diện hình dạng │
-│  • IK solver: toạ độ -> 4 góc khớp      │
-│  • Trajectory planning                  │
+│  • IK solver: toạ độ -> góc khớp        │
+│  • Nội suy quỹ đạo                      │
 └──────────────┬──────────────────────────┘
                │ USB Serial (115200)
                ▼
 ┌─────────────────────────────────────────┐
-│ SLAVE — MCU (ESP32 / STM32)             │
+│ SLAVE — Arduino Uno R3 + PCA9685        │
 │  • Nhận góc khớp                        │
-│  • Phát PWM cho 5 servo                 │
-│  • Đọc 5 biến trở (ADC) cho Teaching    │
-│  • Phát lại quỹ đạo đã ghi              │
+│  • Phát PWM 50 Hz cho 6 servo           │
+│  • Ghi / phát lại quỹ đạo (Teaching)    │
 └─────────────────────────────────────────┘
 ```
 
-## Cấu trúc đề xuất
+## Phân bổ kênh PCA9685
 
-```
-firmware/
-├── README.md              # file này
-├── esp32/                 # ⭐ Khuyến nghị — ít rủi ro nhất
-│   ├── robot_arm_esp32.ino
-│   └── config.h           # ánh xạ chân, hằng số hiệu chuẩn
-├── stm32/                 # (tùy chọn) nếu chọn STM32
-│   └── ...
-└── protocol.md            # định nghĩa gói lệnh serial PC <-> MCU
-```
+| Kênh | Khớp | Servo |
+|---|---|---|
+| 0 | J1 đế | MG996R |
+| 1 | J2 vai | servo số $25\text{ kg}\cdot\text{cm}$, $180^\circ$ |
+| 2 | J3 khuỷu | MG996R |
+| 3 | J4 gập cổ tay | MG90S |
+| 4 | J5 xoay cổ tay | MG90S |
+| 5 | Tay gắp | MG90S |
+
+## Độ phân giải góc
+
+PCA9685 ở $50\text{ Hz}$ có bước xung $20\text{ ms} / 4096 \approx 4.88\ \mu\text{s}$, tức khoảng
+$0.44^\circ$ mỗi bước với servo $180^\circ$. Ở tầm với $280\text{ mm}$, một bước của khớp đế
+tương ứng khoảng $2\text{ mm}$ ở đầu tay gắp. Để đạt yêu cầu $\pm 3\text{ mm}$, có thể điều
+khiển J1 và J2 trực tiếp từ chân 9 / 10 của Uno bằng thư viện `Servo` (bước
+khoảng $0.5\ \mu\text{s}$) và để các khớp còn lại trên PCA9685.
 
 ## Việc cần làm
 
-- [ ] Lấy `v2rad_code.ino` gốc từ Printables (chỉ để tham khảo logic)
-- [ ] Chốt MCU — xem `docs/chuyen-mcu-esp32-stm32.md` mục 3
-- [ ] Lập bảng ánh xạ chân, **tránh** GPIO6–11, ADC2 (khi bật WiFi), chân strapping
-- [ ] Đưa 5 biến trở vào **ADC1**
-- [ ] Hiệu chuẩn ADC (5 điểm, nội suy) — ESP32 ADC không tuyến tính
-- [ ] Định nghĩa protocol serial (xem `protocol.md`)
+- [ ] Viết sketch cho Uno: thư viện `Adafruit_PWMServoDriver`, tần số 50 Hz
+- [ ] Hiệu chuẩn xung min / max và góc 0 của từng servo
+- [ ] Định nghĩa protocol serial PC <-> Uno
+- [ ] Nội suy góc để servo không giật
 - [ ] Teaching mode: ghi mảng `q(t)` rồi phát lại
-- [ ] Nối **GND chung** giữa nguồn servo 6 V và MCU
-
-## Phần cứng tham chiếu (từ sơ đồ wiring v2 R.A.D.)
-
-| Khối | Ghi chú |
-|---|---|
-| MCU | ESP32 (thay Arduino Nano ESP32) |
-| Servo ×5 | 4 khớp + 1 gripper; **MG90S/MG996R** cho shoulder |
-| Nguồn servo | **6 V riêng**, KHÔNG lấy từ MCU |
-| Biến trở ×5 | 10 kΩ, đọc góc khớp |
-| 74HC595 | Mở rộng chân — cần xác nhận lại cách đấu thực tế |
-| Nút Power/Gripper | Digital input, bật pull-up |
-
-⚠️ **Không cấp servo từ chân 5 V/3.3 V của MCU.** 5 servo SG90 có thể kéo dòng
-đỉnh > 3 A → sụt áp → reset MCU.
 
 ## Tài liệu liên quan
 
 | File | Nội dung |
 |---|---|
-| `docs/chuyen-mcu-esp32-stm32.md` | So sánh ESP32 vs STM32, ánh xạ chân, code mẫu |
-| `docs/thong-so-dong-hoc.md` | $L_1, L_2, L_3, h_0$ + cảnh báo tầm với |
-| `docs/typst/kinematics.typ` | FK/IK để chạy trên PC (master) |
+| `docs/thong-so-dong-hoc.md` | $h_0, a_1, L_1, L_2, L_3$, bảng D-H, mô-men và chọn servo |
+| `docs/ke-hoach-dieu-khien-ai-robot.md` | Kiến trúc điều khiển, hộp mạch trong đế, thị giác |
+| `docs/typst/kinematics.typ` | FK/IK chạy trên PC (master) |
+| `docs/chuyen-mcu-esp32-stm32.md` | Ghi chú nếu chuyển MCU sang ESP32/STM32 |

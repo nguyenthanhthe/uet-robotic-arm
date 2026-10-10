@@ -5,8 +5,9 @@
 clear; clc; close all;
 
 %% 1. KHOI TAO CAC THONG SO HINH HOC CO BAN (don vi: mm)
-h0 = 80.0;    % Chieu cao truc vai J2 so voi mat ban
-L1 = 110.0;   % Chieu dai canh tay tren (Upper Arm: J2 -> J3)
+a1 = 9.8;     % Do lech truc vai J2 ra phia truoc truc de J1
+h0 = 169.05;  % Chieu cao truc vai J2 so voi mat ban
+L1 = 127.4;   % Chieu dai canh tay tren (Upper Arm: J2 -> J3)
 L2 = 100.0;   % Chieu dai cang tay (Forearm: J3 -> J4)
 L3 = 55.0;    % Chieu dai co tay va khau kep (Wrist & Gripper: J4 -> End-Effector)
 
@@ -32,7 +33,7 @@ addBody(robot, body1, 'base');
 % Link 2: Upper Arm (Quay quanh truc ngang Y1 - J2)
 body2 = rigidBody('link2');
 jnt2 = rigidBodyJoint('jnt2', 'revolute');
-setFixedTransform(jnt2, trvec2tform([0, 0, 0]));
+setFixedTransform(jnt2, trvec2tform([a1, 0, 0]));
 jnt2.JointAxis = [0, 1, 0];
 jnt2.PositionLimits = deg2rad([-30, 90]);
 body2.Joint = jnt2;
@@ -71,7 +72,7 @@ q_home = deg2rad([0, 45, -45, 0, 0]);
 show(robot, q_home, 'PreservePlot', false, 'Frames', 'on');
 title('Mô hình 3D Robot KUKA KR 3 - Vị trí Home q = [0, 45, -45, 0, 0]');
 xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)');
-axis([-200 300 -250 250 0 350]);
+axis([-200 300 -250 250 0 400]);
 grid on; view(135, 25);
 
 %% 4. KIEM NGHIEM MO-MEN TAI TRONG CAC KHOP (TORQUE ANALYSIS)
@@ -158,7 +159,8 @@ function [q, valid] = kuka_analytical_ik(X, Y, Z, phi, h0, L1, L2, L3)
     
     % 2. Toa do tam co tay trong he truc r-z
     r = sqrt(X^2 + Y^2);
-    rw = r - L3 * cos(phi);
+    a1 = 9.8;
+    rw = r - a1 - L3 * cos(phi);
     zw = Z - h0 - L3 * sin(phi);
     
     % 3. Do dai noi tu vai den co tay

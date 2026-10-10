@@ -34,9 +34,9 @@ Phạm vi dự án gói gọn trong một hệ thống để bàn, in 3D, điề
 
 ## 4. Hệ thống điều khiển
 
-- **Vi điều khiển**: Arduino Nano hoặc Uno.
-- **Động cơ**: Servo 9g (SG90) cho các khớp; servo có moment lớn hơn (MG90S hoặc SG90 khỏe) cho gripper.
-- **Nguồn**: tách riêng nguồn cho servo (không cấp từ chân 5V của Arduino) để tránh sụt áp reset.
+- **Vi điều khiển**: Arduino Uno R3 cắm chồng shield PWM PCA9685 16 kênh (I2C).
+- **Động cơ**: MG996R cho khớp đế và khuỷu; servo số 25 kg, 180° (cùng cỡ vỏ, trục 25T) cho khớp vai; MG90S cho hai khớp cổ tay và gripper.
+- **Nguồn**: nguồn 6 V riêng (từ 8 A) cấp vào cầu đấu V+ của shield, không cấp servo từ chân 5V của Arduino để tránh sụt áp reset.
 - **Giao diện điều khiển** (2 phương án, không bắt buộc máy tính nhúng):
   1. Nút bấm trên breadboard — điều khiển từng khớp / chuyển bước.
   2. Điều khiển trực tiếp qua máy tính (PC) bằng kết nối serial USB.
@@ -55,7 +55,7 @@ Phạm vi dự án gói gọn trong một hệ thống để bàn, in 3D, điề
 ## 6. Ràng buộc
 
 - **Kinh phí**: ~500.000 VNĐ/sinh viên (tổng nhóm ~1,5 triệu VNĐ), ưu tiên linh kiện sẵn có tại Việt Nam.
-- **Gia công**: chi tiết in 3D (FDM, nhựa PLA), không yêu cầu trợ cấp (support-free) nếu có thể.
+- **Gia công**: chi tiết in 3D (FDM, nhựa PETG); các khối thân dáng KUKA cần support khi in.
 - **Không bắt buộc** máy tính nhúng / vi xử lý tốc độ cao; mức công nghệ + sáng tạo mới là tiêu chí chấm điểm.
 
 ## 7. Phân công dự kiến (3 thành viên)

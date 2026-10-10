@@ -30,6 +30,7 @@ text, and verify kinematics.
 | Work the forearm elbow block (J3 horn / bearing interface) | `cad/parts/04_Forearm_ElbowKuka.SLDPRT` | `cad/parts/03_UpperArmKuka.SLDPRT` |
 | Work the forearm fork body (joint to the elbow block, wrist pocket) | `cad/parts/04_Forearm_ForkKuka.SLDPRT` | `cad/parts/04_Forearm_ElbowKuka.SLDPRT` |
 | Work the wrist body (J4 horn recess / pivot, J5 servo pocket) | `cad/parts/05_WristKuka.SLDPRT` | `cad/parts/04_Forearm_ForkKuka.SLDPRT` |
+| Work the forearm side covers or the J4 pivot pin | `cad/parts/04_Forearm_CoverPivot.SLDPRT`, `cad/parts/04_Forearm_CoverServo.SLDPRT`, `cad/parts/04_J4_PivotPin.SLDPRT` | `cad/parts/04_Forearm_ForkKuka.SLDPRT`, `cad/parts/05_WristKuka.SLDPRT` |
 | Open the full J1–J2 assembly | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` | `cad/parts/02_Turret_ForkKuka_SubAssembly.SLDASM` |
 | Test-print the servo fit | `cad/parts/02_Turret_ForkKuka_TestSlice.SLDPRT` | `cad/parts/02_Turret_Fork.SLDPRT` |
 | Inspect the unused pedestal / cap / separate disc | `cad/parts/01_Base_Pedestal.SLDPRT` | `cad/parts/01_Base_TopCap.SLDPRT` |

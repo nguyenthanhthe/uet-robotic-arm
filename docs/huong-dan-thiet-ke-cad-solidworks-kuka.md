@@ -120,6 +120,12 @@ Tất cả kích thước hình học dưới đây bắt buộc phải tuân th
 2. **Khoang dây:** Trên mặt phẳng $y = -21\text{ mm}$, chữ nhật $x \in [74.5, 103.5]$, $z \in [300.5, 320]$, cắt $33\text{ mm}$ về $+Y$ (tới $y = 12$). Khoang mở ở mặt $-Y$, được tấm ốp bên che lại; đáy khoang ở $z = 300.5$ để còn thành $\ge 1.5\text{ mm}$ phía trên rãnh khuyết của khối KUKA.
 3. **Lỗ ghép:** Trên vách sau ($x = 74.5 \to 65.25$): 4 lỗ $\varnothing 3.4\text{ mm}$ tại $(\pm 9, 304)$ và $(\pm 9, 314.5)$ cho ốc M3 × 14 đầu trụ; lỗ đi dây $\varnothing 10\text{ mm}$ tại $(0, 304.5)$.
 4. **Lỗ luồn lục giác:** Trên vách trước (từ $x = 103.5$ ra mặt trước), 4 lỗ $\varnothing 6\text{ mm}$ thẳng hàng với 4 ốc ghép, nằm trọn trên mặt phẳng trước ($x \approx 109.7$); ốc được siết bằng lục giác thẳng luồn từ hốc cổ tay, trước khi lắp cổ tay. Dây servo cổ tay cũng đi qua các lỗ này.
+5. **Cửa sổ servo $J_4$:** Trên mặt ngoài nhánh càng ($y = 28.4\text{ mm}$), chữ nhật $x \in [120.05, 143.45]$, $z \in [299.83, 312.63]$ ($23.4 \times 12.8\text{ mm}$), cắt xuyên nhánh càng về $-Y$. Servo MG90S đưa vào từ ngoài, trục hướng $-Y$ trùng trục $J_4$ tại $(x, z) = (137.2, 306.23)$, thân kéo dài về $-X$.
+6. **Hốc tai servo $J_4$:** chữ nhật $x \in [115.3, 148.2]$, $z \in [299.83, 312.63]$, sâu $2.7\text{ mm}$ (đáy ở $y = 25.7$). Tai servo chìm ngang mặt ngoài nhánh càng; nóc hộp số ở $y = 18.2$, đỉnh trục ở $y = 14.2$, đáy servo nhô tới $y = 46.7\text{ mm}$.
+7. **Lỗ mồi vít tai servo $J_4$:** 2 lỗ $\varnothing 1.7\text{ mm}$ tại $x = 145.75$ và $x = 117.75$, $z = 306.23$, cắt $8\text{ mm}$ từ mặt $y = 28.4$ (đáy lỗ ở $y = 20.4$).
+8. **Lỗ cấy ren cho tấm ốp chốt (mặt $-Y$):** 3 lỗ $\varnothing 4.2 \times 7\text{ mm}$ từ mặt $y = -20.09$ tại $(x, z) = (80, 291.5)$, $(101, 291.5)$, $(90, 324.5)$.
+9. **Lỗ cho tấm ốp servo (mặt $+Y$):** 2 lỗ cấy ren $\varnothing 4.2 \times 5.5\text{ mm}$ tại $(100, 318)$ và $(112, 294.5)$; 1 lỗ mồi $\varnothing 1.7 \times 6\text{ mm}$ tại $(152, 306.23)$ cho vít tự ren M2.
+10. **Khe dây servo $J_4$:** chữ nhật $x \in [96, 100.5]$, $z \in [301.7, 310.7]$ cắt từ mặt $y = 28.4$ xuyên vào khoang dây (tới $y = 11.8$); đầu cắm 3 chân của servo lọt qua khe $9 \times 4.5\text{ mm}$ này.
 
 ### CHI TIẾT 6: `05_WristKuka.SLDPRT` (Thân cổ tay, chứa servo $J_5$)
 
@@ -129,20 +135,43 @@ Tất cả kích thước hình học dưới đây bắt buộc phải tuân th
 * **Trục $J_5$ (xoay):** song song $X$ tại $y = 0$, $z = 301.0\text{ mm}$, thấp hơn trục $J_4$ $5.23\text{ mm}$ (hai trục không cắt nhau) vì thân servo phải nằm giữa chiều cao cổ tay.
 * **Servo $J_4$** không nằm trong cổ tay: nó lắp trên nhánh càng $+Y$ từ phía ngoài, trục cắm vào đĩa sừng nằm trong mặt bên cổ tay.
 
-Kích thước MG90S dùng để cắt (đo trên `M90S_ali.step`): thân $22.8 \times 12.2\text{ mm}$, tai rộng $32.3\text{ mm}$ dày $2.5\text{ mm}$, mặt trên tai cách đáy $18.3\text{ mm}$, nóc hộp số cao hơn mặt trên tai $10.2\text{ mm}$, đỉnh trục cao hơn $14.2\text{ mm}$, trục cách đầu thân $5.95\text{ mm}$. Đĩa sừng hai cánh (đo trên `MG90S Servo Horn (2 spork).step`): dài $31\text{ mm}$, moay-ơ $\varnothing 6.8 \times 4.7\text{ mm}$, cánh dày $2.1\text{ mm}$, rộng $5.2\text{ mm}$ ở gốc và $3.6\text{ mm}$ ở đầu.
+Kích thước MG90S dùng để cắt (đo trên `M90S_ali.step`): thân $22.8 \times 12.2\text{ mm}$, tai rộng $32.3\text{ mm}$ dày $2.7\text{ mm}$, mặt dưới tai (phía đáy servo) cách đáy $18.3\text{ mm}$, nóc hộp số cao hơn mặt dưới tai $10.2\text{ mm}$, đỉnh trục cao hơn $14.2\text{ mm}$, trục cách đầu thân $5.95\text{ mm}$, hai lỗ tai cách trục $8.55$ và $19.45\text{ mm}$. Đĩa sừng hai cánh (đo trên `MG90S Servo Horn (2 spork).step`): dài $31\text{ mm}$, moay-ơ $\varnothing 6.8 \times 4.7\text{ mm}$, cánh dày $2.1\text{ mm}$, rộng $5.2\text{ mm}$ ở gốc và $3.6\text{ mm}$ ở đầu.
 
-1. **Gọt vấu $+Y$:** Trên mặt phẳng $y = 18.7\text{ mm}$, đường tròn $\varnothing 38\text{ mm}$ tâm trục $J_4$, cắt bỏ phần phía $+Y$ (hở $0.5\text{ mm}$ với mặt trong nhánh càng ở $y = 19.2$).
-2. **Gọt vấu $-Y$:** Trên mặt phẳng $y = -19.6\text{ mm}$, đường tròn $\varnothing 27\text{ mm}$, cắt bỏ phần phía $-Y$ (hở $0.5\text{ mm}$ với tấm ốp `[22]` ở $y = -20.1$).
-3. **Lỗ chốt xoay:** Trên mặt $y = -19.6$, lỗ $\varnothing 8.3 \times 6.5\text{ mm}$ tại trục $J_4$, nhận chốt $\varnothing 8\text{ mm}$ in liền trên tấm ốp `[22]`.
+1. **Gọt vấu $+Y$:** Trên mặt phẳng $y = 18.7\text{ mm}$, đường tròn $\varnothing 38\text{ mm}$ tâm trục $J_4$, cắt bỏ phần phía $+Y$ (hở $0.41\text{ mm}$ với mặt trong nhánh càng ở $y = 19.11$).
+2. **Gọt vấu $-Y$:** Trên mặt phẳng $y = -19.6\text{ mm}$, đường tròn $\varnothing 27\text{ mm}$, cắt bỏ phần phía $-Y$ (hở $0.5\text{ mm}$ với tấm ốp chốt ở $y = -20.09$).
+3. **Lỗ chốt xoay:** Trên mặt $y = -19.6$, lỗ $\varnothing 8.3 \times 6.5\text{ mm}$ tại trục $J_4$ nhận chốt `04_J4_PivotPin`; ở đáy lỗ có lỗ cấy ren M3 $\varnothing 4.2 \times 6\text{ mm}$ (tới $y = -7.1$) cho vít giữ chốt.
 4. **Hốc né hộp số servo $J_4$:** Trên mặt $y = 18.7$, đường tròn $\varnothing 21.2\text{ mm}$ sâu $0.9\text{ mm}$.
 5. **Hốc đĩa sừng hai cánh:** Trên mặt $y = 18.7$, biên dạng đĩa sừng (moay-ơ $\varnothing 7.2$, hai cánh dọc $X$ rộng $5.6 \to 3.9\text{ mm}$, đầu cánh ở $\pm 15.85\text{ mm}$), cắt sâu $5.7\text{ mm}$ (đáy ở $y = 13.0$). Đĩa sừng bị kẹp giữa đáy hốc và mặt hộp số servo nên không cần vít tâm.
-6. **Hốc thân servo $J_5$:** Từ mặt phẳng $x = 169\text{ mm}$, chữ nhật $y = \pm 6.3$, $z \in [294.75, 318.15]$, cắt về $-X$ tới $x = 139.8\text{ mm}$. Servo đưa vào từ mặt trước, trục hướng $+X$, thân dọc theo $Z$; mặt trên tai ở $x = 158.4$, nóc hộp số ở $x = 168.6$ (ngang mặt trước), đỉnh trục ở $x = 172.6\text{ mm}$.
-7. **Rãnh tai servo $J_5$:** chữ nhật $y = \pm 6.3$, $z \in [290.0, 322.9]$, cắt tới $x = 155.9\text{ mm}$ (mặt tựa mặt dưới tai); từ $x = 158.9$ ra mặt trước rãnh mở rộng tới $z \in [288.5, 324.2]$ để bỏ hai lá vỏ mỏng $0.6\text{ mm}$.
+6. **Hốc thân servo $J_5$:** Từ mặt phẳng $x = 169\text{ mm}$, chữ nhật $y = \pm 6.3$, $z \in [294.75, 318.15]$, cắt về $-X$ tới $x = 139.8\text{ mm}$. Servo đưa vào từ mặt trước, trục hướng $+X$, thân dọc theo $Z$; mặt dưới tai ở $x = 158.4$, nóc hộp số ở $x = 168.6$ (ngang mặt trước), đỉnh trục ở $x = 172.6\text{ mm}$.
+7. **Rãnh tai servo $J_5$:** chữ nhật $y = \pm 6.3$, $z \in [290.0, 322.9]$, cắt tới $x = 158.4\text{ mm}$ (mặt tựa mặt dưới tai; tai chiếm $x = 158.4 \to 161.1$); từ $x = 158.9$ ra mặt trước rãnh mở rộng tới $z \in [288.5, 324.2]$ để bỏ hai lá vỏ mỏng $0.6\text{ mm}$.
 8. **Rãnh dây servo $J_5$:** chữ nhật $y = \pm 2.2$, $z \in [291.2, 294.9]$, cắt tới $x = 143\text{ mm}$.
-9. **Lỗ mồi vít tai servo $J_5$:** $\varnothing 1.7 \times 8\text{ mm}$ tại $(y, z) = (0, 320.3)$ trên mặt $x = 155.9$. Đầu tai phía rãnh dây không có vít.
+9. **Lỗ mồi vít tai servo $J_5$:** $\varnothing 1.7 \times 8\text{ mm}$ tại $(y, z) = (0, 320.45)$ trên mặt $x = 158.4$. Đầu tai phía rãnh dây không có vít.
 
-### CHI TIẾT 7 – 8: Tấm ốp, chỗ lắp servo $J_4$ và tay gắp
-Chưa có file CAD: chỗ lắp servo $J_4$ trên nhánh càng $+Y$ của `04_Forearm_ForkKuka` (mặt tựa tai ở mặt ngoài nhánh $y = 28.4$, đỉnh trục ở $y = 14.2$); tấm ốp `[22]` (phía $-Y$, mang chốt xoay $\varnothing 8$) và `[23]` (phía $+Y$); mặt bích và tay gắp.
+Trong assembly chính, servo $J_4$ và hai tấm ốp khóa (Lock) vào thân càng; servo $J_5$ và chốt xoay khóa vào cổ tay. Cổ tay xoay quanh $J_4$ bằng mate Concentric (lỗ chốt $\varnothing 8.3$ của cổ tay với trụ hộp số servo $J_4$) và mate Distance $0.41\text{ mm}$ (mặt $y = 18.7$ của cổ tay với mặt trong nhánh càng).
+
+### CHI TIẾT 7: `04_Forearm_CoverPivot.SLDPRT` (Tấm ốp $-Y$, nhánh càng mang chốt xoay)
+
+*Cùng hệ tọa độ với thân càng. Khối gốc: tấm ốp `[22]` của KUKA ($y$ từ $-31.4$ đến $-20.09\text{ mm}$). Tấm này là nhánh càng thứ hai: nó bắt vào khối sau của thân càng, che khoang dây và đỡ chốt xoay $J_4$.*
+
+1. **Lỗ trục và lỗ vít:** lỗ xuyên $\varnothing 8.4\text{ mm}$ tại trục $J_4$ $(137.2, 306.23)$; 3 lỗ xuyên $\varnothing 3.4\text{ mm}$ tại $(80, 291.5)$, $(101, 291.5)$, $(90, 324.5)$.
+2. **Hốc đầu vít:** 3 hốc $\varnothing 6.2\text{ mm}$ cắt từ mặt phẳng $y = -24.1$ ra mặt ngoài, để lại $4\text{ mm}$ dưới đầu vít. Vít M3 × 10 đầu trụ vào lỗ cấy ren của thân càng.
+3. **Hốc vành chốt:** $\varnothing 13\text{ mm}$ cắt từ mặt phẳng $y = -27.3$ ra mặt ngoài.
+
+### CHI TIẾT 8: `04_J4_PivotPin.SLDPRT` (Chốt xoay $J_4$)
+
+Vành $\varnothing 12 \times 2\text{ mm}$ ($y = -29.3 \to -27.3$), thân $\varnothing 8\text{ mm}$ tới $y = -13.6$ (dài $13.7\text{ mm}$), lỗ dọc trục $\varnothing 3.4\text{ mm}$. Chốt luồn từ ngoài qua lỗ $\varnothing 8.4$ của tấm ốp vào lỗ $\varnothing 8.3$ của cổ tay, giữ bằng vít M3 × 20 vào lỗ cấy ren ở đáy lỗ cổ tay. Chốt và vít quay cùng cổ tay; bề mặt trượt là thân chốt trong lỗ tấm ốp (dài $7.2\text{ mm}$), nên vít không bị nới khi khớp quay. In đứng, vành nằm trên bàn in.
+
+### CHI TIẾT 9: `04_Forearm_CoverServo.SLDPRT` (Tấm ốp $+Y$, che servo $J_4$)
+
+*Khối gốc: tấm ốp `[23]` của KUKA, cắt phẳng tại $y = 28.45\text{ mm}$ để nằm trên mặt ngoài nhánh càng.*
+
+1. **Hộp che servo:** khối $x \in [113.7, 149.8]$, $z \in [298.2, 314.2]$ đùn tới $y = 49.9\text{ mm}$; lòng hộp $x \in [115.3, 148.2]$, $z \in [299.83, 312.63]$ sâu tới $y = 48.5$ (trần dày $1.4\text{ mm}$, hở $1.8\text{ mm}$ trên đáy servo cho dây vòng qua).
+2. **Rãnh dây:** ở mặt trong, chữ nhật $x \in [96, 115.4]$, $z \in [301.7, 310.7]$ sâu $3.55\text{ mm}$, nối lòng hộp với khe dây của thân càng.
+3. **Lỗ vít:** 2 lỗ $\varnothing 3.4\text{ mm}$ tại $(100, 318)$ và $(112, 294.5)$ cho vít M3 × 8; 1 lỗ $\varnothing 2.4\text{ mm}$ tại $(152, 306.23)$ cho vít tự ren M2.
+4. **Thứ tự lắp:** luồn đầu cắm servo $J_4$ qua khe dây vào khoang, đặt servo vào cửa sổ và bắt 2 vít tai, vòng dây qua đáy servo về phía khuỷu, rồi úp tấm ốp.
+
+### CHI TIẾT 10: Tay gắp
+Chưa có file CAD: mặt bích và tay gắp.
 
 Chiều dài động học hiện dùng trong code: $L_2 = 100.0\text{ mm}$, $L_3 = 55.0\text{ mm}$. Theo CAD, $L_2 = 127.8\text{ mm}$ (từ $J_3$ tại $(9.8, 296.45)$ tới $J_4$ tại $(137.2, 306.23)$, lệch $9.78\text{ mm}$ theo phương vuông góc); code và tài liệu động học sẽ đổi khi tay gắp chốt xong.
 

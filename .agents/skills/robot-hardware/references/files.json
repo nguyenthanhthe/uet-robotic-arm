@@ -149,7 +149,7 @@
   },
   {
     "path": "hardware/reference/cots_parts/MG90S_body.SLDPRT",
-    "summary": "MG90S servo body as a standalone part (case and tabs, no shaft): body 22.8 x 12.2 mm, tabs 32.3 mm, tab top 18.3 mm above the bottom, gearbox top +10.2 mm, shaft tip +14.2 mm, shaft 5.95 mm from the body end."
+    "summary": "MG90S servo body as a standalone part (case and tabs, no shaft): body 22.8 x 12.2 mm, tabs 32.3 x 2.7 mm with their underside 18.3 mm above the bottom, gearbox top 10.2 mm and shaft tip 14.2 mm above the tab underside, shaft 5.95 mm from the body end."
   },
   {
     "path": "hardware/reference/cots_parts/MG90S_Horn_2arm.SLDPRT",

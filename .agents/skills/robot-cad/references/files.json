@@ -48,5 +48,6 @@
   {"path": "cad/tools/split_step_parts.py", "summary": "Splits a reference 'all parts' STEP into per-part STEP/STL plus manifest and PARTS.md."},
   {"path": "cad/tools/check_interference_stl.py", "summary": "Mesh-based interference check: point-in-solid test between every pair of per-component STL files exported from an assembly."},
   {"path": "cad/tools/gripper_motion_mates.swb", "summary": "SolidWorks macro (Tools > Macro > Run on the open main assembly): replaces the two fixed jaw-opening Distance mates with 0-23.6 mm Limit Distance mates so the racks never leave the pinion, then adds Rack Pinion mates (pitch dia 15 mm) so the jaws follow the pinion."},
+  {"path": "cad/tools/robot_appearance.swb", "summary": "SolidWorks macro (Tools > Macro > Run on the open main assembly): sets component-level colour and gloss on the printed parts — glossy KUKA orange for the turret, upper arm, elbow, fork and wrist, satin black for the base, tray, side covers, gripper base and guide, silver for the jaws, pinion, pivot pin and bearing spacer; COTS components and the part files are left untouched; does not save."},
   {"path": "cad/tools/verify_kinematics_5dof.py", "summary": "Numeric forward/inverse-kinematics verification for the 5-DOF arm geometry (h0, a1, L1, L2, L3)."}
 ]

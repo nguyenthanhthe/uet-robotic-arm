@@ -40,6 +40,7 @@ text, and verify kinematics.
 | Split a reference "all parts" STEP | `cad/tools/split_step_parts.py` | `cad/exports/v2rad/manifest.json` |
 | Check an assembly for interference | `cad/tools/check_interference_stl.py` | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` |
 | Make the gripper jaws movable within the rack travel | `cad/tools/gripper_motion_mates.swb` | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` |
+| Colour the printed parts in the assembly (KUKA orange / black / silver, glossy) | `cad/tools/robot_appearance.swb` | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` |
 | Numerically check 5-DOF FK/IK | `cad/tools/verify_kinematics_5dof.py` | see `robot-simulation` |
 | Open the scaled KUKA reference assembly | `cad/parts/kuka scaled.SLDASM` | `cad/parts/KR3 R540.SLDPRT` |
 | Look at the KUKA rotating-column shape reference | `cad/parts/02_Base_Turret.SLDPRT` | `cad/parts/KR3 R540.SLDPRT` |

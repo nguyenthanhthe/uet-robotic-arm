@@ -34,7 +34,7 @@ addBody(robot, body1, 'base');
 body2 = rigidBody('link2');
 jnt2 = rigidBodyJoint('jnt2', 'revolute');
 setFixedTransform(jnt2, trvec2tform([a1, 0, 0]));
-jnt2.JointAxis = [0, 1, 0];
+jnt2.JointAxis = [0, -1, 0]; % Goc duong nang khau len (cung quy uoc voi IK)
 jnt2.PositionLimits = deg2rad([-30, 90]);
 body2.Joint = jnt2;
 addBody(robot, body2, 'link1');
@@ -43,7 +43,7 @@ addBody(robot, body2, 'link1');
 body3 = rigidBody('link3');
 jnt3 = rigidBodyJoint('jnt3', 'revolute');
 setFixedTransform(jnt3, trvec2tform([L1, 0, 0])); % doc theo Link 1
-jnt3.JointAxis = [0, 1, 0];
+jnt3.JointAxis = [0, -1, 0]; % Goc duong nang khau len (cung quy uoc voi IK)
 jnt3.PositionLimits = deg2rad([-110, 10]);
 body3.Joint = jnt3;
 addBody(robot, body3, 'link2');
@@ -52,7 +52,7 @@ addBody(robot, body3, 'link2');
 body4 = rigidBody('link4');
 jnt4 = rigidBodyJoint('jnt4', 'revolute');
 setFixedTransform(jnt4, trvec2tform([L2, 0, 0]));
-jnt4.JointAxis = [0, 1, 0];
+jnt4.JointAxis = [0, -1, 0]; % Goc duong nang khau len (cung quy uoc voi IK)
 jnt4.PositionLimits = deg2rad([-90, 90]);
 body4.Joint = jnt4;
 addBody(robot, body4, 'link3');
@@ -76,55 +76,68 @@ axis([-250 350 -350 350 0 450]);
 grid on; view(135, 25);
 
 %% 4. KIEM NGHIEM MO-MEN TAI TRONG CAC KHOP (TORQUE ANALYSIS)
-% Cac khoi luong thanh phan (don vi: kg)
-m_payload = 0.050; % Vat gap toi da 50g
-m_gripper = 0.040; % Cum ban kep + servo MG90S kep
-m_wrist   = 0.030; % Cum co tay + servo MG90S roll
-m_L2      = 0.045; % Than cang tay Link 2 in 3D
-m_servoJ4 = 0.0135;% Servo MG90S dieu khien co tay J4
-m_servoJ3 = 0.0135;% Servo MG90S o khuyp J3
-m_L1      = 0.065; % Than canh tay Link 1 in 3D
+% Tu the xau nhat: ca canh tay duoi thang nam ngang, mang vat gap 50 g.
+% The tich V, dien tich A va trong tam cua chi tiet in do tren 00_Robot_J1J2_Assembly.
+% "d" la khoang cach tu truc khop dau khau den trong tam, do doc theo khau.
+rho_petg  = 1.27;  % Khoi luong rieng PETG (g/cm^3)
+t_wall    = 0.16;  % Be day thanh in: 4 lop x 0.4 mm (cm)
+infill_L  = 0.20;  % Infill cac khoi than KUKA lon
+infill_S  = 0.35;  % Infill chi tiet nho chiu luc
+m_payload = 50;    % Vat gap toi da (g)
+k_dyn     = 1.8;   % He so gia toc khi khoi dong/dung
+g         = 9.81;  % m/s^2
 
-g = 9.81; % m/s^2
+% Chi tiet in: {Ten, khau, V (cm^3), A (cm^2), infill, d (mm)}
+% Khau 1: J2 -> J3, khau 2: J3 -> J4, khau 3: J4 -> tam gap
+printed = { ...
+    '03_UpperArmKuka',        1, 383.05, 557.43, infill_L,  59.5; ...
+    '04_Forearm_ElbowKuka',   2, 145.72, 264.12, infill_L,  18.4; ...
+    '04_Forearm_ForkKuka',    2,  69.61, 204.98, infill_L,  85.5; ...
+    '04_Forearm_CoverPivot',  2,  26.25,  82.80, infill_S, 100.4; ...
+    '04_Forearm_CoverServo',  2,   6.01,  55.05, infill_S,  98.0; ...
+    '05_WristKuka',           3,  54.54, 119.99, infill_S,   0.1; ...
+    '06_Gripper_Base',        3,  35.78, 114.13, infill_S,  43.5; ...
+    '06_Gripper_Guide',       3,  13.42,  93.15, infill_S,  67.3; ...
+    '06_Gripper_Jaw (x2)',    3,  12.19,  71.57, infill_S,  85.7};
 
-% Tinh toan mo-men xoan tinh cuc dai tai khuyp J3 (khi duoi ngang toi da):
-% Can tay don tinh tu tam J3 (don vi: m):
-d_payload_J3 = (L2 + L3) / 1000;
-d_grip_J3    = (L2 + L3/2) / 1000;
-d_wrist_J3   = L2 / 1000;
-d_servoJ4_J3 = (L2 - 10) / 1000;
-d_L2_J3      = (L2 / 2) / 1000;
+% Linh kien mua san: {Ten, khau, khoi luong (g), d (mm)}
+cots = { ...
+    'MG996R khop J3 (nam trong canh tay tren)', 1, 55.0, 118.4; ...
+    'Dia sung 25T khop J3',                     2,  5.0,   0.0; ...
+    'MG90S khop J4',                            2, 13.4, 122.8; ...
+    'MG90S khop J5',                            3, 13.4,  15.8; ...
+    'MG90S tay gap',                            3, 13.4,  51.3};
 
-T_J3_Nm = (m_payload * d_payload_J3 + ...
-           m_gripper * d_grip_J3 + ...
-           m_wrist * d_wrist_J3 + ...
-           m_servoJ4 * d_servoJ4_J3 + ...
-           m_L2 * d_L2_J3) * g;
-T_J3_kgcm = (T_J3_Nm / g) * 100;
+V = cell2mat(printed(:, 3));
+A = cell2mat(printed(:, 4));
+V_shell   = min(A * t_wall, V);  % Lop vo dac
+m_printed = rho_petg * (V_shell + cell2mat(printed(:, 5)) .* (V - V_shell));
 
-% Tinh toan mo-men xoan tinh cuc dai tai vai J2 (khi duoi ngang toi da):
-d_payload_J2 = (L1 + L2 + L3) / 1000;
-d_grip_J2    = (L1 + L2 + L3/2) / 1000;
-d_wrist_J2   = (L1 + L2) / 1000;
-d_servoJ4_J2 = (L1 + L2 - 10) / 1000;
-d_L2_J2      = (L1 + L2 / 2) / 1000;
-d_servoJ3_J2 = L1 / 1000;
-d_L1_J2      = (L1 / 2) / 1000;
+link = [cell2mat(printed(:, 2)); cell2mat(cots(:, 2))];
+mass = [m_printed;               cell2mat(cots(:, 3))];  % g
+d    = [cell2mat(printed(:, 6)); cell2mat(cots(:, 4))];  % mm
 
-T_J2_Nm = (m_payload * d_payload_J2 + ...
-           m_gripper * d_grip_J2 + ...
-           m_wrist * d_wrist_J2 + ...
-           m_servoJ4 * d_servoJ4_J2 + ...
-           m_L2 * d_L2_J2 + ...
-           m_servoJ3 * d_servoJ3_J2 + ...
-           m_L1 * d_L1_J2) * g;
-T_J2_kgcm = (T_J2_Nm / g) * 100;
+% Servo dan dong tung khop va mo-men ham o 6 V (kg.cm)
+link_start  = [0, L1, L1 + L2];  % Khoang cach tu J2 den dau moi khau (mm)
+joint_name  = {'Vai J2', 'Khuyu J3', 'Co tay J4'};
+servo_name  = {'Servo so 25 kg', 'MG996R', 'MG90S'};
+servo_stall = [22.0, 11.0, 2.2];
 
 fprintf('\n--- KET QUA KIEM NGHIEM TAI TRONG & MO-MEN XOAN TINH ---\n');
-fprintf('Mo-men tai Khop Khuyu J3: %.2f kg.cm (Servo MG90S max = 2.50 kg.cm @ 6V -> He so an toan S = %.2f)\n', ...
-    T_J3_kgcm, 2.50 / T_J3_kgcm);
-fprintf('Mo-men tai Khop Vai J2:   %.2f kg.cm (Servo MG996R max = 11.00 kg.cm @ 6V -> He so an toan S = %.2f)\n', ...
-    T_J2_kgcm, 11.00 / T_J2_kgcm);
+for k = 1:3
+    fprintf('Khau %d: %.0f g\n', k, sum(mass(link == k)));
+end
+for j = 1:3
+    carried = link >= j;
+    arm = link_start(link(carried))' - link_start(j) + d(carried);  % mm
+    T_kgcm = (sum(mass(carried) .* arm) + ...
+              m_payload * (L1 + L2 + L3 - link_start(j))) / 1e4;
+    fprintf(['Khop %-9s: tinh %.2f kg.cm (%.2f N.m), dong %.2f kg.cm | ' ...
+             '%s %.1f kg.cm @ 6V -> S tinh = %.2f, S dong = %.2f\n'], ...
+        joint_name{j}, T_kgcm, T_kgcm * g / 100, k_dyn * T_kgcm, ...
+        servo_name{j}, servo_stall(j), servo_stall(j) / T_kgcm, ...
+        servo_stall(j) / (k_dyn * T_kgcm));
+end
 
 %% 5. TINH TOAN DONG HOC THUAN (FK) & DONG HOC NGHICH GIAI TICH (IK)
 % Vi tri muc tieu de kiem tra gap vat:

@@ -73,20 +73,32 @@ Với góc tiếp cận phôi thẳng đứng từ trên xuống ($\theta_{\text
 Xét tư thế nguy hiểm nhất khi toàn bộ cánh tay vươn dài nằm ngang song song mặt bàn ($R_{\max} = 0.342\text{ m}$):
 - Tải trọng gắp vật mẫu ($m_{\text{payload}} = 50\text{ g} = 0.05\text{ kg}$):
   $$T_{\text{payload}} = 0.05 \times 9.81 \times 0.342 \approx 0.168\text{ N}\cdot\text{m} \approx \mathbf{1.71\text{ kg}\cdot\text{cm}}$$
-- Khối lượng cụm cánh tay + 3 servo phía trên ($m_{\text{arm}} \approx 0.35\text{ kg}$, trọng tâm tập trung tại $r_{\text{cg}} \approx 0.11\text{ m}$):
-  $$T_{\text{arm}} = 0.35 \times 9.81 \times 0.11 \approx 0.378\text{ N}\cdot\text{m} \approx \mathbf{3.85\text{ kg}\cdot\text{cm}}$$
-- Tổng mô-men tĩnh: $T_{\text{static}} = 1.71 + 3.85 = \mathbf{5.56\text{ kg}\cdot\text{cm}}$.
-- Mô-men động học cần thiết (kèm hệ số an toàn gia tốc $k = 1.8$):
-  $$T_{\text{dynamic}} = 5.56 \times 1.8 \approx \mathbf{10.01\text{ kg}\cdot\text{cm}}$$
+- Khối lượng phần chuyển động sau trục vai ($m_{\text{arm}} \approx 0.553\text{ kg}$, trọng tâm chung tại $r_{\text{cg}} \approx 0.161\text{ m}$):
+  $$T_{\text{arm}} = 0.553 \times 9.81 \times 0.161 \approx 0.872\text{ N}\cdot\text{m} \approx \mathbf{8.89\text{ kg}\cdot\text{cm}}$$
+- Tổng mô-men tĩnh: $T_{\text{static}} = 1.71 + 8.89 = \mathbf{10.60\text{ kg}\cdot\text{cm}}$.
+- Mô-men động học cần thiết (kèm hệ số gia tốc $k = 1.8$):
+  $$T_{\text{dynamic}} = 10.60 \times 1.8 \approx \mathbf{19.07\text{ kg}\cdot\text{cm}}$$
+
+Khối lượng từng khâu lấy từ thể tích và trọng tâm đo trên `00_Robot_J1J2_Assembly`, quy đổi theo thông số in PETG ($1.27\text{ g/cm}^3$, 4 lớp thành, infill $20\%$ cho khối thân lớn và $35\%$ cho chi tiết nhỏ), cộng khối lượng servo theo datasheet; chưa gồm ốc vít và dây điện:
+
+| Khâu | Thành phần | Khối lượng | Trọng tâm tính từ trục đầu khâu |
+|---|---|:---:|:---:|
+| $J_2 \to J_3$ | `03_UpperArmKuka` + MG996R của $J_3$ | $243\text{ g}$ | $72.8\text{ mm}$ |
+| $J_3 \to J_4$ | Hai nửa cẳng tay, hai tấm ốp, đĩa sừng $J_3$, MG90S của $J_4$ | $180\text{ g}$ | $58.4\text{ mm}$ |
+| $J_4 \to$ tâm gắp | `05_WristKuka`, tay gắp, MG90S của $J_5$ và của tay gắp | $130\text{ g}$ | $36.0\text{ mm}$ |
+
+Cùng tư thế đó, mô-men tĩnh tại khuỷu $J_3$ là $4.25\text{ kg}\cdot\text{cm}$ và tại cổ tay $J_4$ là $0.90\text{ kg}\cdot\text{cm}$. Phép tính đầy đủ nằm trong `matlab/kuka_robot_model.m`.
 
 ### 4.2. Lựa chọn Động cơ & Hệ số An toàn (Safety Factor)
+
+Mô-men yêu cầu của $J_2$, $J_3$, $J_4$ là mô-men động ($k = 1.8$) ở tư thế duỗi ngang; hệ số an toàn tính trên mô-men động đó.
 
 | Khớp | Động cơ khuyến nghị | Mô-men xoắn danh định (ở 6.0V) | Mô-men yêu cầu | Hệ số an toàn (SF) | Đánh giá |
 |:---:|---|:---:|:---:|:---:|---|
 | **J1 (Đế)** | **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 3.0\text{ kg}\cdot\text{cm}$ (ma sát trượt) | $\text{SF} > 3.5$ | Dư tải lớn, xoay nhẹ nhàng |
-| **J2 (Vai)** | **Servo Digital 25KG-180°** (cỡ vỏ $40 \times 20$, trục 25T) | **$\approx 22\text{ kg}\cdot\text{cm}$ ở 6.0V** | $10.01\text{ kg}\cdot\text{cm}$ | **$\text{SF} \approx 2.2$** | **MG996R ($11\text{ kg}\cdot\text{cm}$, $\text{SF} \approx 1.10$) không đủ giữ tư thế duỗi ngang** |
-| **J3 (Khuỷu)**| **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 5.5\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 2.0$ | Hoàn toàn đáp ứng |
-| **J4 (Cổ tay)**| **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.7\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 3$ | Nhẹ, giảm tải cho khớp vai |
+| **J2 (Vai)** | **Servo Digital 25KG-180°** (cỡ vỏ $40 \times 20$, trục 25T) | **$\approx 22\text{ kg}\cdot\text{cm}$ ở 6.0V** | $19.07\text{ kg}\cdot\text{cm}$ (tĩnh $10.60$) | **$\text{SF} \approx 1.15$** (tĩnh $2.08$) | **Giữ tư thế duỗi ngang dư tải gấp đôi nhưng biên động mỏng: giới hạn gia tốc khi duỗi hết tầm. MG996R ($11\text{ kg}\cdot\text{cm}$) chỉ vừa bằng mô-men tĩnh nên không dùng được** |
+| **J3 (Khuỷu)**| **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $7.65\text{ kg}\cdot\text{cm}$ (tĩnh $4.25$) | $\text{SF} \approx 1.44$ (tĩnh $2.59$) | Đáp ứng |
+| **J4 (Cổ tay)**| **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $1.62\text{ kg}\cdot\text{cm}$ (tĩnh $0.90$) | $\text{SF} \approx 1.36$ (tĩnh $2.44$) | Đáp ứng |
 | **J5 (Xoay)** | **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.3\text{ kg}\cdot\text{cm}$ | $\text{SF} > 5$ | Rất nhẹ tải |
 | **Gripper** | **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.5\text{ kg}\cdot\text{cm}$ | $\text{SF} > 3.0$ | Kẹp chắc vật thể 20–40mm |
 

@@ -35,14 +35,23 @@
 - [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 28 component, 35 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
   - [x] Turret liền khối `02_Turret_ForkKuka`: thân cột xoay KUKA đặt trực tiếp lên đế (ngõng trục $\varnothing 49$ + vành chân $\varnothing 92$), hốc đĩa sừng $J_1$ với 4 ốc M3, hốc servo MG996R nghiêng $15^\circ$ trong tai $+Y$, ổ bi 698ZZ trong tai $-Y$; trục $J_2$ cao $169.05\text{ mm}$, lệch $9.8\text{ mm}$ trước trục $J_1$.
   - [ ] In thử, lắp servo $J_2$ và kiểm tra khe hở.
+  - [ ] Xử lý mảnh rời $57.6\text{ mm}^3$ ở lưng `02_Turret_ForkKuka` (khối đặc thứ hai do `Cut-Extrude16` tách ra, cách thân $1.8\text{ mm}$): xoá hoặc nối lại với thân.
+  - [ ] Làm dày viền mặt trong của `04_Forearm_CoverServo` lên $\ge 1.2\text{ mm}$ ($5\%$ điểm đo hiện mỏng hơn $0.72\text{ mm}$).
+  - [ ] Kiểm tra DfAM (15 chi tiết in, đều kín nước): 11 chi tiết cần support khi in FDM, xem bảng hướng in trong `docs/huong-dan-thiet-ke-cad-solidworks-kuka.md`.
 - [ ] **Cánh tay chính & Khuỷu tay J3 (`03_UpperArm`, `04_Forearm`):** Đang tiến hành.
   - [x] Cánh tay trên `03_UpperArmKuka` ($L_1 = 127.4\text{ mm}$): thân cánh tay KUKA, đầu $J_2$ bắt đĩa sừng và bu-lông M8 qua vòng bi, tai $+Y$ đầu $J_3$ giữ servo MG996R nghiêng $15^\circ$, tai $-Y$ có ổ bi 698ZZ; lắp trong `00_Robot_J1J2_Assembly.SLDASM`, khớp $J_2$ quay tự do từ $-45^\circ$ đến $+165^\circ$.
   - [x] Cẳng tay ($L_2 = 127.8\text{ mm}$): khối khuỷu `04_Forearm_ElbowKuka`, thân càng `04_Forearm_ForkKuka` giữ servo MG90S $J_4$, hai tấm ốp `04_Forearm_CoverPivot` / `04_Forearm_CoverServo` và chốt xoay `04_J4_PivotPin`.
 - [ ] **Cổ tay & Tay gắp song song J4 - J5 + Gripper:** Đang tiến hành.
   - [x] Cổ tay `05_WristKuka`: trục $J_4$ và $J_5$ cắt nhau tại tâm mũi cổ tay, servo MG90S $J_5$ nằm trong mũi.
   - [x] Tay gắp bánh răng – thanh răng (`06_Gripper_Base`, `06_Gripper_Guide`, `06_Gripper_Pinion`, 2 × `06_Gripper_Jaw`), tâm gắp cách trục $J_4$ $L_3 = 86.8\text{ mm}$.
+  - [x] Ngón kẹp cao $34\text{ mm}$, đối xứng quanh trục $J_5$, nên hai ngón (cùng một chi tiết xoay $180^\circ$) trùng khít khi khép.
+  - [ ] Nới thành hai bên `06_Gripper_Base` từ $1.17$ lên $\ge 1.2\text{ mm}$.
   - [ ] Đo đĩa sừng MG90S thật và in mẫu thử cụm tay gắp.
 - [ ] **Mô phỏng động học MATLAB & Thuyết minh Typst:** Đang cập nhật.
+  - [x] Mô-men khớp tính từ khối lượng và trọng tâm đo trên assembly: vai $J_2$ tĩnh $10.62\text{ kg}\cdot\text{cm}$ (hệ số an toàn tĩnh $2.07$, động $1.15$ với servo $22\text{ kg}\cdot\text{cm}$).
+  - [x] FK của mô hình `rigidBodyTree` khớp với IK giải tích; giới hạn khớp trong MATLAB theo bảng D-H.
+  - [ ] Thống nhất giới hạn khớp giữa bảng D-H (`docs/thong-so-dong-hoc.md`), `goal.md` và mục Limit Angle của hướng dẫn CAD.
+- [ ] **Thị giác máy tính (camera gắn cổ tay):** chọn module camera USB, đo lỗ bắt vít trên mạch thật rồi thiết kế gá; dây USB cần dài khoảng $650\text{ mm}$ để về tới đế.
 
 ---
 

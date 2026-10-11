@@ -110,15 +110,15 @@
   Xét tư thế nguy hiểm nhất: toàn bộ cánh tay vươn thẳng ngang song song mặt bàn.
   - Tải trọng phôi: $m_"payload" = 50 "g" = 0.05 "kg"$, cánh tay đòn $r_"payload" = 0.342 "m"$:
     $ T_"payload" = 0.05 times 9.81 times 0.342 approx 0.168 "N" dot "m" approx 1.71 "kg" dot "cm" $
-  - Khối lượng phần chuyển động sau trục vai, gồm cánh tay trên, cẳng tay, cổ tay, tay gắp và các servo $J_3, J_4, J_5$, tay gắp ($m_"arm" approx 0.553 "kg"$, trọng tâm chung tại $r_"cg" approx 0.161 "m"$). Khối lượng lấy từ thể tích đo trên mô hình lắp ráp, quy đổi theo thông số in PETG (4 lớp thành, infill $20%$ cho khối thân lớn và $35%$ cho chi tiết nhỏ):
-    $ T_"arm" = 0.553 times 9.81 times 0.161 approx 0.872 "N" dot "m" approx 8.89 "kg" dot "cm" $
+  - Khối lượng phần chuyển động sau trục vai, gồm cánh tay trên, cẳng tay, cổ tay, tay gắp và các servo $J_3, J_4, J_5$, tay gắp ($m_"arm" approx 0.554 "kg"$, trọng tâm chung tại $r_"cg" approx 0.161 "m"$). Khối lượng lấy từ thể tích đo trên mô hình lắp ráp, quy đổi theo thông số in PETG (4 lớp thành, infill $20%$ cho khối thân lớn và $35%$ cho chi tiết nhỏ):
+    $ T_"arm" = 0.554 times 9.81 times 0.161 approx 0.874 "N" dot "m" approx 8.91 "kg" dot "cm" $
   - Tổng mômen tĩnh yêu cầu tại trục khớp vai $J_2$:
-    $ T_"total" = T_"payload" + T_"arm" approx 1.71 + 8.89 = 10.60 "kg" dot "cm" $
+    $ T_"total" = T_"payload" + T_"arm" approx 1.71 + 8.91 = 10.62 "kg" dot "cm" $
   - Khả năng chịu tải của servo số 25 kg chọn cho khớp vai (ở 6 V):
     $ T_"servo" = 22.0 "kg" dot "cm" $
   - Hệ số an toàn tĩnh (Safety Factor):
-    $ "SF" = T_"servo" / T_"total" = 22.0 / 10.60 approx 2.08 > 1.5 $
-  - Khi tính thêm hệ số gia tốc $k = 1.8$, mômen yêu cầu là $19.07 "kg" dot "cm"$ và hệ số an toàn còn $1.15$.
+    $ "SF" = T_"servo" / T_"total" = 22.0 / 10.62 approx 2.07 > 1.5 $
+  - Khi tính thêm hệ số gia tốc $k = 1.8$, mômen yêu cầu là $19.12 "kg" dot "cm"$ và hệ số an toàn còn $1.15$.
 
-  Hệ số an toàn tĩnh $2.08$ cho thấy servo giữ được tải $50"g"$ ở tầm với tối đa; biên động $1.15$ đòi hỏi giới hạn gia tốc khớp vai khi cánh tay duỗi hết tầm. Cùng tư thế đó, khuỷu $J_3$ chịu $4.25 "kg" dot "cm"$ (MG996R $11 "kg" dot "cm"$, hệ số tĩnh $2.59$) và cổ tay $J_4$ chịu $0.90 "kg" dot "cm"$ (MG90S $2.2 "kg" dot "cm"$, hệ số tĩnh $2.44$).
+  Hệ số an toàn tĩnh $2.07$ cho thấy servo giữ được tải $50"g"$ ở tầm với tối đa; biên động $1.15$ đòi hỏi giới hạn gia tốc khớp vai khi cánh tay duỗi hết tầm. Cùng tư thế đó, khuỷu $J_3$ chịu $4.26 "kg" dot "cm"$ (MG996R $11 "kg" dot "cm"$, hệ số tĩnh $2.58$) và cổ tay $J_4$ chịu $0.91 "kg" dot "cm"$ (MG90S $2.2 "kg" dot "cm"$, hệ số tĩnh $2.42$).
 ]

@@ -280,3 +280,23 @@ Khi hoàn thiện mỗi file `.SLDPRT`, thực hiện xuất 2 định dạng v�
    * Độ dày thành (Walls / Perimeters): **4 lớp** ($1.6\text{ mm}$) để bắt ốc vít không bị toác thành.
    * Mật độ độn (Infill): **$15\% - 20\%$** cho các khối thân KUKA lớn (đế, turret, cánh tay); **$30\% - 40\%$ Gyroid** cho chi tiết nhỏ chịu lực.
    * Lớp trên/dưới (Top/Bottom layers): 5 lớp.
+4. Hướng đặt in và support. Đo trên STL của từng chi tiết với góc tự đỡ $45^\circ$, xét sáu hướng đặt theo trục của hệ tọa độ chi tiết; diện tích cần đỡ gồm cả các trần phẳng ngắn mà máy in có thể bắc cầu:
+
+   | Chi tiết | Hướng đặt ít support nhất | Diện tích cần đỡ |
+   |---|---|:---:|
+   | `01_Base_Kuka` | lật úp | $5485\text{ mm}^2$ ($6.8\%$) |
+   | `02_Turret_ForkKuka` | lật úp | $5856\text{ mm}^2$ ($12.4\%$) |
+   | `03_UpperArmKuka` | lật úp (cao $176\text{ mm}$) | $5525\text{ mm}^2$ ($9.9\%$) |
+   | `04_Forearm_ElbowKuka` | xoay $+90^\circ$ quanh $Y$ | $1838\text{ mm}^2$ ($7.0\%$) |
+   | `04_Forearm_ForkKuka` | xoay $-90^\circ$ quanh $Y$ | $1774\text{ mm}^2$ ($8.7\%$) |
+   | `05_WristKuka` | xoay $+90^\circ$ quanh $Y$ | $1037\text{ mm}^2$ ($8.6\%$) |
+   | `06_Gripper_Base` | xoay $+90^\circ$ quanh $Y$ | $419\text{ mm}^2$ ($3.7\%$) |
+   | `06_Gripper_Guide` | xoay $-90^\circ$ quanh $Y$ | $258\text{ mm}^2$ ($2.8\%$) |
+   | `06_Gripper_Jaw` | như trong CAD | $175\text{ mm}^2$ ($4.7\%$) |
+   | `04_Forearm_CoverServo` | nằm phẳng (xoay $+90^\circ$ quanh $X$) | $174\text{ mm}^2$ ($3.2\%$) |
+   | `06_Gripper_Pinion` | xoay $-90^\circ$ quanh $Y$ | $73\text{ mm}^2$ ($2.5\%$) |
+   | `01_Base_Tray` | như trong CAD | không cần support |
+   | `04_Forearm_CoverPivot` | xoay $-90^\circ$ quanh $X$ | không cần support |
+   | `03_J2_BearingSpacer`, `04_J4_PivotPin` | xoay $+90^\circ$ quanh $X$ | không cần support |
+
+   Thành mỏng cục bộ cần lưu ý khi cắt lớp: `06_Gripper_Pinion` $0.59\text{ mm}$ ở hai đầu hốc đĩa sừng, `06_Gripper_Guide` $0.48\text{ mm}$ ở hai đầu rãnh dẫn hướng, `06_Gripper_Base` $1.17\text{ mm}$ ở hai bên, viền `04_Forearm_CoverServo` dưới $0.72\text{ mm}$. `02_Turret_ForkKuka` còn một mảnh rời $57.6\text{ mm}^3$ ở lưng, phải xử lý trước khi xuất STL để in.

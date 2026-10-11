@@ -85,7 +85,7 @@
   },
   {
     "path": "hardware/reference/cots_parts/MG90S Servo Horn (2 spork).step",
-    "summary": "COTS MG90S servo horn option (1/2/4-spoke variant)."
+    "summary": "COTS MG90S two-arm horn STEP — dimension source for the J4, J5 and gripper-pinion horn recesses: 31.0 mm long, hub dia 6.8 x 4.7 mm, arms 2.1 mm thick tapering 5.0 to 3.6 mm wide, dia 4.8 spline bore, dia 2.6 centre-screw hole."
   },
   {
     "path": "hardware/reference/cots_parts/MG90S Servo Horn (4 spork).step",
@@ -153,7 +153,7 @@
   },
   {
     "path": "hardware/reference/cots_parts/MG90S_Horn_2arm.SLDPRT",
-    "summary": "MG90S two-arm plastic horn as a part (31 mm long, hub dia 6.8 x 4.7 mm, arms 2.1 mm thick) — drives the wrist pitch joint."
+    "summary": "MG90S two-arm plastic horn as a part (31 mm long, hub dia 6.8 x 4.7 mm, arms 2.1 mm thick; shaft axis = part Y, hub towards -Y, arms along X) — used three times in the robot assembly: J4 in the wrist, J5 in the gripper base, and in the gripper pinion."
   },
   {
     "path": "hardware/reference/cots_parts/PCA9685_Servo_Shield.SLDPRT",

@@ -254,9 +254,9 @@ Chiều dài dây cần từ servo tới shield: tay gắp khoảng $650\text{ m
    * `Distance Mate`: khối khuỷu cách tai ổ bi $0.5\text{ mm}$.
    * `Lock Mate`: đĩa sừng $J_3$ khoá vào khối khuỷu.
 4. **Thân càng cẳng tay:** `04_Forearm_ForkKuka` ngồi trong khối khuỷu bằng `Concentric` + `Coincident`; servo $J_4$ và hai tấm ốp khoá vào thân càng.
-5. **Khớp cổ tay $J_4$, $J_5$ và tay gắp:** theo mô tả ở cuối mục cổ tay và mục tay gắp (cổ tay: `Concentric` + `Distance` $0.41\text{ mm}$; đế tay gắp: `Concentric` + `Distance` $0.8\text{ mm}$; hai ngón: ba mate `Distance` mỗi ngón).
+5. **Khớp cổ tay $J_4$, $J_5$ và tay gắp:** theo mô tả ở cuối mục cổ tay và mục tay gắp (cổ tay: `Concentric` + `Distance` $0.41\text{ mm}$; đế tay gắp: `Concentric` + `Distance` $0.8\text{ mm}$; hai ngón: ba mate `Distance` mỗi ngón). Ba đĩa sừng hai cánh `MG90S_Horn_2arm` nằm trong hốc của cổ tay ($J_4$), đế tay gắp ($J_5$) và bánh răng tay gắp, mặt cánh áp đáy hốc, moay-ơ hướng về servo; mỗi đĩa khoá (`Lock`) vào chi tiết chứa nó.
 
-Assembly có 28 component và 35 mate. Cố định (`Fix`): đế, khay, servo và đĩa sừng $J_1$, Arduino Uno và shield PCA9685. Arduino và shield đặt bằng tọa độ, lệch $0.2\text{ mm}$ về phía $+Z$ của assembly so với tâm khoang điện.
+Assembly có 31 component và 38 mate. Cố định (`Fix`): đế, khay, servo và đĩa sừng $J_1$, Arduino Uno và shield PCA9685. Arduino và shield đặt bằng tọa độ, lệch $0.2\text{ mm}$ về phía $+Z$ của assembly so với tâm khoang điện.
 
 Kéo turret, cánh tay, khối khuỷu, cổ tay hoặc đế tay gắp trong SolidWorks để xoay $J_1$ đến $J_5$.
 

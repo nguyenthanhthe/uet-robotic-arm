@@ -32,7 +32,7 @@
   - [x] Chân đế tự thiết kế `01_Base_Pedestal` không còn dùng trong cụm lắp chính (thay bằng `01_Base_Kuka`).
   - [x] Mặt bích $95 \times 95 \times 5\text{ mm}$ bo góc $R10$ với 4 lỗ bắt bàn theo lưới $73.5 \times 73.5\text{ mm}$; 24 rãnh thoát khí dọc trên vách tháp.
 - [x] **Đế dáng KUKA (`01_Base_Kuka` + `01_Base_Tray`):** thân đế KUKA khoét rỗng, servo MG996R $J_1$ bắt dưới trần, khay đáy đỡ Arduino Uno + shield PWM 16 kênh, cổng USB và giắc nguồn mở ra mặt sau.
-- [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 28 component, 35 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
+- [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 31 component, 38 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
   - [x] Turret liền khối `02_Turret_ForkKuka`: thân cột xoay KUKA đặt trực tiếp lên đế (ngõng trục $\varnothing 49$ + vành chân $\varnothing 92$), hốc đĩa sừng $J_1$ với 4 ốc M3, hốc servo MG996R nghiêng $15^\circ$ trong tai $+Y$, ổ bi 698ZZ trong tai $-Y$; trục $J_2$ cao $169.05\text{ mm}$, lệch $9.8\text{ mm}$ trước trục $J_1$.
   - [ ] In thử, lắp servo $J_2$ và kiểm tra khe hở.
   - [x] `02_Turret_ForkKuka` là một khối đặc duy nhất: chóp vấu lưng phía ngoài lỗ xỏ dây ($x < -54\text{ mm}$) đã cắt bỏ, lỗ xỏ dây hở về phía sau.
@@ -46,7 +46,8 @@
   - [x] Tay gắp bánh răng – thanh răng (`06_Gripper_Base`, `06_Gripper_Guide`, `06_Gripper_Pinion`, 2 × `06_Gripper_Jaw`), tâm gắp cách trục $J_4$ $L_3 = 86.8\text{ mm}$.
   - [x] Ngón kẹp cao $34\text{ mm}$, đối xứng quanh trục $J_5$, nên hai ngón (cùng một chi tiết xoay $180^\circ$) trùng khít khi khép.
   - [x] Vành cổ áo `06_Gripper_Base` dày $1.8\text{ mm}$ trên đoạn $x \in [163.4, 169.4]$ (lỗ $R17.7$); $1.9\text{ mm}$ môi sau giữ lỗ $R18.3$, thành $1.2\text{ mm}$, để hở góc thân servo $J_5$.
-  - [ ] Đo đĩa sừng MG90S thật và in mẫu thử cụm tay gắp.
+  - [x] Kích thước đĩa sừng MG90S hai cánh lấy theo `MG90S Servo Horn (2 spork).step` (dài $31.0$, moay-ơ $\varnothing 6.8 \times 4.7$, cánh dày $2.1$, rộng $5.0 \to 3.6\text{ mm}$); ba hốc đĩa sừng ($J_4$, $J_5$, bánh răng tay gắp) chừa khe $0.15$–$0.35\text{ mm}$ quanh biên dạng này.
+  - [ ] In mẫu thử cụm tay gắp và thử độ vừa đĩa sừng trong hốc.
 - [ ] **Mô phỏng động học MATLAB & Thuyết minh Typst:** Đang cập nhật.
   - [x] Mô-men khớp tính từ khối lượng và trọng tâm đo trên assembly: vai $J_2$ tĩnh $10.62\text{ kg}\cdot\text{cm}$ (hệ số an toàn tĩnh $2.07$, động $1.15$ với servo $22\text{ kg}\cdot\text{cm}$).
   - [x] FK của mô hình `rigidBodyTree` khớp với IK giải tích; giới hạn khớp trong MATLAB theo bảng D-H.

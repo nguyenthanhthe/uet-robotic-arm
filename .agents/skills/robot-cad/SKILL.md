@@ -16,7 +16,7 @@ text, and verify kinematics.
 |---|---|
 | `cad/parts/` | Designed SolidWorks parts, working `.SLDASM` assemblies and imported KUKA KR3 R540 reference solids |
 | `cad/reference/` | Viewport / Fusion screenshots used as visual references |
-| `cad/tools/` | Python (OCP/OpenCASCADE) CAD tooling scripts |
+| `cad/tools/` | Python (OCP/OpenCASCADE) CAD tooling scripts and SolidWorks macros |
 | `cad/exports/` | **Generated** STEP/STL for the print shop — see exclusions in AGENTS.md |
 | `cad/featurescript/` | Empty placeholder (`.gitkeep` only) |
 
@@ -39,6 +39,7 @@ text, and verify kinematics.
 | Remove author engraving / rebrand | `cad/tools/rebrand_remove_text.py` | `cad/tools/render_engraving.py` |
 | Split a reference "all parts" STEP | `cad/tools/split_step_parts.py` | `cad/exports/v2rad/manifest.json` |
 | Check an assembly for interference | `cad/tools/check_interference_stl.py` | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` |
+| Make the gripper jaws movable within the rack travel | `cad/tools/gripper_motion_mates.swb` | `cad/parts/00_Robot_J1J2_Assembly.SLDASM` |
 | Numerically check 5-DOF FK/IK | `cad/tools/verify_kinematics_5dof.py` | see `robot-simulation` |
 | Open the scaled KUKA reference assembly | `cad/parts/kuka scaled.SLDASM` | `cad/parts/KR3 R540.SLDPRT` |
 | Look at the KUKA rotating-column shape reference | `cad/parts/02_Base_Turret.SLDPRT` | `cad/parts/KR3 R540.SLDPRT` |

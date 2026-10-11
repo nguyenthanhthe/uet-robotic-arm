@@ -8,8 +8,8 @@ clear; clc; close all;
 a1 = 9.8;     % Do lech truc vai J2 ra phia truoc truc de J1
 h0 = 169.05;  % Chieu cao truc vai J2 so voi mat ban
 L1 = 127.4;   % Chieu dai canh tay tren (Upper Arm: J2 -> J3)
-L2 = 100.0;   % Chieu dai cang tay (Forearm: J3 -> J4)
-L3 = 55.0;    % Chieu dai co tay va khau kep (Wrist & Gripper: J4 -> End-Effector)
+L2 = 127.8;   % Chieu dai cang tay (Forearm: J3 -> J4, do theo duong thang noi hai truc)
+L3 = 86.8;    % Chieu dai co tay va khau kep (J4 -> ranh chu V cua ngon kep)
 
 fprintf('--- THONG SO HINH HOC CANH TAY ROBOT KUKA (UET) ---\n');
 fprintf('Chieu cao de (h0): %.1f mm\n', h0);
@@ -72,7 +72,7 @@ q_home = deg2rad([0, 45, -45, 0, 0]);
 show(robot, q_home, 'PreservePlot', false, 'Frames', 'on');
 title('Mô hình 3D Robot KUKA KR 3 - Vị trí Home q = [0, 45, -45, 0, 0]');
 xlabel('X (mm)'); ylabel('Y (mm)'); zlabel('Z (mm)');
-axis([-200 300 -250 250 0 400]);
+axis([-250 350 -350 350 0 450]);
 grid on; view(135, 25);
 
 %% 4. KIEM NGHIEM MO-MEN TAI TRONG CAC KHOP (TORQUE ANALYSIS)

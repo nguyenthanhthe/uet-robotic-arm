@@ -4,7 +4,7 @@
 % =========================================================================
 function kuka_gui_control()
     % Khoi tao thong so dong hoc (mm)
-    a1 = 9.8; h0 = 169.05; L1 = 127.4; L2 = 100.0; L3 = 55.0;
+    a1 = 9.8; h0 = 169.05; L1 = 127.4; L2 = 127.8; L3 = 86.8;
     
     % Khoi tao goc khop ban dau
     q = [0, 45, -45, 0, 0]; % J1, J2, J3, J4, J5 (do)
@@ -21,7 +21,7 @@ function kuka_gui_control()
     % Vung ve 3D robot
     ax3d = axes('Parent', fig, 'Position', [0.38, 0.12, 0.58, 0.82]);
     grid(ax3d, 'on'); hold(ax3d, 'on'); view(ax3d, 135, 25);
-    axis(ax3d, [-200 300 -250 250 0 400]);
+    axis(ax3d, [-250 350 -350 350 0 450]);
     xlabel(ax3d, 'X (mm)'); ylabel(ax3d, 'Y (mm)'); zlabel(ax3d, 'Z (mm)');
     title(ax3d, 'Mô Phỏng 3D Thời Gian Thực (Digital Twin)', 'FontSize', 12);
     

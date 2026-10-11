@@ -2,7 +2,7 @@
 """
 Kiểm chứng Động học Thuận (FK) và Động học Nghịch (IK) cho Robot 5-DOF
 Kiến trúc: Base Yaw (J1) -> Shoulder Pitch (J2) -> Elbow Pitch (J3) -> Wrist Pitch (J4) -> Wrist Roll (J5)
-Kích thước: h0 = 169.05, a1 = 9.8, L1 = 127.4, L2 = 100.0, L3 = 55.0 mm
+Kích thước: h0 = 169.05, a1 = 9.8, L1 = 127.4, L2 = 127.8, L3 = 86.8 mm
 """
 
 import math
@@ -19,8 +19,8 @@ if sys.stdout.encoding != 'utf-8':
 H0 = 169.05
 A1 = 9.8
 L1 = 127.4
-L2 = 100.0
-L3 = 55.0
+L2 = 127.8
+L3 = 86.8
 
 def forward_kinematics(theta1_deg, theta2_deg, theta3_deg, theta4_deg, theta5_deg):
     """

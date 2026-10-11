@@ -32,7 +32,7 @@
   - [x] Chân đế tự thiết kế `01_Base_Pedestal` không còn dùng trong cụm lắp chính (thay bằng `01_Base_Kuka`).
   - [x] Mặt bích $95 \times 95 \times 5\text{ mm}$ bo góc $R10$ với 4 lỗ bắt bàn theo lưới $73.5 \times 73.5\text{ mm}$; 24 rãnh thoát khí dọc trên vách tháp.
 - [x] **Đế dáng KUKA (`01_Base_Kuka` + `01_Base_Tray`):** thân đế KUKA khoét rỗng, servo MG996R $J_1$ bắt dưới trần, khay đáy đỡ Arduino Uno + shield PWM 16 kênh, cổng USB và giắc nguồn mở ra mặt sau.
-- [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 28 component, 33 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
+- [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 28 component, 35 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
   - [x] Turret liền khối `02_Turret_ForkKuka`: thân cột xoay KUKA đặt trực tiếp lên đế (ngõng trục $\varnothing 49$ + vành chân $\varnothing 92$), hốc đĩa sừng $J_1$ với 4 ốc M3, hốc servo MG996R nghiêng $15^\circ$ trong tai $+Y$, ổ bi 698ZZ trong tai $-Y$; trục $J_2$ cao $169.05\text{ mm}$, lệch $9.8\text{ mm}$ trước trục $J_1$.
   - [ ] In thử, lắp servo $J_2$ và kiểm tra khe hở.
 - [ ] **Cánh tay chính & Khuỷu tay J3 (`03_UpperArm`, `04_Forearm`):** Đang tiến hành.

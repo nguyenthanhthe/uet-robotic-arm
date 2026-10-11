@@ -1,0 +1,201 @@
+' gripper_motion_mates.swb
+' Chay trong SolidWorks voi 00_Robot_J1J2_Assembly dang mo: Tools > Macro > Run.
+'
+' Thay hai mate Distance co dinh do mo cua ngon kep bang hai mate Limit Distance:
+' moi ngon chay 0 .. 23.6 mm tinh tu vi tri khep (23.6 mm = nua vong banh rang,
+' ung voi servo MG90S quay 180 do), nen thanh rang khong bao gio ra khoi banh rang.
+' Sau do them hai mate Rack Pinion (duong kinh lan 15 mm) de quay banh rang thi
+' hai ngon chay doi xung. Neu hai mate Distance cu khong con (da chay macro mot
+' lan) thi chi them Rack Pinion.
+' Macro khong luu file. Neu ket qua sai, dong assembly ma khong luu.
+Option Explicit
+
+Const OPEN_MATE_1 As String = "Distance12"     ' do mo ngon tren (06_Gripper_Jaw-1)
+Const OPEN_MATE_2 As String = "Distance14"     ' do mo ngon duoi (06_Gripper_Jaw-2)
+Const JAW_1 As String = "06_Gripper_Jaw-1"
+Const JAW_2 As String = "06_Gripper_Jaw-2"
+Const GUIDE As String = "06_Gripper_Guide-1"
+Const PINION As String = "06_Gripper_Pinion-1"
+Const MID_PLANE As String = "Top Plane"        ' mat y = 0 cua he toa do tay gap
+Const TRAVEL_MAX As Double = 0.0236            ' m
+Const TRAVEL_NOW As Double = 0.01              ' m, do mo hien tai cua moi ngon
+Const PITCH_DIA As Double = 0.015              ' m, mo-dun 1.5 x 10 rang
+
+Dim swApp As Object
+Dim swDoc As Object
+Dim swAsm As Object
+Dim asmName As String
+Dim report As String
+
+Sub main()
+    Set swApp = Application.SldWorks
+    Set swDoc = swApp.ActiveDoc
+    If swDoc Is Nothing Then
+        MsgBox "Hay mo 00_Robot_J1J2_Assembly truoc khi chay macro."
+        Exit Sub
+    End If
+    If swDoc.GetType <> 2 Then
+        MsgBox "Tai lieu dang mo khong phai assembly."
+        Exit Sub
+    End If
+    Set swAsm = swDoc
+    asmName = swDoc.GetTitle
+    If InStr(asmName, ".") > 0 Then asmName = Left(asmName, InStrRev(asmName, ".") - 1)
+
+    If swAsm.GetComponentByName(JAW_1) Is Nothing Or swAsm.GetComponentByName(JAW_2) Is Nothing _
+       Or swAsm.GetComponentByName(GUIDE) Is Nothing Or swAsm.GetComponentByName(PINION) Is Nothing Then
+        MsgBox "Khong tim thay component tay gap (" & JAW_1 & ", " & JAW_2 & ", " & GUIDE & ", " & PINION & ")."
+        Exit Sub
+    End If
+
+    report = ""
+    If DeleteMate(OPEN_MATE_1) Then AddLimit JAW_1
+    If DeleteMate(OPEN_MATE_2) Then AddLimit JAW_2
+    AddRackPinion JAW_1
+    AddRackPinion JAW_2
+    swDoc.ClearSelection2 True
+    swDoc.EditRebuild3
+    MsgBox report & vbCrLf & "Chua luu file. Quay thu banh rang, dung thi Ctrl+S."
+End Sub
+
+Private Function DeleteMate(mateName As String) As Boolean
+    swDoc.ClearSelection2 True
+    If swDoc.Extension.SelectByID2(mateName, "MATE", 0, 0, 0, False, 0, Nothing, 0) Then
+        swDoc.EditDelete
+        report = report & "Da xoa " & mateName & vbCrLf
+        DeleteMate = True
+    Else
+        report = report & "Khong co " & mateName & " (giu nguyen mate gioi han hien co)" & vbCrLf
+    End If
+End Function
+
+Private Function PlaneId(compName As String) As String
+    PlaneId = MID_PLANE & "@" & compName & "@" & asmName
+End Function
+
+' Limit Distance giua mat y = 0 cua ngon va mat y = 0 cua khung dan huong.
+Private Sub AddLimit(jawName As String)
+    Dim comp As Object, before As Variant, after As Variant
+    Dim mate As Object, errStat As Long, i As Long, moved As Double
+    Set comp = swAsm.GetComponentByName(jawName)
+    before = comp.Transform2.ArrayData
+
+    swDoc.ClearSelection2 True
+    If Not swDoc.Extension.SelectByID2(PlaneId(jawName), "PLANE", 0, 0, 0, False, 1, Nothing, 0) Then
+        report = report & "LOI: khong chon duoc " & PlaneId(jawName) & vbCrLf
+        Exit Sub
+    End If
+    If Not swDoc.Extension.SelectByID2(PlaneId(GUIDE), "PLANE", 0, 0, 0, True, 1, Nothing, 0) Then
+        report = report & "LOI: khong chon duoc " & PlaneId(GUIDE) & vbCrLf
+        Exit Sub
+    End If
+    ' 5 = swMateDISTANCE, 2 = swMateAlignCLOSEST; gioi han tren khac gioi han duoi -> mate Limit
+    Set mate = swAsm.AddMate5(5, 2, False, TRAVEL_NOW, TRAVEL_MAX, 0#, 0, 0, 0, 0, 0, False, False, 0, errStat)
+    If mate Is Nothing Then
+        report = report & "LOI: khong tao duoc Limit Distance cho " & jawName & " (ma loi " & errStat & ")" & vbCrLf
+        Exit Sub
+    End If
+    swDoc.EditRebuild3
+    after = comp.Transform2.ArrayData
+    moved = 0
+    For i = 9 To 11
+        moved = moved + Abs(after(i) - before(i))
+    Next i
+    If moved > 0.00001 Then
+        report = report & "CANH BAO: " & jawName & " da nhay sang phia doi dien, hay bat Flip Dimension cua mate vua tao" & vbCrLf
+    Else
+        report = report & "Limit Distance 0 .. 23.6 mm cho " & jawName & vbCrLf
+    End If
+End Sub
+
+' Canh thang dai nhat doc phuong truot (y) cua thanh rang.
+Private Function RackEdge(comp As Object) As Object
+    Dim bodies As Variant, edges As Variant, b As Long, e As Long
+    Dim crv As Object, lp As Variant, cp As Variant, length As Double, best As Double
+    bodies = comp.GetBodies2(0)
+    If IsEmpty(bodies) Then Exit Function
+    For b = 0 To UBound(bodies)
+        edges = bodies(b).GetEdges
+        For e = 0 To UBound(edges)
+            Set crv = edges(e).GetCurve
+            If crv.IsLine Then
+                lp = crv.LineParams
+                If Abs(lp(4)) > 0.999 Then
+                    cp = edges(e).GetCurveParams2
+                    length = Abs(cp(4) - cp(1))
+                    If length > best Then
+                        best = length
+                        Set RackEdge = edges(e)
+                    End If
+                End If
+            End If
+        Next e
+    Next b
+End Function
+
+' Mat tru nho nhat dong truc voi banh rang (lo tam).
+Private Function PinionFace(comp As Object) As Object
+    Dim bodies As Variant, faces As Variant, b As Long, f As Long
+    Dim srf As Object, cyl As Variant, best As Double
+    best = 1
+    bodies = comp.GetBodies2(0)
+    If IsEmpty(bodies) Then Exit Function
+    For b = 0 To UBound(bodies)
+        faces = bodies(b).GetFaces
+        For f = 0 To UBound(faces)
+            Set srf = faces(f).GetSurface
+            If srf.IsCylinder Then
+                cyl = srf.CylinderParams
+                If Abs(cyl(3)) > 0.999 And cyl(6) < best Then
+                    best = cyl(6)
+                    Set PinionFace = faces(f)
+                End If
+            End If
+        Next f
+    Next b
+End Function
+
+' Rack Pinion qua CreateMateData / CreateMate (IRackPinionMateFeatureData).
+Private Sub AddRackPinion(jawName As String)
+    Dim rack As Object, gear As Object, data As Object, mate As Object
+    Set rack = RackEdge(swAsm.GetComponentByName(jawName))
+    Set gear = PinionFace(swAsm.GetComponentByName(PINION))
+    If rack Is Nothing Or gear Is Nothing Then
+        report = report & "LOI: khong tim duoc canh thanh rang hoac mat tru banh rang cho " & jawName & vbCrLf
+        Exit Sub
+    End If
+    swDoc.ClearSelection2 True
+    Set data = swAsm.CreateMateData(13)          ' swMateRACKPINION
+    If data Is Nothing Then
+        report = report & "LOI: CreateMateData(13) tra ve rong cho " & jawName & vbCrLf
+        Exit Sub
+    End If
+    ' 0 = swRackPinionMateEntityType_Rack, 1 = swRackPinionMateEntityType_Pinion
+    On Error Resume Next
+    data.EntitiesToMate(0) = rack
+    If Err.Number <> 0 Then
+        Err.Clear
+        Set data.EntitiesToMate(0) = rack
+    End If
+    data.EntitiesToMate(1) = gear
+    If Err.Number <> 0 Then
+        Err.Clear
+        Set data.EntitiesToMate(1) = gear
+    End If
+    If Err.Number <> 0 Then
+        report = report & "LOI: khong gan duoc doi tuong cho mate cua " & jawName & " (" & Err.Description & ")" & vbCrLf
+        Err.Clear
+        On Error GoTo 0
+        Exit Sub
+    End If
+    On Error GoTo 0
+    data.DiameterType = 0                        ' swPinionPitchDiameter
+    data.DiameterVal = PITCH_DIA
+    data.Reverse = False
+    Set mate = swAsm.CreateMate(data)
+    If mate Is Nothing Then
+        report = report & "LOI: khong tao duoc Rack Pinion cho " & jawName & " (ErrorStatus " & data.ErrorStatus & ")" & vbCrLf
+    Else
+        report = report & "Rack Pinion cho " & jawName & " (neu hai ngon chay cung chieu thi bat Reverse o mot mate)" & vbCrLf
+    End If
+End Sub

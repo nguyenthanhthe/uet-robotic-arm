@@ -74,7 +74,7 @@ Tất cả kích thước hình học dưới đây bắt buộc phải tuân th
 8. **Lỗ cấy ren giữ servo:** 4 lỗ $\varnothing 4.2\text{ mm}$ trên mặt $y = 30.85$ tại $(x, z) = (18.339, 181.888)$, $(8.824, 184.438)$, $(5.547, 134.151)$, $(-3.967, 136.700)$, cắt sâu **$5.5\text{ mm}$** (đáy dày $2.6\text{ mm}$; lỗ tai servo DS3225 lệch tâm lỗ cấy ren khoảng $0.4\text{ mm}$, vẫn bắt được ốc M3). Trên cùng mặt này có 2 rãnh rộng $2.0\text{ mm}$, sâu **$2.0\text{ mm}$**, chạy dọc tâm tai bắt vít từ mép ô thân servo ra hết tai, để né gân tăng cứng của tai servo.
 9. **Ổ vòng bi 698ZZ (tai $-Y$):** Trên đáy hốc tròn mặt trong tai ($y = -31.36$), đường tròn $\varnothing 19.1\text{ mm}$ tâm trục $J_2$ cắt sâu **$6.2\text{ mm}$** ra phía ngoài; lỗ thông $\varnothing 14.0\text{ mm}$ xuyên ra mặt ngoài tai. Vòng bi lắp từ phía trong khe.
 10. **Cao độ lắp:** Turret dùng chung hệ tọa độ với đế nên trục $J_2$ cao $169.05\text{ mm}$ so với mặt bàn ($h_0$) và lệch $9.8\text{ mm}$ về phía trước trục $J_1$ ($a_1$).
-11. **Lỗ xỏ dây ở vấu lưng:** vấu chữ nhật của khối KUKA ở lưng turret ($x = -56.8 \to -46.5$, $y = \pm 5.5$, $z = 100.2 \to 110.5$) được khoét lỗ thẳng đứng $x \in [-54.8, -47.3]$, $y = \pm 4$. Khi $J_1 = 0^\circ$ lỗ nằm ngay trên lỗ dây servo $\varnothing 10$ của nóc hộp sau đế. Bó 5 dây (4 dây từ ống dẫn của cánh tay và dây servo $J_2$) đi qua lỗ này rồi xuống đế.
+11. **Lỗ xỏ dây ở vấu lưng:** vấu chữ nhật của khối KUKA ở lưng turret ($x = -56.8 \to -46.5$, $y = \pm 5.5$, $z = 100.2 \to 110.5$) được khoét lỗ thẳng đứng $x \in [-54.8, -47.3]$, $y = \pm 4$. Khi $J_1 = 0^\circ$ lỗ nằm ngay trên lỗ dây servo $\varnothing 10$ của nóc hộp sau đế. Chóp vấu phía ngoài lỗ (lát cắt $x \in [-58, -54]$, $y = \pm 4$) được cắt bỏ, nên lỗ hở về phía sau giữa hai má vấu và turret là một khối đặc duy nhất. Bó 5 dây (4 dây từ ống dẫn của cánh tay và dây servo $J_2$) đi qua lỗ này rồi xuống đế.
 
 **C. Lắp servo $J_2$ (`02_Turret_ForkKuka_SubAssembly.SLDASM`)**
 * Servo luồn từ mặt ngoài tai $+Y$ vào cho tới khi mặt trên của tai bắt vít áp vào mặt $y = 30.85$; bắt 4 ốc M3 vào lỗ cấy ren. Trục ra hướng vào khe, dây điện ra ở đầu trên của servo.
@@ -173,14 +173,15 @@ Vành $\varnothing 12 \times 2\text{ mm}$ ($y = -29.3 \to -27.3$), thân $\varno
 1. **Cửa sổ servo:** chữ nhật $x \in [115.3, 148.2]$, $z \in [299.83, 312.63]$ cắt xuyên tấm ốp; thân servo $J_4$ nhô qua cửa sổ tới $y = 46.7\text{ mm}$ và để hở.
 2. **Rãnh dây:** ở mặt trong, chữ nhật $x \in [96, 115.4]$, $z \in [301.7, 310.7]$ sâu $3.55\text{ mm}$, nối cửa sổ với khe dây của thân càng.
 3. **Lỗ vít:** 2 lỗ $\varnothing 3.4\text{ mm}$ tại $(100, 318)$ và $(112, 294.5)$ cho vít M3 × 8; 1 lỗ $\varnothing 2.4\text{ mm}$ tại $(152, 306.23)$ cho vít tự ren M2.
-4. **Thứ tự lắp:** luồn đầu cắm servo $J_4$ qua khe dây vào khoang, đặt servo vào cửa sổ của thân càng và bắt 2 vít tai, úp tấm ốp, rồi vòng dây qua lưng servo về phía khuỷu và ấn vào rãnh dây.
+4. **Đai viền:** biên dạng mặt trong (trừ cửa sổ servo, rãnh dây và 3 lỗ vít) đùn từ $y = 28.45$ lên $29.65\text{ mm}$, để mép tấm ốp dày $1.2\text{ mm}$ thay cho mép dao của vỏ cong KUKA.
+5. **Thứ tự lắp:** luồn đầu cắm servo $J_4$ qua khe dây vào khoang, đặt servo vào cửa sổ của thân càng và bắt 2 vít tai, úp tấm ốp, rồi vòng dây qua lưng servo về phía khuỷu và ấn vào rãnh dây.
 
 ### CHI TIẾT 10: `06_Gripper_Base.SLDPRT` (Đế tay gắp, quay quanh $J_5$)
 
 *Bốn chi tiết tay gắp dùng chung một hệ tọa độ riêng: phương như hệ của cổ tay ở tư thế gập $0^\circ$, trục xoay và trục bánh răng tay gắp trùng nhau tại $y = 0$, $z = 301.0\text{ mm}$. Trong assembly, trục này đặt trùng trục $J_5$ của cổ tay ($z = 306.23$), tức cả cụm cao hơn tọa độ vẽ $5.23\text{ mm}$, nên hai ngón kẹp đối xứng qua trục xoay.*
 
 1. **Thân:** $x \in [169.4, 193.9]$, tiết diện chữ nhật bo góc $y = \pm 19.5$, $z \in [279.7, 324.2]\text{ mm}$, bốn góc bo $R6$ (cùng tiết diện với khung dẫn hướng); mặt sau cách mặt trước cổ tay $0.84\text{ mm}$. In thân với mặt trước ($x = 193.9$) úp xuống bàn in.
-2. **Vành cổ áo (mặt sau):** vành trụ đồng tâm trục xoay, bán kính trong $18.3$, ngoài $19.5\text{ mm}$, từ mặt sau lùi về $x = 161.5$; ôm ngoài mũi cổ tay và nóc servo $J_5$ (bán kính lớn nhất $17.9\text{ mm}$), dừng trước tai servo $0.4\text{ mm}$, che khe giữa cổ tay và tay gắp.
+2. **Vành cổ áo (mặt sau):** vành trụ đồng tâm trục xoay, bán kính ngoài $19.5\text{ mm}$, từ mặt sau lùi về $x = 161.5$. Lỗ vành có bậc: $R17.7$ trên đoạn $x \in [163.4, 169.4]$ (thành $1.8\text{ mm}$, hở mũi cổ tay $R17.17$ là $0.53\text{ mm}$) và $R18.3$ trên đoạn $x \in [161.5, 163.4]$ (thành $1.2\text{ mm}$), vì góc thân servo $J_5$ vươn tới bán kính $17.87\text{ mm}$ cho đến $x = 162.9$. Vành dừng trước tai servo $0.4\text{ mm}$, che khe giữa cổ tay và tay gắp.
 3. **Hốc đĩa sừng servo $J_5$ (mặt sau):** moay-ơ $\varnothing 7.2$ và hai cánh dọc $Z$ (rộng $5.6 \to 3.9\text{ mm}$, đầu cánh ở $\pm 15.85$), sâu $4.4\text{ mm}$ (đáy ở $x = 173.8$); lỗ $\varnothing 2.4\text{ mm}$ ở tâm cho vít đĩa sừng, siết từ phía trước qua hốc servo trước khi lắp servo tay gắp.
 4. **Hốc servo tay gắp (mặt trước):** $y = \pm 6.4$, $z \in [294.75, 318.15]$, sâu tới $x = 175.3$. Servo MG90S đưa vào đáy trước, trục hướng $+X$ trùng trục $J_5$; mặt dưới tai tựa lên mặt trước $x = 193.9$, nóc hộp số ở $x = 204.1$, đỉnh trục ở $x = 208.1\text{ mm}$.
 5. **Rãnh dây:** $y = \pm 2.2$, $z \in [291.2, 294.9]$, sâu tới $x = 178.5$.
@@ -285,7 +286,7 @@ Khi hoàn thiện mỗi file `.SLDPRT`, thực hiện xuất 2 định dạng v�
    | Chi tiết | Hướng đặt ít support nhất | Diện tích cần đỡ |
    |---|---|:---:|
    | `01_Base_Kuka` | lật úp | $5485\text{ mm}^2$ ($6.8\%$) |
-   | `02_Turret_ForkKuka` | lật úp | $5856\text{ mm}^2$ ($12.4\%$) |
+   | `02_Turret_ForkKuka` | lật úp | $5817\text{ mm}^2$ ($12.4\%$) |
    | `03_UpperArmKuka` | lật úp (cao $176\text{ mm}$) | $5525\text{ mm}^2$ ($9.9\%$) |
    | `04_Forearm_ElbowKuka` | xoay $+90^\circ$ quanh $Y$ | $1838\text{ mm}^2$ ($7.0\%$) |
    | `04_Forearm_ForkKuka` | xoay $-90^\circ$ quanh $Y$ | $1774\text{ mm}^2$ ($8.7\%$) |
@@ -293,10 +294,10 @@ Khi hoàn thiện mỗi file `.SLDPRT`, thực hiện xuất 2 định dạng v�
    | `06_Gripper_Base` | xoay $+90^\circ$ quanh $Y$ | $419\text{ mm}^2$ ($3.7\%$) |
    | `06_Gripper_Guide` | xoay $-90^\circ$ quanh $Y$ | $258\text{ mm}^2$ ($2.8\%$) |
    | `06_Gripper_Jaw` | như trong CAD | $175\text{ mm}^2$ ($4.7\%$) |
-   | `04_Forearm_CoverServo` | nằm phẳng (xoay $+90^\circ$ quanh $X$) | $174\text{ mm}^2$ ($3.2\%$) |
+   | `04_Forearm_CoverServo` | nằm phẳng (xoay $+90^\circ$ quanh $X$) | $174\text{ mm}^2$ ($3.1\%$) |
    | `06_Gripper_Pinion` | xoay $-90^\circ$ quanh $Y$ | $73\text{ mm}^2$ ($2.5\%$) |
    | `01_Base_Tray` | như trong CAD | không cần support |
    | `04_Forearm_CoverPivot` | xoay $-90^\circ$ quanh $X$ | không cần support |
    | `03_J2_BearingSpacer`, `04_J4_PivotPin` | xoay $+90^\circ$ quanh $X$ | không cần support |
 
-   Thành mỏng cục bộ cần lưu ý khi cắt lớp: `06_Gripper_Pinion` $0.59\text{ mm}$ ở hai đầu hốc đĩa sừng, `06_Gripper_Guide` $0.48\text{ mm}$ ở hai đầu rãnh dẫn hướng, `06_Gripper_Base` $1.17\text{ mm}$ ở hai bên, viền `04_Forearm_CoverServo` dưới $0.72\text{ mm}$. `02_Turret_ForkKuka` còn một mảnh rời $57.6\text{ mm}^3$ ở lưng, phải xử lý trước khi xuất STL để in.
+   Thành mỏng cục bộ cần lưu ý khi cắt lớp: `06_Gripper_Pinion` $0.59\text{ mm}$ ở hai đầu hốc đĩa sừng, `06_Gripper_Guide` $0.48\text{ mm}$ ở hai đầu rãnh dẫn hướng, môi sau vành cổ áo `06_Gripper_Base` $1.2\text{ mm}$ (dài $1.9\text{ mm}$).

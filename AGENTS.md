@@ -48,6 +48,22 @@ lock. Perform all CAD actions through the SolidWorks MCP tools. After every feat
 mate, verify with `analyze_model` / `analyze_assembly` and never leave a red
 (missing-reference) mate. Save with `save_document` after each logical group.
 
+**SolidWorks MCP working rules.** Do not modify the MCP server under
+`tools/solidworks-mcp/`; when a capability is missing, write a Python script that works
+on exported STL meshes instead. Run MCP calls one at a time, never in parallel.
+`save_document` saves the ACTIVE document: call `activate_document` on the assembly
+before saving it, because inserting a component can make another file active. When
+`open_document` fails on a file that is already loaded, call
+`close_document(close_all=true)` (after saving) and open it again. A distance mate has
+two solutions: compare the returned transform with the expected one and, if the part
+landed on the wrong side, delete the mate and re-add it with `flip=true`. A boss added
+after a cut refills that cut wherever the two overlap: keep new bosses outside existing
+pockets or re-cut afterwards. KUKA body faces sit at non-round coordinates, so cut from
+a plane outside the body or use a mid-plane cut to avoid leaving a thin film. Export STL
+only after closing and reopening the part, and re-align the mesh to a known face before
+measuring, because part exports are shifted. The MCP tools cannot create limit mates or
+rack-and-pinion mates.
+
 **Units.** Discuss and print in millimetres. Parameters passed to SolidWorks MCP tools
 must be in **metres (SI)** — e.g. 9.5 mm → `0.0095`, ⌀4.2 mm → `radius 0.0021`.
 
@@ -64,7 +80,11 @@ concentric at (0,0). J1 load path: the one-piece turret
 roof of the hollow KUKA base (`01_Base_Kuka`), for torque and axial load; its ⌀49 spigot
 and ⌀92 foot ring run on the base top as a plain bearing that takes the tilting moment;
 J1 has no ball bearing. J2 load path: upper arm → 25T horn →
-MG996R in the fork's servo ear, with a 698ZZ support bearing in the opposite ear.
+25 kg·cm digital servo in the fork's servo ear, with a 698ZZ support bearing in the
+opposite ear. Wrist: the J4 pitch axis and the J5 roll axis intersect on the centre of
+the KUKA wrist nose; the gripper parts share their own frame and are placed on the J5
+axis by mates. Servo horns are used uncut, and parts must assemble as drawn without
+reworking hardware after printing.
 
 **Report build.** `typst compile docs/typst/thuyet-minh.typ docs/typst/out/thuyet-minh.pdf`
 (Font: Liberation Serif). See `project-docs`.

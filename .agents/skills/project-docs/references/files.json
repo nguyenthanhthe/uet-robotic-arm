@@ -36,6 +36,10 @@
     "summary": "Design/wiring illustration image."
   },
   {
+    "path": "docs/interference detection robot j1j2 assembly.xlsx",
+    "summary": "SolidWorks Interference Detection export for 00_Robot_J1J2_Assembly before the clearance fixes (88 rows, volumes in cubic inches)."
+  },
+  {
     "path": "docs/ke-hoach-dieu-khien-ai-robot.md",
     "summary": "Plan for AI/vision-based robot control (object recognition, teaching)."
   },
@@ -218,6 +222,10 @@
   {
     "path": "docs/typst/uet-report.typ",
     "summary": "UET report cover/template style."
+  },
+  {
+    "path": "docs/v2.xlsx",
+    "summary": "SolidWorks Interference Detection export for 00_Robot_J1J2_Assembly after the clearance fixes: only the servo-horn spline fits remain (78 rows)."
   },
   {
     "path": "docs/yeu-cau-ky-thuat.md",

@@ -28,8 +28,8 @@ Vì mọi khối KUKA dùng chung một hệ tọa độ (mặt bàn tại $z = 
 | `h0` | mm | `169.05` | Chiều cao từ đáy bàn đến trục khớp Vai J2 |
 | `a1` | mm | `9.8` | Độ lệch trục vai J2 về phía trước trục đế J1 |
 | `L1` | mm | `127.4` | Chiều dài link Vai (J2 -> J3) |
-| `L2` | mm | `100` | Chiều dài link Cẳng tay (J3 -> J4) |
-| `L3` | mm | `55` | Chiều dài Cổ tay đến tâm ngón kẹp |
+| `L2` | mm | `127.8` | Chiều dài link Cẳng tay (J3 -> J4) |
+| `L3` | mm | `86.8` | Chiều dài Cổ tay J4 đến tâm gắp (rãnh chữ V của ngón kẹp) |
 | `clearance` | mm | `0.3` | Khe hở mỗi bên quanh thân servo |
 | `bearing_698_od` | mm | `19.0` | Đường kính ngoài vòng bi 698ZZ (lỗ CAD $\varnothing 19.1 \times 6.2$) |
 
@@ -49,7 +49,7 @@ Sau mỗi nhóm feature: kiểm tra số khối (`analyze_model` kiểu `bodies`
 2. Chạy `python cad/tools/check_interference_stl.py <thư_mục>`.
 3. Chạy thêm `Evaluate -> Interference Detection` trong SolidWorks để đối chiếu.
 
-Trục then hoa của servo lún vào đĩa sừng là lắp chặt có chủ ý, không phải lỗi.
+Trục then hoa của servo lún vào đĩa sừng là lắp chặt có chủ ý, không phải lỗi. Công cụ lưới báo nhầm một vài điểm ở mặt cong (servo $J_3$ với `03_UpperArmKuka`) và không thấy chỗ lún dưới khoảng $0.02\text{ mm}$, nên kết quả của SolidWorks là kết quả chốt.
 
 ---
 

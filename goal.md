@@ -15,7 +15,7 @@
 
 ### 1.2. Ràng buộc Tải trọng & Không gian Hoạt động (Payload & Workspace)
 - **Tải trọng danh định:** Khối lượng vật gắp tối thiểu $50\text{ g}$ (ổn định ở tư thế vươn xa nhất mà không trôi khớp hay sụt tốc).
-- **Tầm với làm việc:** Bán kính thao tác tối thiểu $R_{\text{reach}} \ge 200\text{ mm}$ (thiết kế hình học KUKA scale 0.49 đạt tầm với cực đại thực tế $\approx 282 - 330\text{ mm}$, bao phủ toàn bộ vùng gắp và vùng thả trên mặt bàn).
+- **Tầm với làm việc:** Bán kính thao tác tối thiểu $R_{\text{reach}} \ge 200\text{ mm}$ (thiết kế hình học KUKA scale 0.49 đạt tầm với cực đại thực tế $\approx 342\text{ mm}$, bao phủ toàn bộ vùng gắp và vùng thả trên mặt bàn).
 
 ---
 
@@ -62,7 +62,7 @@ Hệ thống được thiết kế theo cấu trúc công nghiệp 5-DOF dạng 
 ## 3. Mô hình Động học & Phần mềm Điều khiển (Kinematics & Control Stack)
 
 ### 3.1. Mô hình Động học D-H (Denavit-Hartenberg)
-Cánh tay robot 5-DOF tuân theo bảng thông số D-H tiêu chuẩn (với $h_0 = 169.05\text{ mm}$, $a_1 = 9.8\text{ mm}$, $L_1 = 127.4\text{ mm}$, $L_2 = 132.3\text{ mm}$, $L_3 \approx 60\text{ mm}$):
+Cánh tay robot 5-DOF tuân theo bảng thông số D-H tiêu chuẩn (với $h_0 = 169.05\text{ mm}$, $a_1 = 9.8\text{ mm}$, $L_1 = 127.4\text{ mm}$, $L_2 = 127.8\text{ mm}$, $L_3 = 86.8\text{ mm}$):
 - **Động học thuận (Forward Kinematics - FK):** Tính toán tọa độ và hướng của kẹp gắp từ vector góc khớp $\mathbf{q} = [\theta_1, \theta_2, \theta_3, \theta_4, \theta_5]^T$ thông qua chuỗi ma trận biến đổi thuần nhất $T_0^5 = A_1 A_2 A_3 A_4 A_5$.
 - **Động học nghịch (Inverse Kinematics - IK):** Giải bài toán vị trí và góc hướng $(x, y, z, \text{pitch}, \text{roll})$ bằng phương pháp giải tích kết hợp hình học phân rã (Decoupled Geometric IK) đảm bảo tính thời gian thực cho MCU/PC.
 - **Quy hoạch quỹ đạo (Trajectory Planning):** Nội suy đa thức bậc 3 hoặc bậc 5 (Cubic/Quintic Spline) trong không gian khớp để tránh giật đột ngột gia tốc, bảo vệ nhông hộp số servo.

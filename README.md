@@ -11,7 +11,7 @@
 | Hạng mục | Thông số kỹ thuật | Ghi chú |
 |---|---|---|
 | **Số bậc tự do** | 5-DOF + 1-DOF Gripper | $J_1$ (Base), $J_2$ (Shoulder), $J_3$ (Elbow), $J_4$ (Wrist Pitch), $J_5$ (Wrist Roll) |
-| **Tầm với (Reach)** | $\approx 282\text{ mm}$ | Đạt và vượt yêu cầu tối thiểu $200\text{ mm}$ của môn học |
+| **Tầm với (Reach)** | $\approx 342\text{ mm}$ | Đạt và vượt yêu cầu tối thiểu $200\text{ mm}$ của môn học |
 | **Tải trọng nâng** | $\ge 50\text{ g}$ | Theo yêu cầu môn học; khớp vai dùng servo số $25\text{ kg}\cdot\text{cm}$ |
 | **Động cơ truyền động** | 2x MG996R ($J_1$, $J_3$) + 1x servo số $25\text{ kg}\cdot\text{cm}$, $180^\circ$ ($J_2$) + 3x MG90S ($J_4$, $J_5$, tay gắp) | Servo cỡ chuẩn dùng chung hốc $40 \times 20\text{ mm}$ và trục 25T |
 | **Vòng bi đỡ khớp** | 698ZZ ($\varnothing 19 \times \varnothing 8 \times 6\text{ mm}$) | Đỡ phụ khớp vai $J_2$ và khớp khuỷu $J_3$ ở tai đối diện servo; khớp đế $J_1$ dùng ổ trượt nhựa (ngõng trục và vành chân turret trên mặt đế) |
@@ -32,13 +32,16 @@
   - [x] Chân đế tự thiết kế `01_Base_Pedestal` không còn dùng trong cụm lắp chính (thay bằng `01_Base_Kuka`).
   - [x] Mặt bích $95 \times 95 \times 5\text{ mm}$ bo góc $R10$ với 4 lỗ bắt bàn theo lưới $73.5 \times 73.5\text{ mm}$; 24 rãnh thoát khí dọc trên vách tháp.
 - [x] **Đế dáng KUKA (`01_Base_Kuka` + `01_Base_Tray`):** thân đế KUKA khoét rỗng, servo MG996R $J_1$ bắt dưới trần, khay đáy đỡ Arduino Uno + shield PWM 16 kênh, cổng USB và giắc nguồn mở ra mặt sau.
-- [ ] **Khớp xoay Turret J1 - J2 (`00_Robot_J1J2_Assembly.SLDASM`):** Đang tiến hành.
+- [ ] **Cụm lắp toàn bộ cánh tay (`00_Robot_J1J2_Assembly.SLDASM`, 28 component, 33 mate):** thiết kế xong, Interference Detection chỉ còn mối ghép then hoa đĩa sừng; chưa in thử.
   - [x] Turret liền khối `02_Turret_ForkKuka`: thân cột xoay KUKA đặt trực tiếp lên đế (ngõng trục $\varnothing 49$ + vành chân $\varnothing 92$), hốc đĩa sừng $J_1$ với 4 ốc M3, hốc servo MG996R nghiêng $15^\circ$ trong tai $+Y$, ổ bi 698ZZ trong tai $-Y$; trục $J_2$ cao $169.05\text{ mm}$, lệch $9.8\text{ mm}$ trước trục $J_1$.
   - [ ] In thử, lắp servo $J_2$ và kiểm tra khe hở.
 - [ ] **Cánh tay chính & Khuỷu tay J3 (`03_UpperArm`, `04_Forearm`):** Đang tiến hành.
   - [x] Cánh tay trên `03_UpperArmKuka` ($L_1 = 127.4\text{ mm}$): thân cánh tay KUKA, đầu $J_2$ bắt đĩa sừng và bu-lông M8 qua vòng bi, tai $+Y$ đầu $J_3$ giữ servo MG996R nghiêng $15^\circ$, tai $-Y$ có ổ bi 698ZZ; lắp trong `00_Robot_J1J2_Assembly.SLDASM`, khớp $J_2$ quay tự do từ $-45^\circ$ đến $+165^\circ$.
-  - [ ] Cẳng tay `04_Forearm`.
-- [ ] **Cổ tay & Tay gắp song song J4 - J5 + Gripper:** Kế hoạch tiếp theo.
+  - [x] Cẳng tay ($L_2 = 127.8\text{ mm}$): khối khuỷu `04_Forearm_ElbowKuka`, thân càng `04_Forearm_ForkKuka` giữ servo MG90S $J_4$, hai tấm ốp `04_Forearm_CoverPivot` / `04_Forearm_CoverServo` và chốt xoay `04_J4_PivotPin`.
+- [ ] **Cổ tay & Tay gắp song song J4 - J5 + Gripper:** Đang tiến hành.
+  - [x] Cổ tay `05_WristKuka`: trục $J_4$ và $J_5$ cắt nhau tại tâm mũi cổ tay, servo MG90S $J_5$ nằm trong mũi.
+  - [x] Tay gắp bánh răng – thanh răng (`06_Gripper_Base`, `06_Gripper_Guide`, `06_Gripper_Pinion`, 2 × `06_Gripper_Jaw`), tâm gắp cách trục $J_4$ $L_3 = 86.8\text{ mm}$.
+  - [ ] Đo đĩa sừng MG90S thật và in mẫu thử cụm tay gắp.
 - [ ] **Mô phỏng động học MATLAB & Thuyết minh Typst:** Đang cập nhật.
 
 ---

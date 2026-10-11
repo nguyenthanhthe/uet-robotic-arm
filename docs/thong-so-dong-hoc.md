@@ -17,10 +17,10 @@ Dựa trên đế `01_Base_Kuka` và tỷ lệ chuẩn KUKA KR3 R540:
 | $h_0$ | Đáy bàn $\to$ Trục khớp vai $J_2$ | **$169.05\text{ mm}$** | Đúng cao độ trục vai của KUKA KR 3 R540 ở tỉ lệ $0.49$: đế `01_Base_Kuka` cao $90.45\text{ mm}$, turret `02_Turret_ForkKuka` đặt trực tiếp lên đế |
 | $a_1$ | Trục đế $J_1$ $\to$ Trục vai $J_2$ (phương ngang) | **$9.8\text{ mm}$** | Trục $J_2$ lệch về phía trước trục $J_1$ như KUKA KR 3 |
 | $L_1$ | Trục vai $J_2$ $\to$ Trục khuỷu $J_3$ | **$127.4\text{ mm}$** | Khâu Upper Arm (Cánh tay dưới) |
-| $L_2$ | Trục khuỷu $J_3$ $\to$ Trục cổ tay $J_4$ | **$100.0\text{ mm}$** | Khâu Forearm (Cẳng tay trên) |
-| $L_3$ | Trục cổ tay $J_4$ $\to$ Tâm ngón gắp | **$55.0\text{ mm}$** | Cụm cổ tay 2 trục + Tay gắp song song |
-| $R_{\max}$ | Tầm với duỗi thẳng cực đại | **$282.4\text{ mm}$** | $L_1 + L_2 + L_3 = 127.4 + 100 + 55$ (Vượt yêu cầu $\ge 200\text{ mm}$) |
-| $R_{\text{eff}}$ | Tầm với hiệu dụng khi gắp đứng | **$227.4\text{ mm}$** | $L_1 + L_2 = 127.4 + 100$ (Bao phủ hoàn toàn bàn làm việc) |
+| $L_2$ | Trục khuỷu $J_3$ $\to$ Trục cổ tay $J_4$ | **$127.8\text{ mm}$** | Khâu Forearm (Cẳng tay trên); đo trên assembly từ $J_3$ tại $(9.8, 296.45)$ tới $J_4$ tại $(137.2, 306.23)$, đường nối hai trục lệch $4.39^\circ$ so với trục thân cẳng tay |
+| $L_3$ | Trục cổ tay $J_4$ $\to$ Tâm ngón gắp | **$86.8\text{ mm}$** | Cụm cổ tay 2 trục + Tay gắp song song; tâm gắp là rãnh chữ V của ngón kẹp trên trục $J_5$ (mút ngón cách $J_4$ $107.8\text{ mm}$) |
+| $R_{\max}$ | Tầm với duỗi thẳng cực đại | **$342.0\text{ mm}$** | $L_1 + L_2 + L_3 = 127.4 + 127.8 + 86.8$ (Vượt yêu cầu $\ge 200\text{ mm}$) |
+| $R_{\text{eff}}$ | Tầm với hiệu dụng khi gắp đứng | **$255.2\text{ mm}$** | $L_1 + L_2 = 127.4 + 127.8$ (Bao phủ hoàn toàn bàn làm việc) |
 
 ---
 
@@ -34,9 +34,9 @@ Hệ toạ độ đặt theo chuẩn KUKA/ABB công nghiệp:
 |:---:|---|:---:|:---:|:---:|:---:|:---:|
 | **1** | Base Yaw (Xoay thân) | $\theta_1^*$ | $h_0 = 169.05$ | $a_1 = 9.8$ | $+\pi/2$ | $-90^\circ \to +90^\circ$ |
 | **2** | Shoulder Pitch (Gập vai) | $\theta_2^*$ | $0$ | $L_1 = 127.4$ | $0$ | $-45^\circ \to +105^\circ$ |
-| **3** | Elbow Pitch (Gập khuỷu) | $\theta_3^*$ | $0$ | $L_2 = 100.0$ | $0$ | $-90^\circ \to +75^\circ$ |
+| **3** | Elbow Pitch (Gập khuỷu) | $\theta_3^*$ | $0$ | $L_2 = 127.8$ | $0$ | $-90^\circ \to +75^\circ$ |
 | **4** | Wrist Pitch (Gập cổ tay) | $\theta_4^*$ | $0$ | $0$ | $+\pi/2$ | $-90^\circ \to +90^\circ$ |
-| **5** | Wrist Roll (Xoay đầu gắp) | $\theta_5^*$ | $L_3 = 55.0$ | $0$ | $0$ | $-90^\circ \to +90^\circ$ |
+| **5** | Wrist Roll (Xoay đầu gắp) | $\theta_5^*$ | $L_3 = 86.8$ | $0$ | $0$ | $-90^\circ \to +90^\circ$ |
 
 ---
 
@@ -70,21 +70,21 @@ Với góc tiếp cận phôi thẳng đứng từ trên xuống ($\theta_{\text
 ## 4. Tĩnh Học & Phân Bổ Động Cơ (Torque & Actuator Selection)
 
 ### 4.1. Tính toán mô-men xoắn xấu nhất tại Khớp Vai (J2 - Shoulder)
-Xét tư thế nguy hiểm nhất khi toàn bộ cánh tay vươn dài nằm ngang song song mặt bàn ($R_{\max} = 0.2824\text{ m}$):
+Xét tư thế nguy hiểm nhất khi toàn bộ cánh tay vươn dài nằm ngang song song mặt bàn ($R_{\max} = 0.342\text{ m}$):
 - Tải trọng gắp vật mẫu ($m_{\text{payload}} = 50\text{ g} = 0.05\text{ kg}$):
-  $$T_{\text{payload}} = 0.05 \times 9.81 \times 0.2824 \approx 0.139\text{ N}\cdot\text{m} \approx \mathbf{1.41\text{ kg}\cdot\text{cm}}$$
+  $$T_{\text{payload}} = 0.05 \times 9.81 \times 0.342 \approx 0.168\text{ N}\cdot\text{m} \approx \mathbf{1.71\text{ kg}\cdot\text{cm}}$$
 - Khối lượng cụm cánh tay + 3 servo phía trên ($m_{\text{arm}} \approx 0.35\text{ kg}$, trọng tâm tập trung tại $r_{\text{cg}} \approx 0.11\text{ m}$):
   $$T_{\text{arm}} = 0.35 \times 9.81 \times 0.11 \approx 0.378\text{ N}\cdot\text{m} \approx \mathbf{3.85\text{ kg}\cdot\text{cm}}$$
-- Tổng mô-men tĩnh: $T_{\text{static}} = 1.41 + 3.85 = \mathbf{5.26\text{ kg}\cdot\text{cm}}$.
+- Tổng mô-men tĩnh: $T_{\text{static}} = 1.71 + 3.85 = \mathbf{5.56\text{ kg}\cdot\text{cm}}$.
 - Mô-men động học cần thiết (kèm hệ số an toàn gia tốc $k = 1.8$):
-  $$T_{\text{dynamic}} = 5.26 \times 1.8 \approx \mathbf{9.47\text{ kg}\cdot\text{cm}}$$
+  $$T_{\text{dynamic}} = 5.56 \times 1.8 \approx \mathbf{10.01\text{ kg}\cdot\text{cm}}$$
 
 ### 4.2. Lựa chọn Động cơ & Hệ số An toàn (Safety Factor)
 
 | Khớp | Động cơ khuyến nghị | Mô-men xoắn danh định (ở 6.0V) | Mô-men yêu cầu | Hệ số an toàn (SF) | Đánh giá |
 |:---:|---|:---:|:---:|:---:|---|
 | **J1 (Đế)** | **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 3.0\text{ kg}\cdot\text{cm}$ (ma sát trượt) | $\text{SF} > 3.5$ | Dư tải lớn, xoay nhẹ nhàng |
-| **J2 (Vai)** | **Servo Digital 25KG-180°** (cỡ vỏ $40 \times 20$, trục 25T) | **$\approx 22\text{ kg}\cdot\text{cm}$ ở 6.0V** | $9.47\text{ kg}\cdot\text{cm}$ | **$\text{SF} \approx 2.3$** | **MG996R ($11\text{ kg}\cdot\text{cm}$, $\text{SF} \approx 1.16$) không đủ giữ tư thế duỗi ngang** |
+| **J2 (Vai)** | **Servo Digital 25KG-180°** (cỡ vỏ $40 \times 20$, trục 25T) | **$\approx 22\text{ kg}\cdot\text{cm}$ ở 6.0V** | $10.01\text{ kg}\cdot\text{cm}$ | **$\text{SF} \approx 2.2$** | **MG996R ($11\text{ kg}\cdot\text{cm}$, $\text{SF} \approx 1.10$) không đủ giữ tư thế duỗi ngang** |
 | **J3 (Khuỷu)**| **TowerPro MG996R** | $11.0 - 13.0\text{ kg}\cdot\text{cm}$ | $\approx 5.5\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 2.0$ | Hoàn toàn đáp ứng |
 | **J4 (Cổ tay)**| **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.7\text{ kg}\cdot\text{cm}$ | $\text{SF} \approx 3$ | Nhẹ, giảm tải cho khớp vai |
 | **J5 (Xoay)** | **MG90S** | $2.2\text{ kg}\cdot\text{cm}$ | $\approx 0.3\text{ kg}\cdot\text{cm}$ | $\text{SF} > 5$ | Rất nhẹ tải |

@@ -48,7 +48,7 @@ Mục tiêu, phạm vi và nhiệm vụ gắp–thả vật đa hình dạng (sa
 #table(
   columns: (2fr, 1.2fr, 3fr),
   [*Thông số*], [*Giá trị thiết kế*], [*Ghi chú*],
-  [Tầm với tối đa], [$282 "mm"$], [Hiệu dụng vùng gắp thả $200 - 220 "mm"$ ($>= 200 "mm"$)],
+  [Tầm với tối đa], [$342 "mm"$], [Hiệu dụng vùng gắp thả $200 - 220 "mm"$ ($>= 200 "mm"$)],
   [Tải trọng nâng], [$>= 50 "g"$], [Tại tư thế vươn ngang xa nhất, khớp vai dùng servo số 25 kg],
   [Độ chính xác định vị], [$plus.minus 3 "mm"$ (sơ bộ)], [Giới hạn bởi bước xung PCA9685 ở 50 Hz và độ rơ bánh răng servo],
   [Gối đỡ khớp], [698ZZ + ổ trượt], [Vòng bi 698ZZ đỡ phụ ở $J_2$, $J_3$; khớp đế $J_1$ dùng ổ trượt nhựa trên mặt đế],
@@ -105,7 +105,7 @@ Kiến trúc điều khiển phân tầng Master - Slave:
 )
 
 = Kết luận
-Bản thiết kế cánh tay robot công nghiệp 5-DOF đã giải quyết trọn vẹn bài toán kỹ thuật đặt ra: đảm bảo tầm với vượt chuẩn $282 "mm"$, khớp vai dùng servo số 25 kg, cơ cấu cổ tay 2 bậc tự do linh hoạt xử lý mọi góc xoay của vật thể hình sao và hình vuông, đồng thời sở hữu kiểu dáng công nghiệp hiện đại và tính khả thi chế tạo cao bằng công nghệ in 3D FDM.
+Bản thiết kế cánh tay robot công nghiệp 5-DOF đã giải quyết trọn vẹn bài toán kỹ thuật đặt ra: đảm bảo tầm với vượt chuẩn $342 "mm"$, khớp vai dùng servo số 25 kg, cơ cấu cổ tay 2 bậc tự do linh hoạt xử lý mọi góc xoay của vật thể hình sao và hình vuông, đồng thời sở hữu kiểu dáng công nghiệp hiện đại và tính khả thi chế tạo cao bằng công nghệ in 3D FDM.
 
 #v(20pt)
 #align(center)[-- Hết --]

@@ -97,8 +97,8 @@ flowchart TD
 ### 1. Các thông số hình học bất biến:
 * Chiều cao trục vai: $h_0 = 169.05\text{ mm}$ (trục vai lệch $a_1 = 9.8\text{ mm}$ về phía trước trục đế)
 * Chiều dài cánh tay Link 1: $L_1 = 127.4\text{ mm}$
-* Chiều dài cẳng tay Link 2: $L_2 = 100.0\text{ mm}$
-* Chiều dài cụm kẹp Link 3: $L_3 = 55.0\text{ mm}$
+* Chiều dài cẳng tay Link 2: $L_2 = 127.8\text{ mm}$
+* Chiều dài cụm kẹp Link 3: $L_3 = 86.8\text{ mm}$
 
 ### 2. Động học nghịch giải tích hình học (Closed-Form Analytical IK):
 Với vị trí mục tiêu $(X, Y, Z)$ và góc chúc mong muốn của đầu kẹp $\phi$:

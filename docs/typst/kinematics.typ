@@ -1,6 +1,6 @@
 // Động học và Động lực học cánh tay robot 5-DOF — viết bằng ký hiệu toán Typst
 // Kiến trúc KUKA/ABB công nghiệp: Base Yaw -> Shoulder Pitch -> Elbow Pitch -> Wrist Pitch -> Wrist Roll
-// Thông số hình học thiết kế mới: L1 = 127.4 mm, L2 = 100.0 mm, L3 = 55.0 mm, h0 = 169.05 mm, a1 = 9.8 mm
+// Thông số hình học thiết kế mới: L1 = 127.4 mm, L2 = 127.8 mm, L3 = 86.8 mm, h0 = 169.05 mm, a1 = 9.8 mm
 
 #let kinematics-chapter = [
   = Động học cánh tay robot 5-DOF
@@ -24,9 +24,9 @@
     table.header([*Ký hiệu*], [*Kích thước*], [*Định nghĩa cơ học*]),
     [$h_0$], [$169.05$ mm], [Mặt đáy bàn $\to$ Tâm trục khớp vai ($J_2$)],
     [$L_1$], [$127.40$ mm], [Khoảng cách trục khớp vai ($J_2$) $\to$ Trục khớp khuỷu ($J_3$)],
-    [$L_2$], [$100.00$ mm], [Khoảng cách trục khớp khuỷu ($J_3$) $\to$ Trục khớp cổ tay ($J_4$)],
-    [$L_3$], [$55.00$ mm], [Khoảng cách trục khớp cổ tay ($J_4$) $\to$ Tâm điểm gắp phôi],
-    [$R_max$], [$282.40$ mm], [Tổng tầm với tối đa khi duỗi thẳng hoàn toàn],
+    [$L_2$], [$127.80$ mm], [Khoảng cách trục khớp khuỷu ($J_3$) $\to$ Trục khớp cổ tay ($J_4$)],
+    [$L_3$], [$86.80$ mm], [Khoảng cách trục khớp cổ tay ($J_4$) $\to$ Tâm điểm gắp phôi],
+    [$R_max$], [$342.00$ mm], [Tổng tầm với tối đa khi duỗi thẳng hoàn toàn],
   )
 
   Bảng tham số Denavit–Hartenberg tiêu chuẩn:
@@ -37,9 +37,9 @@
     table.header([*Khớp* $i$], [$theta_i$], [$d_i$], [$a_i$], [$alpha_i$]),
     [$1$], [$theta_1^*$], [$h_0 = 169.05$ mm], [$a_1 = 9.8$ mm], [$pi\/2$],
     [$2$], [$theta_2^*$], [$0$], [$L_1 = 127.4$ mm], [$0$],
-    [$3$], [$theta_3^*$], [$0$], [$L_2 = 100$ mm], [$0$],
+    [$3$], [$theta_3^*$], [$0$], [$L_2 = 127.8$ mm], [$0$],
     [$4$], [$theta_4^*$], [$0$], [$0$], [$pi\/2$],
-    [$5$], [$theta_5^*$], [$L_3 = 55$ mm], [$0$], [$0$],
+    [$5$], [$theta_5^*$], [$L_3 = 86.8$ mm], [$0$], [$0$],
   )
 
   == Động học thuận (Forward Kinematics)
@@ -101,23 +101,23 @@
   == Kiểm chứng tầm với và Tĩnh học Mômen tải
 
   === Kiểm tra tầm với làm việc
-  - Tầm với cực đại duỗi thẳng: $R_max = L_1 + L_2 + L_3 = 127.4 + 100 + 55 = 282.4 "mm"$.
+  - Tầm với cực đại duỗi thẳng: $R_max = L_1 + L_2 + L_3 = 127.4 + 127.8 + 86.8 = 342.0 "mm"$.
   - Tầm với hiệu dụng trong vùng gắp thẳng đứng ($theta_"pitch" = -90 degree$):
-    $R_"effective" = L_1 + L_2 = 127.4 + 100 = 227.4 "mm"$.
-  - Kết luận: $227.4 "mm" >= 200 "mm"$, hoàn toàn đáp ứng và bao quát toàn bộ vùng gắp phôi và lỗ thả mà không rơi vào điểm kỳ dị biên.
+    $R_"effective" = L_1 + L_2 = 127.4 + 127.8 = 255.2 "mm"$.
+  - Kết luận: $255.2 "mm" >= 200 "mm"$, hoàn toàn đáp ứng và bao quát toàn bộ vùng gắp phôi và lỗ thả mà không rơi vào điểm kỳ dị biên.
 
   === Tính toán tĩnh học mômen tại khớp vai (Khớp chịu tải lớn nhất)
   Xét tư thế nguy hiểm nhất: toàn bộ cánh tay vươn thẳng ngang song song mặt bàn.
-  - Tải trọng phôi: $m_"payload" = 50 "g" = 0.05 "kg"$, cánh tay đòn $r_"payload" = 0.2824 "m"$:
-    $ T_"payload" = 0.05 times 9.81 times 0.2824 approx 0.139 "N" dot "m" approx 1.41 "kg" dot "cm" $
+  - Tải trọng phôi: $m_"payload" = 50 "g" = 0.05 "kg"$, cánh tay đòn $r_"payload" = 0.342 "m"$:
+    $ T_"payload" = 0.05 times 9.81 times 0.342 approx 0.168 "N" dot "m" approx 1.71 "kg" dot "cm" $
   - Khối lượng cụm cẳng tay, cổ tay và servo $J_3, J_4, J_5$ ($m_"arm" approx 0.16 "kg"$ tập trung tại trọng tâm $r_"cg" approx 0.13 "m"$):
     $ T_"arm" = 0.16 times 9.81 times 0.13 approx 0.204 "N" dot "m" approx 2.08 "kg" dot "cm" $
   - Tổng mômen tĩnh yêu cầu tại trục khớp vai $J_2$:
-    $ T_"total" = T_"payload" + T_"arm" approx 1.41 + 2.08 = 3.49 "kg" dot "cm" $
+    $ T_"total" = T_"payload" + T_"arm" approx 1.71 + 2.08 = 3.79 "kg" dot "cm" $
   - Khả năng chịu tải của servo số 25 kg chọn cho khớp vai (ở 6 V):
     $ T_"servo" = 22.0 "kg" dot "cm" $
   - Hệ số an toàn (Safety Factor):
-    $ "SF" = T_"servo" / T_"total" = 22.0 / 3.49 approx 6.30 > 1.5 $
+    $ "SF" = T_"servo" / T_"total" = 22.0 / 3.79 approx 5.80 > 1.5 $
   
-  Hệ số an toàn $6.30$ chứng minh cánh tay hoàn toàn cứng vững, không bị rung võng hay sụt áp động cơ khi mang tải $50"g"$ ở tầm với tối đa.
+  Hệ số an toàn $5.80$ chứng minh cánh tay hoàn toàn cứng vững, không bị rung võng hay sụt áp động cơ khi mang tải $50"g"$ ở tầm với tối đa.
 ]

@@ -35,7 +35,7 @@ body2 = rigidBody('link2');
 jnt2 = rigidBodyJoint('jnt2', 'revolute');
 setFixedTransform(jnt2, trvec2tform([a1, 0, 0]));
 jnt2.JointAxis = [0, -1, 0]; % Goc duong nang khau len (cung quy uoc voi IK)
-jnt2.PositionLimits = deg2rad([-30, 90]);
+jnt2.PositionLimits = deg2rad([-45, 105]);
 body2.Joint = jnt2;
 addBody(robot, body2, 'link1');
 
@@ -44,7 +44,7 @@ body3 = rigidBody('link3');
 jnt3 = rigidBodyJoint('jnt3', 'revolute');
 setFixedTransform(jnt3, trvec2tform([L1, 0, 0])); % doc theo Link 1
 jnt3.JointAxis = [0, -1, 0]; % Goc duong nang khau len (cung quy uoc voi IK)
-jnt3.PositionLimits = deg2rad([-110, 10]);
+jnt3.PositionLimits = deg2rad([-90, 75]);
 body3.Joint = jnt3;
 addBody(robot, body3, 'link2');
 
@@ -158,6 +158,15 @@ if is_valid
     pos_fk = tform2trvec(T_fk);
     fprintf('Vi tri kiem chung lai tu FK: X=%.2f, Y=%.2f, Z=%.2f (Sai so: %.4f mm)\n', ...
         pos_fk(1), pos_fk(2), pos_fk(3), norm(pos_fk - [X_target, Y_target, Z_target]));
+
+    % Doi chieu nghiem voi gioi han khop cua mo hinh
+    q_lim = [jnt1.PositionLimits; jnt2.PositionLimits; jnt3.PositionLimits; jnt4.PositionLimits];
+    out = find(q_sol' < q_lim(:, 1) | q_sol' > q_lim(:, 2))';
+    if isempty(out)
+        fprintf('Nghiem nam trong gioi han khop.\n');
+    else
+        fprintf('CANH BAO: nghiem vuot gioi han khop J%d.\n', out);
+    end
 else
     fprintf('Toa do muc tieu nam ngoai vung lam viec cua robot!\n');
 end

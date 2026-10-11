@@ -39,8 +39,8 @@ function kuka_gui_control()
                        
     % Slider cho tung khop
     names = {'J1 (Đế xoay)', 'J2 (Khớp vai)', 'J3 (Khớp khuỷu)', 'J4 (Cổ tay Pitch)', 'J5 (Cổ tay Roll)'};
-    mins  = [-90, -30, -110, -90, -90];
-    maxs  = [ 90,  90,   10,  90,  90];
+    mins  = [-90, -45, -90, -90, -90];
+    maxs  = [ 90, 105,  75,  90,  90];
     sliders = gobjects(5, 1);
     lblVals = gobjects(5, 1);
     
@@ -106,8 +106,11 @@ function kuka_gui_control()
         phi_t = deg2rad(-30);
         
         [q_new, ok] = solve_analytical_ik(X_t, Y_t, Z_t, phi_t, h0, L1, L2, L3);
-        if ok
-            q(1:4) = rad2deg(q_new);
+        q_deg = rad2deg(q_new);
+        if ok && any(q_deg < mins(1:4) | q_deg > maxs(1:4))
+            warndlg('Nghiệm IK vượt giới hạn góc của khớp!', 'Lỗi IK');
+        elseif ok
+            q(1:4) = q_deg;
             for k = 1:4
                 set(sliders(k), 'Value', q(k));
                 set(lblVals(k), 'String', sprintf('%.1f°', q(k)));
